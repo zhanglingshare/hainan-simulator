@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>蒙特卡洛 · 海南演变风洞</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/charts.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
+  <nav class="desktop-nav">
+    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
+    <a href="dynamics.html">05 动力学</a><a class="current" href="montecarlo.html">06 蒙特卡洛</a>
+    <a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
+  </nav>
+  <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
+</div></header>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="current" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+
+<main class="discovery-wrap">
+  <div class="eyebrow">模块四 · 蒙特卡洛（48,000 次，10 不确定源）</div>
+  <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">把不确定性，跑出形状</h1>
+  <p class="muted">10 个不确定源（初始三角/杠杆 Beta/速率乘子/侵蚀/回路增益/延迟/情景/校准/SEM 后验/年度冲击），随机冲击 std=2.5。</p>
+
+  <section class="section">
+    <div class="kpi-row">
+      <div class="kpi"><div class="lab">总抽样</div><div class="val blue">48,000</div><div class="sub">每情景 12,000</div></div>
+      <div class="kpi"><div class="lab">不确定源</div><div class="val">10</div><div class="sub">U1–U10</div></div>
+      <div class="kpi"><div class="lab">十年不达成</div><div class="val">99.96%</div><div class="sub">按当前门槛</div></div>
+      <div class="kpi"><div class="lab">最高角色概率</div><div class="val">0.04%</div><div class="sub">中转 · 回潮情景</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>2035 综合分分布（示意形态）</h2><span>中位 37.75，方差 4.99</span></div>
+    <div class="svg-box"><svg id="hist" viewBox="0 0 900 300" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>角色 2035 达成概率（far）</h2><span>四情景 × 五角色</span></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>情景</th><th>中转</th><th>试验田</th><th>离岸</th><th>海洋</th><th>南方</th></tr></thead>
+        <tbody id="rp"></tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:12px;margin-top:10px">注：极低概率源于六维联合 AND 门槛与资源配置瓶颈，下方复核口径，避免误读为"必然失败"。</p>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>门槛口径复核：概率为何差近千倍</h2><span>probability_sensitivity.json，调和 v2 ~30% 与 v3 ~0.03%</span></div>
+    <div class="svg-box"><svg id="strict" viewBox="0 0 900 300" style="width:100%;height:auto"></svg></div>
+    <div class="svg-box" style="margin-top:16px"><svg id="kofn" viewBox="0 0 900 280" style="width:100%;height:auto"></svg></div>
+    <div class="event-grid" style="margin-top:16px">
+      <div class="event-card"><h3>主因：AND 门槛</h3><p class="muted" style="font-size:13px">v3 要求六维同时达标；v2 ~30% 更接近单维关键门槛（连通≥55）或 k-of-n 宽松规则。</p></div>
+      <div class="event-card"><h3>k=1 口径即调和</h3><p class="big-number" style="font-size:30px;color:#1369eb;font-weight:850;margin-top:8px">25–35%</p><p class="muted" style="font-size:12px">仅按连通门槛，与 v2 区间一致</p></div>
+      <div class="event-card"><h3>诚实原则</h3><p class="muted" style="font-size:13px">坚持 AND 不下调，0.03% 是严格口径诚实值；不应放宽门槛反向拟合 v2。</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>收敛性</h2><span>分位数随样本量趋稳</span></div>
+    <div class="svg-box"><svg id="conv" viewBox="0 0 900 260" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <footer class="sources"><div class="foot-note">来源：v3/mc/mc_results.json、fan_bands.csv、role_probs.csv、mc_convergence.csv。概率为当前门槛下的模型估计。</div></footer>
+</main>
+
+<script src="assets/data.js"></script>
+<script>
+/* 直方图：用正态近似形态（中位37.75 sd~2.23），非逐样本 */
+(function(){
+  var L=50,R=30,T=20,B=40,W=900,H=300;
+  var mu=37.75,sd=2.23,bins=26,lo=30,hi=46;
+  var bw=(hi-lo)/bins,maxH=0;
+  var vals=[];
+  for(var i=0;i<bins;i++){var x=lo+bw*(i+.5);var z=(x-mu)/sd;var v=Math.exp(-.5*z*z);vals.push(v);maxH=Math.max(maxH,v);}
+  var s='';
+  vals.forEach(function(v,i){
+    var bx=L+(W-L-R)*i/bins, bh=(H-T-B)*v/maxH;
+    s+='<rect x="'+(bx+2)+'" y="'+(H-B-bh)+'" width="'+((W-L-R)/bins-3)+'" height="'+bh+'" class="hist-bar" rx="2"/>';});
+  var tx=L+(W-L-R)*(70-lo)/(hi-lo);
+  s+='<line x1="'+tx+'" y1="'+T+'" x2="'+tx+'" y2="'+(H-B)+'" class="threshold-line"/><text x="'+tx+'" y="'+(T+12)+'" fill="#ed665e" font-size="11" text-anchor="middle">门槛70</text>';
+  s+='<text x="'+L+'" y="'+(H-14)+'" fill="#8a97a7" font-size="11">30</text><text x="'+(W-R)+'" y="'+(H-14)+'" fill="#8a97a7" font-size="11" text-anchor="end">46</text>';
+  document.getElementById('hist').innerHTML=s;
+})();
+/* role probs */
+function pct(v){return v? (v*100).toFixed(2)+'%':'0';}
+document.getElementById('rp').innerHTML=Object.keys(SCEN).map(function(k){
+  var r=ROLE_PROB[k];
+  return '<tr><td><b>'+SCEN[k]+'</b></td><td class="diagnostic-pos">'+pct(r.hub)+'</td><td>'+pct(r.testbed)+'</td><td>'+pct(r.offshore)+'</td><td>'+pct(r.marine)+'</td><td>'+pct(r.south)+'</td></tr>';}).join('');
+/* convergence */
+(function(){
+  var L=50,R=30,T=20,B=38,W=900,H=260;
+  function X(i){return L+(W-L-R)*i/9;}
+  function Y(v){return T+(H-T-B)*(1-(v-34)/8);}
+  var p50=[36.1,36.8,37.2,37.5,37.6,37.7,37.75,37.75,37.75,37.75];
+  var p10=[34.2,34.9,35.4,35.7,35.9,36.0,36.1,36.1,36.1,36.1];
+  var p90=[39.4,40.0,40.3,40.5,40.6,40.7,40.8,40.8,40.8,40.8];
+  function path(a){return a.map(function(v,i){return (i?'L':'M')+X(i)+','+Y(v);}).join('');}
+  var s='';[34,36,38,40,42].forEach(function(v){s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="#e3e9f1"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" fill="#93a0b1" font-size="10" text-anchor="end">'+v+'</text>';});
+  s+='<path d="'+path(p10)+'" fill="none" stroke="#23a3a7" stroke-width="2"/>';
+  s+='<path d="'+path(p50)+'" fill="none" stroke="#1369eb" stroke-width="2.4"/>';
+  s+='<path d="'+path(p90)+'" fill="none" stroke="#ed665e" stroke-width="2"/>';
+  s+='<text x="'+(W-R)+'" y="'+(Y(p50[9])-6)+'" fill="#1369eb" font-size="11" font-weight="700" text-anchor="end">p50 趋稳</text>';
+  document.getElementById('conv').innerHTML=s;
+})();
+/* 门槛严格度曲线：threshold shift → p */
+(function(){
+  var L=110,R=40,T=24,B=44,W=900,H=300;
+  function X(i){return L+(W-L-R)*i/(STRICTNESS.length-1);}
+  function Y(v){return T+(H-T-B)*(1-v);}
+  var s='';[0,.25,.5,.75,1].forEach(function(v){s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="#e3e9f1"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" fill="#93a0b1" font-size="10" text-anchor="end">'+(v*100)+'%</text>';});
+  var d=STRICTNESS.map(function(a,i){return (i?'L':'M')+X(i)+','+Y(a.p);}).join('');
+  s+='<path d="'+d+'" fill="none" stroke="#ed665e" stroke-width="2.6"/>';
+  STRICTNESS.forEach(function(a,i){
+    s+='<circle cx="'+X(i)+'" cy="'+Y(a.p)+'" r="6" fill="#ed665e"/>';
+    s+='<text x="'+X(i)+'" y="'+(Y(a.p)-12)+'" fill="#c0473f" font-size="11" font-weight="800" text-anchor="middle">'+(a.p*100).toFixed(2)+'%</text>';
+    s+='<text x="'+X(i)+'" y="'+(H-16)+'" fill="#617187" font-size="11" text-anchor="middle">门槛'+(a.shift===0?'原值':a.shift)+'</text>';
+  });
+  s+='<text x="'+(W-R)+'" y="'+(H-30)+'" text-anchor="end" fill="#617187" font-size="11">六维门槛整体下调（分）→</text>';
+  document.getElementById('strict').innerHTML=s;
+})();
+/* k-of-n 柱 */
+(function(){
+  var L=70,R=30,T=20,B=44,W=900,H=280,bw=(W-L-R)/KOFN.length;
+  var s='';[0,.25,.5,.75,1].forEach(function(v){var y=T+(H-T-B)*(1-v);s+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#e3e9f1"/><text x="'+(L-8)+'" y="'+(y+4)+'" fill="#93a0b1" font-size="10" text-anchor="end">'+(v*100)+'%</text>';});
+  KOFN.forEach(function(a,i){
+    var x=L+bw*i,bh=(H-T-B)*a.p,y=T+(H-T-B)-bh;
+    var col=a.p>=0.9?'#23a3a7':(a.p>=0.1?'#1369eb':'#ed665e');
+    s+='<rect x="'+(x+9)+'" y="'+y+'" width="'+(bw-18)+'" height="'+bh+'" rx="5" fill="'+col+'" opacity=".88"/>';
+    s+='<text x="'+(x+bw/2)+'" y="'+(y-6)+'" fill="#3c4c60" font-size="11" font-weight="800" text-anchor="middle">'+(a.p*100).toFixed(1)+'%</text>';
+    s+='<text x="'+(x+bw/2)+'" y="'+(H-16)+'" fill="#617187" font-size="11" text-anchor="middle">'+a.k+'/6</text>';
+  });
+  s+='<text x="'+(W-R)+'" y="'+(H-30)+'" text-anchor="end" fill="#617187" font-size="11">至少 k 个维度达标 →</text>';
+  document.getElementById('kofn').innerHTML=s;
+})();
+</script>
+</body></html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>情报底座 · 海南演变风洞</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/charts.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
+  <nav class="desktop-nav">
+    <a href="index.html">01 总览</a><a class="current" href="intelligence.html">02 情报</a>
+    <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
+    <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a>
+    <a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
+  </nav>
+  <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
+</div></header>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="current" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+
+<main class="discovery-wrap">
+  <div class="eyebrow">模块一 · 情报学（STANAG 2511 / ACH / I&W）</div>
+  <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">先校准情报，再谈结论</h1>
+  <p class="muted">131 条证据按来源分级、交叉核验、口径标注；用竞争性假设（ACH）避免先入为主，用领先指标（I&W）盯脱轨信号。</p>
+
+  <section class="section">
+    <div class="kpi-row">
+      <div class="kpi"><div class="lab">A 级源</div><div class="val blue">124</div><div class="sub">官方/一手</div></div>
+      <div class="kpi"><div class="lab">B 级源</div><div class="val">5</div><div class="sub">二手/降级</div></div>
+      <div class="kpi"><div class="lab">C 级源</div><div class="val">2</div><div class="sub">弱证据</div></div>
+      <div class="kpi"><div class="lab">可靠度均值</div><div class="val">0.864</div><div class="sub">已核验21 · 冲突0</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>竞争性假设 ACH 排序</h2><span>诊断性聚合，支持度越高越可信</span></div>
+    <div class="svg-box"><svg id="ach" viewBox="0 0 900 330" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>14 个领先指标 I&W</h2><span>黄=预警需加速，红=脱轨</span></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>指标</th><th>当前值</th><th>黄线</th><th>红线</th><th>关联</th></tr></thead>
+        <tbody id="iw"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>情报缺口（33 项）</h2><span>26 采集缺口 + 7 失败源，透明披露</span></div>
+    <div class="event-grid">
+      <div class="event-card"><h3>全省集装箱合计</h3><p class="event-desc" style="margin-top:8px">仅洋浦公开，海口等未汇总，中转口径缺失。</p><div class="event-question">硬缺口<span class="arrow">·</span></div></div>
+      <div class="event-card"><h3>EF 账户运营数据</h3><p class="event-desc" style="margin-top:8px">2024-05 上线，无公开业务量，制度落地待验证。</p><div class="event-question">硬缺口<span class="arrow">·</span></div></div>
+      <div class="event-card"><h3>热带海洋经济指标</h3><p class="event-desc" style="margin-top:8px">131 条中近乎空白，H4 因此在 ACH 垫底。</p><div class="event-question">硬缺口<span class="arrow">·</span></div></div>
+    </div>
+  </section>
+
+  <footer class="sources"><div class="foot-note">来源：v3/intelligence/calibration.json、ach_matrix.json、iw_indicators.json、gaps.json。所有分级与阈值可溯源，规划值不进已实现口径。</div></footer>
+</main>
+
+<script src="assets/data.js"></script>
+<script>
+/* ACH horizontal bars */
+(function(){
+  var L=150,R=60,T=14,rowH=42;
+  var maxAbs=5, scale=560/maxAbs;
+  var s='';
+  ACH.forEach(function(a,i){
+    var y=i*rowH+24, x0=L;
+    s+='<text x="'+(L-12)+'" y="'+(y+4)+'" fill="#3c4c60" font-size="12" text-anchor="end" font-weight="700">'+a.h+' '+a.lab+'</text>';
+    var w=Math.abs(a.s)*scale;
+    var col=a.s>=0?'#1369eb':'#ed665e';
+    if(a.s>=0){s+='<rect x="'+x0+'" y="'+(y-11)+'" width="'+w+'" height="22" rx="5" fill="'+col+'" opacity=".85"/>';
+      s+='<text x="'+(x0+w+8)+'" y="'+(y+4)+'" fill="#246dc1" font-size="12" font-weight="800">'+a.s.toFixed(3)+'</text>';}
+    else{s+='<rect x="'+(x0-w)+'" y="'+(y-11)+'" width="'+w+'" height="22" rx="5" fill="'+col+'" opacity=".85"/>';
+      s+='<text x="'+(x0-w-8)+'" y="'+(y+4)+'" fill="#d8503f" font-size="12" font-weight="800" text-anchor="end">'+a.s.toFixed(3)+'</text>';}
+  });
+  s+='<line x1="'+L+'" y1="8" x2="'+L+'" y2="'+(ACH.length*rowH)+'" stroke="#93a0b1" stroke-width="1.5"/>';
+  document.getElementById('ach').innerHTML=s;
+})();
+/* I&W table */
+var IW=[
+ ['洋浦港集装箱','310万TEU(2025)','≥450(2028)','<350','连通'],
+ ['班轮航线','75条','≥110','<85','连通'],
+ ['境外航空航线','77条','≥110','<80','连通'],
+ ['跨境人民币收支','4570亿','≥6500(2027)','<4000且增速<10%','配置'],
+ ['QFLP/QDLP','38家','≥80','<50','配置'],
+ ['金融业占比','约6.5%','≥9%','<6%','配置'],
+ ['R&D强度','约1.4%','≥2.0%(2028)','<1.2%','人才'],
+ ['在琼院士','7人','≥12','<8','人才'],
+ ['外国专家','2277人','≥4000','<2500','人才'],
+ ['零关税税目','74%','≥80%','<70%','示范'],
+ ['投资来源国','174个','≥200','<180','示范'],
+ ['地方预算收入','-1.1%','≥0%','<-3%','示范'],
+ ['EF账户业务','无公开数据','月跨境≥200亿$','24月无公开','配置'],
+ ['全球指数排名','未入榜','进全球前50','2030仍无排名','制度']];
+document.getElementById('iw').innerHTML=IW.map(function(r){
+  return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="diagnostic-pos">'+r[2]+'</td><td class="diagnostic-neg">'+r[3]+'</td><td>'+r[4]+'</td></tr>';}).join('');
+</script>
+</body></html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>十年演变 · 海南演变风洞</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/charts.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
+  <nav class="desktop-nav">
+    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
+    <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a>
+    <a href="factors.html">07 因素</a><a class="current" href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
+  </nav>
+  <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
+</div></header>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="current" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+
+<main class="discovery-wrap">
+  <div class="eyebrow">模块四+五 · 四情景十年演变（2026→2035）</div>
+  <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">同样的起点，不同的世界</h1>
+  <p class="muted">情景为 if-then 条件，非预言；高烈度冲突情景资源配置最低，全球化回潮最利好。</p>
+
+  <section class="section">
+    <div class="section-heading"><h2>综合分十年扇形带（多极情景）</h2><span>p10/p50/p90</span></div>
+    <div class="svg-box"><svg id="fanline" viewBox="0 0 900 360" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>2035 四情景对比</h2><span>六维 p50，按情景分列</span></div>
+    <div class="svg-box"><svg id="scen" viewBox="0 0 900 340" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>情景说明</h2><span>主观校准，波动 ±5–20%</span></div>
+    <div class="event-grid">
+      <div class="event-card"><h3>多极区域化</h3><p class="event-desc" style="margin-top:8px">RCEP/亚洲板块，区域内循环，基准情景。</p></div>
+      <div class="event-card"><h3>全球化回潮</h3><p class="event-desc" style="margin-top:8px">贸易回暖，连通与配置最受益，角色概率最高。</p></div>
+      <div class="event-card"><h3>阵营碎片化</h3><p class="event-desc" style="margin-top:8px">集团对立，连通承压，配置走弱。</p></div>
+      <div class="event-card"><h3>高烈度冲突</h3><p class="event-desc" style="margin-top:8px">外部冲击最大，LV_alloc 仅 20.75，韧性相对托底。</p></div>
+    </div>
+  </section>
+
+  <footer class="sources"><div class="foot-note">来源：v3/mc/fan_bands.csv、mc_results.json，v3/dynamics/baseline_trajectories.json。情景乘子主观校准，未做贝叶斯更新。</div></footer>
+</main>
+
+<script src="assets/data.js"></script>
+<script>
+/* 综合分基线 + 2035 扇形带（用基线综合，2035 用 p10/p90） */
+(function(){
+  var L=52,R=28,T=20,B=40,W=900,H=360;
+  function X(i){return L+(W-L-R)*i/(YEARS.length-1);}
+  function Y(v){return T+(H-T-B)*(1-v/100);}
+  var comp=YEARS.map(function(y,i){var s=0;LV_ORDER.forEach(function(k){s+=BASE[k][i];});return s/LV_ORDER.length;});
+  var s='';[20,40,60,80].forEach(function(v){s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="#e3e9f1"/><text x="'+(L-9)+'" y="'+(Y(v)+4)+'" fill="#93a0b1" font-size="11" text-anchor="end">'+v+'</text>';});
+  /* p10/p90 扇形（线性从2026到2035） */
+  var c10=0,c90=0;LV_ORDER.forEach(function(k){c10+=FAN2035.multipolar[k].p10;c90+=FAN2035.multipolar[k].p90;});
+  c10/=6;c90/=6;
+  var up=[[X(0),Y(comp[0])],[X(9),Y(c90)]],lo=[[X(0),Y(comp[0])],[X(9),Y(c10)]];
+  s+='<polygon points="'+up[0]+','+up[1]+' '+lo[1]+' '+lo[0]+','+lo[1]+'" fill="#1369eb" opacity=".12"/>';
+  s+='<path d="M'+lo[0]+' L'+lo[1]+'" fill="none" stroke="#1369eb" stroke-width="1.5" stroke-dasharray="5 4" opacity=".6"/>';
+  s+='<path d="M'+up[0]+' L'+up[1]+'" fill="none" stroke="#1369eb" stroke-width="1.5" stroke-dasharray="5 4" opacity=".6"/>';
+  s+='<path d="'+comp.map(function(v,i){return (i?'L':'M')+X(i)+','+Y(v);}).join('')+'" fill="none" stroke="#1369eb" stroke-width="2.6"/>';
+  YEARS.forEach(function(y,i){s+='<text x="'+X(i)+'" y="'+(H-16)+'" fill="#8a97a7" font-size="11" text-anchor="middle">'+y+'</text>';});
+  s+='<text x="'+(X(9)+4)+'" y="'+(Y(c90)+4)+'" fill="#246dc1" font-size="11" font-weight="700">p90</text>';
+  s+='<text x="'+(X(9)+4)+'" y="'+(Y(c10)+4)+'" fill="#246dc1" font-size="11" font-weight="700">p10</text>';
+  document.getElementById('fanline').innerHTML=s;
+})();
+/* 四情景分组横向细条 */
+(function(){
+  var L=120,R=50,T=44,rowH=48,scale=6.4;
+  var scenKeys=Object.keys(SCEN);
+  var cols=['#1369eb','#23a3a7','#f59e0b','#ed665e'];
+  var s='';
+  /* 图例：等距排布 */
+  scenKeys.forEach(function(sk,j){
+    var lx=L+j*150;
+    s+='<rect x="'+lx+'" y="14" width="13" height="13" rx="3" fill="'+cols[j]+'"/>';
+    s+='<text x="'+(lx+18)+'" y="25" fill="#51617a" font-size="12">'+SCEN[sk]+'</text>';
+  });
+  LV_ORDER.forEach(function(k,i){
+    var y0=i*rowH+T;
+    s+='<text x="'+(L-12)+'" y="'+(y0+30)+'" fill="#3c4c60" font-size="12" text-anchor="end" font-weight="700">'+LV[k][0]+'</text>';
+    scenKeys.forEach(function(sk,j){
+      var v=FAN2035[sk][k].p50, y=y0+j*9;
+      s+='<rect x="'+L+'" y="'+y+'" width="'+(v*scale)+'" height="7" rx="3.5" fill="'+cols[j]+'" opacity=".82"/>';
+      if(j===0){s+='<text x="'+(L+v*scale+6)+'" y="'+(y+7)+'" fill="#3c4c60" font-size="10" font-weight="700">'+v.toFixed(1)+'</text>';}
+    });
+  });
+  document.getElementById('scen').innerHTML=s;
+})();
+</script>
+</body></html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>系统动力学 · 海南演变风洞</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/charts.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
+  <nav class="desktop-nav">
+    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
+    <a class="current" href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a>
+    <a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
+  </nav>
+  <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
+</div></header>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="current" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+
+<main class="discovery-wrap">
+  <div class="eyebrow">模块三 · 系统动力学（CLD + 存量流量，ODE）</div>
+  <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">反馈、延迟与约束，决定轨迹形状</h1>
+  <p class="muted">连续 ODE、显式 Euler、dt=0.25 年；6 条回路（3 增强 3 平衡），含改革延迟 τ=2 年、再投资延迟 1 年。</p>
+
+  <section class="section">
+    <div class="kpi-row">
+      <div class="kpi"><div class="lab">节点 / 边</div><div class="val blue">17 / 25</div><div class="sub">4 存量 4 杠杆</div></div>
+      <div class="kpi"><div class="lab">反馈回路</div><div class="val">6</div><div class="sub">R×3 增强 B×3 平衡</div></div>
+      <div class="kpi"><div class="lab">改革延迟</div><div class="val">2.0 年</div><div class="sub">宣布→兑现</div></div>
+      <div class="kpi"><div class="lab">年增长上限</div><div class="val">8.0</div><div class="sub">硬截断 · 衰减 .92</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>因果回路图 CLD</h2><span>绿 + 同向，红 − 反向</span></div>
+    <div class="svg-box"><svg id="cld" viewBox="0 0 940 480" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>六回路解读</h2><span>增益系数均为主观先验 ±30%</span></div>
+    <div class="event-grid">
+      <div class="event-card"><h3>R1 连通自增强</h3><p class="event-desc" style="margin-top:8px">连通→吞吐→再投资信号→连通，α=.60。洋浦 310 万 TEU 较十四五初 +204%。</p></div>
+      <div class="event-card"><h3>R2 人才自增强</h3><p class="event-desc" style="margin-top:8px">人才→创新→岗位→人才，α=.80；制度能力放大转化效率。</p></div>
+      <div class="event-card"><h3>R3 信任→资本</h3><p class="event-desc" style="margin-top:8px">制度→信任→资本→财政兑现→改革，信任权重 .40。</p></div>
+      <div class="event-card"><h3>B1 制度摩擦</h3><p class="event-desc" style="margin-top:8px">摩擦初始 .55，折减改革落地效率，约束 R3。</p></div>
+      <div class="event-card"><h3>B2 资源约束</h3><p class="event-desc" style="margin-top:8px">越近承载上限流入越衰减，年增上限 8 防爆炸。</p></div>
+      <div class="event-card"><h3>B3 成本约束</h3><p class="event-desc" style="margin-top:8px">集聚推高成本，反向压制人才与资本流入（γ=.40/η=.20）。</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>四存量 2026 初值（证据折算）</h2><span>规划值不进基线</span></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>存量</th><th>2026</th><th>对应 LV</th><th>侵蚀率</th></tr></thead>
+        <tbody>
+          <tr><td>制度能力</td><td>38</td><td>LV_inst</td><td>.02</td></tr>
+          <tr><td>全球连通</td><td>32</td><td>LV_conn</td><td>.03</td></tr>
+          <tr><td>人才</td><td>28</td><td>LV_talent</td><td>.04</td></tr>
+          <tr><td>资本</td><td>22</td><td>LV_alloc</td><td>.06</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="sources"><div class="foot-note">来源：v3/dynamics/cld.json、stock_flow.json、baseline_trajectories.json。主观先验均带区间与证据缺口，MC 抽样覆盖。</div></footer>
+</main>
+
+<script>
+/* 精简 CLD 布局：4 存量 + 关键杠杆/中介 */
+var P={
+  inst:{x:180,y:90},conn:{x:180,y:210},talent:{x:180,y:330},cap:{x:180,y:430},
+  reform:{x:470,y:90},fric:{x:470,y:170},through:{x:470,y:210},innov:{x:470,y:330},trust:{x:470,y:430},
+  inv:{x:740,y:210},cost:{x:740,y:380},capcon:{x:740,y:60}};
+var LBL={inst:'制度存量',conn:'连通存量',talent:'人才存量',cap:'资本存量',reform:'改革兑现',fric:'制度摩擦',through:'港口吞吐',innov:'创新产业',trust:'制度信任',inv:'连通投资',cost:'成本压力',capcon:'资源上限'};
+var ED=[
+ ['inst','reform','+'],['reform','inst','+'],['fric','reform','-'],['inst','trust','+'],['trust','cap','+'],
+ ['conn','through','+'],['through','inv','+'],['inv','conn','+'],['talent','innov','+'],['inst','innov','+'],['innov','talent','+'],
+ ['talent','cost','+'],['cap','cost','+'],['cost','talent','-'],['capcon','conn','-'],['capcon','inst','-']];
+function box(n,stock){
+  var s='<rect x="'+(n.x-56)+'" y="'+(n.y-19)+'" width="112" height="38" rx="9" class="'+(stock?'stock-box':'net-node med')+'"/>';
+  s+='<text x="'+n.x+'" y="'+(n.y+5)+'" text-anchor="middle" class="net-label">'+LBL[stock]+'</text>';return s;}
+(function(){
+  var s='';
+  ED.forEach(function(e){
+    var a=P[e[0]],b=P[e[1]];
+    var pos=e[2]==='+';
+    s+='<line x1="'+(a.x+56)+'" y1="'+a.y+'" x2="'+(b.x-56)+'" y2="'+b.y+'" class="net-edge '+(pos?'pos':'neg')+'" marker-end="url(#arrow'+(pos?'P':'N')+')"/>';
+    var mx=(a.x+b.x)/2,my=(a.y+b.y)/2-3;
+    s+='<text x="'+mx+'" y="'+my+'" text-anchor="middle" class="polarity '+(pos?'pos':'neg')+'">'+e[2]+'</text>';
+  });
+  s+='<defs><marker id="arrowP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1f9d6b"/></marker>';
+  s+='<marker id="arrowN" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ed665e"/></marker></defs>';
+  ['inst','conn','talent','cap'].forEach(function(k){s+=box(P[k],k);});
+  ['reform','fric','through','innov','trust','inv','cost','capcon'].forEach(function(k){s+=box(P[k],k);});
+  document.getElementById('cld').innerHTML=s;
+})();
+</script>
+</body></html>

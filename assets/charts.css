@@ -1,0 +1,62 @@
+/* 图表扩展组件：网络/CLD/分布/瀑布/热力 */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:13px;padding:18px 19px;box-shadow:var(--shadow)}
+.kpi .lab{font-size:12px;color:#617187}
+.kpi .val{font-size:34px;font-weight:850;letter-spacing:-.05em;line-height:1.1;margin-top:6px}
+.kpi .sub{font-size:11px;color:#93a0b1;margin-top:4px}
+
+/* 网络节点图 */
+.net-node{fill:#fff;stroke:var(--blue);stroke-width:1.6}
+.net-node.lv{fill:#eaf2ff;stroke:var(--blue)}
+.net-node.role{fill:#fff;stroke:var(--teal)}
+.net-node.med{fill:#f7f9fc;stroke:#9fb2c8}
+.net-label{font-size:12px;fill:#2b3d54;font-weight:700}
+.net-edge{fill:none;stroke:#b9c6d6;stroke-width:1.4}
+.net-edge.pos{stroke:#1f9d6b} .net-edge.neg{stroke:var(--coral)}
+.net-edge.strong{stroke-width:2.4}
+.edge-lab{font-size:11px;font-weight:700}
+.edge-lab.pos{fill:#1f9d6b} .edge-lab.neg{fill:var(--coral)}
+
+/* CLD 极性标记 */
+.polarity{font-size:11px;font-weight:800}
+.polarity.pos{fill:#1f9d6b} .polarity.neg{fill:var(--coral)}
+.loop-badge{font-size:12px;font-weight:850}
+.loop-badge.r{fill:#1369eb} .loop-badge.b{fill:#b9851f}
+
+/* 存量流量 */
+.stock-box{fill:#fff;stroke:#1369eb;stroke-width:1.8}
+.valve{fill:#1369eb}
+.cloud{fill:none;stroke:#b9c6d6;stroke-width:1.5;stroke-dasharray:5 4}
+
+/* 分布直方图 */
+.hist-bar{fill:#1369eb;opacity:.85}
+.hist-bar.teal{fill:#23a3a7}
+.kde-line{fill:none;stroke:#0b5bd2;stroke-width:2.2}
+
+/* 瀑布 */
+.wf-bar{border-radius:4px}
+.wf-pos{fill:#1f9d6b} .wf-neg{fill:var(--coral)} .wf-total{fill:#1369eb}
+
+/* 热力矩阵 */
+.heat-cell{stroke:#fff;stroke-width:2}
+.heat-lab{font-size:11px;fill:#51617a}
+.heat-val{font-size:11px;font-weight:700;fill:#fff}
+
+/* 假设/证据矩阵 */
+.ach-cell{text-align:center;font-size:12px}
+.diagnostic-pos{color:#1f9d6b;font-weight:700}
+.diagnostic-neg{color:var(--coral);font-weight:700}
+
+/* 时间轴 */
+.timeline{position:relative;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:#dce3ec}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-item::before{content:"";position:absolute;left:-23px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid #fff;box-shadow:0 0 0 1px var(--blue)}
+.tl-item .yr{font-size:12px;font-weight:800;color:var(--blue)}
+
+/* 进度/阈值 */
+.gauge{position:relative}
+.threshold-line{stroke:var(--coral);stroke-width:1.6;stroke-dasharray:6 4}
+
+@media(max-width:980px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.kpi-row{grid-template-columns:1fr}}

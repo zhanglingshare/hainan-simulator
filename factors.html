@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>影响因素 · 海南演变风洞</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/charts.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
+  <nav class="desktop-nav">
+    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
+    <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a>
+    <a class="current" href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
+  </nav>
+  <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
+</div></header>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="current" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+
+<main class="discovery-wrap">
+  <div class="eyebrow">模块五 · 影响因素（Sobol / Shapley / 方差分解）</div>
+  <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">把结果归因到每一个杠杆</h1>
+  <p class="muted">Saltelli 1024 基线、Shapley 500 置换、共 23,884 次评估；能捕捉交互项与非线性（S_Ti−S_i 单列），优于 v2 的单因素 tornado。</p>
+
+  <section class="section">
+    <div class="kpi-row">
+      <div class="kpi"><div class="lab">2035 中位</div><div class="val blue">37.75</div><div class="sub">综合分</div></div>
+      <div class="kpi"><div class="lab">总方差</div><div class="val">4.99</div><div class="sub">输出不确定</div></div>
+      <div class="kpi"><div class="lab">参数 / 评估</div><div class="val">14 / 23884</div><div class="sub">Saltelli+Shapley</div></div>
+      <div class="kpi"><div class="lab">最大一阶 Sobol</div><div class="val">0.694</div><div class="sub">连通速率</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>Shapley 贡献份额</h2><span>绿正向，红负向，占总方差 %</span></div>
+    <div class="svg-box"><svg id="shap" viewBox="0 0 900 380" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>Sobol 一阶 vs 总效应</h2><span>差值即交互项贡献</span></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>参数</th><th>一阶 S_i</th><th>总效应 S_Ti</th><th>交互 S_Ti−S_i</th></tr></thead>
+        <tbody id="sobol"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>方法升级</h2><span>v2 OAT → v3 全局</span></div>
+    <div class="event-grid">
+      <div class="event-card"><h3>捕捉交互</h3><p class="event-desc" style="margin-top:8px">全局 Sobol 区分主效应与交互，单因素 OAT 做不到。</p></div>
+      <div class="event-card"><h3>非线性归因</h3><p class="event-desc" style="margin-top:8px">Shapley 对非线性模型仍给出可加、可解释的份额。</p></div>
+      <div class="event-card"><h3>负向杠杆显形</h3><p class="event-desc" style="margin-top:8px">资本侵蚀 −12.8%、制度摩擦 −11.2%，是减分点。</p></div>
+    </div>
+  </section>
+
+  <footer class="sources"><div class="foot-note">来源：v3/factors/sensitivity.json、variance_decomposition.csv、shapley_contributions.csv、tornado_comparison.md。</div></footer>
+</main>
+
+<script src="assets/data.js"></script>
+<script>
+/* Shapley horizontal diverging bars */
+(function(){
+  var L=130,R=70,T=16,rowH=34;
+  var maxAbs=30,scale=560/maxAbs;
+  var s='';
+  SHAPLEY.forEach(function(a,i){
+    var y=i*rowH+24,x0=L;
+    s+='<text x="'+(L-12)+'" y="'+(y+4)+'" fill="#3c4c60" font-size="12" text-anchor="end" font-weight="700">'+a.p+'</text>';
+    var w=Math.abs(a.share)*scale,col=a.share>=0?'#1f9d6b':'#ed665e';
+    if(a.share>=0){s+='<rect x="'+x0+'" y="'+(y-10)+'" width="'+w+'" height="20" rx="4" fill="'+col+'" opacity=".85"/>';
+      s+='<text x="'+(x0+w+7)+'" y="'+(y+4)+'" fill="#17805a" font-size="11" font-weight="800">+'+a.share.toFixed(1)+'%</text>';}
+    else{s+='<rect x="'+(x0-w)+'" y="'+(y-10)+'" width="'+w+'" height="20" rx="4" fill="'+col+'" opacity=".85"/>';
+      s+='<text x="'+(x0-w-7)+'" y="'+(y+4)+'" fill="#d8503f" font-size="11" font-weight="800" text-anchor="end">'+a.share.toFixed(1)+'%</text>';}
+  });
+  s+='<line x1="'+L+'" y1="8" x2="'+L+'" y2="'+(SHAPLEY.length*rowH)+'" stroke="#93a0b1" stroke-width="1.5"/>';
+  document.getElementById('shap').innerHTML=s;
+})();
+document.getElementById('sobol').innerHTML=SOBOL.map(function(a){
+  var inter=(a.st-a.si).toFixed(3);
+  return '<tr><td>'+a.p+'</td><td class="diagnostic-pos">'+a.si.toFixed(3)+'</td><td>'+a.st.toFixed(3)+'</td><td class="muted">'+inter+'</td></tr>';}).join('');
+</script>
+</body></html>

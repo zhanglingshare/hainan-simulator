@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SEM 路径 · 海南演变风洞</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/charts.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
+  <nav class="desktop-nav">
+    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="measurement.html">03 测量</a><a class="current" href="sem.html">04 路径</a>
+    <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a>
+    <a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
+  </nav>
+  <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
+</div></header>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="current" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+
+<main class="discovery-wrap">
+  <div class="eyebrow">模块二 · 结构方程（贝叶斯/PLS 式，路径系数 path coefficients）</div>
+  <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">因果路径，谁真正驱动角色</h1>
+  <p class="muted">边的粗细与数字为路径系数（均值），正值同向；区分直接、中介与总效应。均为先验+证据校准的抽样分布，非样本回归。</p>
+
+  <section class="section">
+    <div class="section-heading"><h2>结构 DAG</h2><span>蓝=潜变量，灰=中介，青=角色</span></div>
+    <div class="svg-box"><svg id="dag" viewBox="0 0 940 560" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>总效应前三（含 90% 区间）</h2><span>effects.json</span></div>
+    <div class="event-grid">
+      <div class="event-card"><h3>资源配置 → 离岸</h3><p class="big-number" style="font-size:34px;color:#1369eb;font-weight:850;margin-top:8px">+0.618</p><p class="muted" style="font-size:12px">[0.386, 0.858]</p></div>
+      <div class="event-card"><h3>制度 → 试验田</h3><p class="big-number" style="font-size:34px;color:#1369eb;font-weight:850;margin-top:8px">+0.550</p><p class="muted" style="font-size:12px">[0.318, 0.781]</p></div>
+      <div class="event-card"><h3>示范 → 试验田</h3><p class="big-number" style="font-size:34px;color:#1369eb;font-weight:850;margin-top:8px">+0.525</p><p class="muted" style="font-size:12px">[0.280, 0.795]</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>关键直接路径系数</h2><span>structural_model.json 节选</span></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>起点</th><th>终点</th><th>系数</th><th>类型</th></tr></thead>
+        <tbody id="edges"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>解释力 R² 与预测相关 Q²</h2><span>角色被解释方差，模型隐含值</span></div>
+    <div class="svg-box"><svg id="r2" viewBox="0 0 900 280" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>Bootstrap 显著性</h2><span>5000 次重抽样，t 与显著性（重抽样稳定性，非经典统计显著）</span></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>路径</th><th>系数</th><th>t 值</th><th>显著性</th></tr></thead>
+        <tbody id="boot"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>IPMA 重要性—绩效矩阵</h2><span>高重要、低绩效者优先投入</span></div>
+    <div class="svg-box"><svg id="ipma" viewBox="0 0 900 400" style="width:100%;height:auto"></svg></div>
+  </section>
+
+  <footer class="sources"><div class="foot-note">来源：v3/sem/smartpls_structural.json、smartpls_bootstrap.json、ipma.json。均为模型估计、非样本统计；Q² 为后验残差代理，不可与 blindfolding Q² 直接比较。</div></footer>
+</main>
+
+<script src="assets/data.js"></script>
+<script>
+/* 手工分层坐标 */
+var N={
+  inst:{x:120,y:70},conn:{x:120,y:160},alloc:{x:120,y:250},resil:{x:120,y:340},talent:{x:120,y:430},diff:{x:120,y:520},
+  M1:{x:470,y:180},M2:{x:470,y:380},
+  hub:{x:820,y:70},testbed:{x:820,y:180},offshore:{x:820,y:290},marine:{x:820,y:400},south:{x:820,y:510}};
+var LVL={inst:'制度',conn:'连通',alloc:'配置',resil:'韧性',talent:'人才',diff:'示范'};
+var ROLEL={hub:'中转枢纽',testbed:'制度试验田',offshore:'离岸节点',marine:'海洋经济',south:'南方平台'};
+var E=[
+ ['inst','M1',.50],['diff','M1',.30],['alloc','M1',.10],
+ ['alloc','M2',.40],['conn','M2',.30],['talent','M2',.20],
+ ['M1','testbed',.30],['M1','offshore',.15],['M2','hub',.20],['M2','offshore',.25],['M2','south',.10],
+ ['conn','hub',.45],['inst','testbed',.40],['alloc','offshore',.45],['resil','marine',.40],['diff','south',.35],['talent','south',.25]];
+function node(n,id,cls,lab){
+  var s='<rect x="'+(n.x-58)+'" y="'+(n.y-20)+'" width="116" height="40" rx="10" class="net-node '+cls+'"/>';
+  s+='<text x="'+n.x+'" y="'+(n.y+5)+'" text-anchor="middle" class="net-label">'+lab+'</text>';return s;}
+(function(){
+  var s='';
+  E.forEach(function(e){
+    var a=N[e[0]],b=N[e[1]],w=1+e[2]*4;
+    s+='<path d="M'+(a.x+58)+','+a.y+' C'+(a.x+180)+','+a.y+' '+(b.x-180)+','+b.y+' '+(b.x-58)+','+b.y+'" class="net-edge" stroke-width="'+w+'" opacity=".75"/>';
+    var mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+    s+='<text x="'+mx+'" y="'+(my-4)+'" text-anchor="middle" class="edge-lab pos">'+e[2].toFixed(2)+'</text>';
+  });
+  ['inst','conn','alloc','resil','talent','diff'].forEach(function(k){s+=node(N[k],k,'lv',LVL[k]);});
+  s+=node(N.M1,'M1','med','M1 改革执行');s+=node(N.M2,'M2','med','M2 市场深度');
+  ['hub','testbed','offshore','marine','south'].forEach(function(k){s+=node(N[k],k,'role',ROLEL[k]);});
+  document.getElementById('dag').innerHTML=s;
+})();
+var EDGE_TAB=[
+ ['连通','中转枢纽','.45','直接'],['制度','制度试验田','.40','直接'],['配置','离岸节点','.45','直接'],
+ ['韧性','海洋经济','.40','直接'],['示范','南方平台','.35','直接'],['制度','M1 改革执行','.50','→中介'],
+ ['配置','M2 市场深度','.40','→中介'],['M1','制度试验田','.30','中介→'],['M2','离岸节点','.25','中介→']];
+document.getElementById('edges').innerHTML=EDGE_TAB.map(function(r){
+  return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="diagnostic-pos">'+r[2]+'</td><td>'+r[3]+'</td></tr>';}).join('');
+
+/* R²/Q² 横向条 */
+(function(){
+  var L=180,rowH=44,scale=600;
+  var s='';
+  Object.keys(R2_ROLE).forEach(function(k,i){
+    var v=R2_ROLE[k],y=i*rowH+28;
+    s+='<text x="'+(L-12)+'" y="'+(y+4)+'" fill="#3c4c60" font-size="12" text-anchor="end" font-weight="700">'+ROLEL[k]+'</text>';
+    s+='<rect x="'+L+'" y="'+(y-11)+'" width="'+(v*scale)+'" height="22" rx="5" fill="#1369eb" opacity=".85"/>';
+    s+='<text x="'+(L+v*scale+8)+'" y="'+(y+4)+'" fill="#1369eb" font-size="12" font-weight="800">R²='+v.toFixed(3)+'</text>';
+  });
+  document.getElementById('r2').innerHTML=s;
+})();
+
+/* Bootstrap 表 */
+var PATHL={inst:'制度',conn:'连通',alloc:'配置',resil:'韧性',talent:'人才',diff:'示范'};
+document.getElementById('boot').innerHTML=BOOT_PATH.map(function(b){
+  var sig=b.sig==='ns'?'<span class="diagnostic-neg">不显著</span>':'<span class="diagnostic-pos">'+b.sig+'</span>';
+  return '<tr><td>'+PATHL[b.from]+' → '+ROLEL[b.to]+'</td><td>'+b.mean.toFixed(3)+'</td><td>'+b.t.toFixed(2)+'</td><td>'+sig+'</td></tr>';}).join('');
+
+/* IPMA 散点：x=performance, y=importance */
+(function(){
+  var X0=90,Y0=340,W=720,H=300;
+  var xsc=function(p){return X0+p*W/100;};
+  var ysc=function(im){return Y0-(im-0.08)*H/0.22;};
+  var s='';
+  /* 象限分隔线 */
+  var xm=xsc(33),ym=ysc(0.20);
+  s+='<line x1="'+xm+'" y1="'+Y0+'" x2="'+xm+'" y2="'+(Y0-H)+'" stroke="#dfe6ef" stroke-dasharray="5 5"/>';
+  s+='<line x1="'+X0+'" y1="'+ym+'" x2="'+(X0+W)+'" y2="'+ym+'" stroke="#dfe6ef" stroke-dasharray="5 5"/>';
+  s+='<line x1="'+X0+'" y1="'+Y0+'" x2="'+(X0+W)+'" y2="'+Y0+'" stroke="#94a3b8"/>';
+  s+='<line x1="'+X0+'" y1="'+Y0+'" x2="'+X0+'" y2="'+(Y0-H)+'" stroke="#94a3b8"/>';
+  s+='<text x="'+(X0+W)+'" y="'+(Y0+24)+'" text-anchor="end" fill="#617187" font-size="12">绩效（2026 初始分）→</text>';
+  s+='<text x="'+(X0-10)+'" y="'+(Y0-H-8)+'" text-anchor="end" fill="#617187" font-size="12">重要性（总效应）↑</text>';
+  IPMA.forEach(function(a){
+    var x=xsc(a.perf),y=ysc(a.imp);
+    var col=a.quad==='high_imp_low_perf'?'#ed665e':'#1369eb';
+    s+='<circle cx="'+x+'" cy="'+y+'" r="11" fill="'+col+'" opacity=".85"/>';
+    s+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" fill="#fff" font-size="10" font-weight="800">'+LVL[a.lv]+'</text>';
+  });
+  s+='<text x="'+(X0+10)+'" y="'+(Y0-H+16)+'" fill="#ed665e" font-size="12" font-weight="800">红=高重要低绩效（配置，最优先）</text>';
+  document.getElementById('ipma').innerHTML=s;
+})();
+</script>
+</body></html>
