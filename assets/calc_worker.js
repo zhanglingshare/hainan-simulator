@@ -1,4 +1,4 @@
-/* mc_worker.js — 后台跑蒙特卡洛，避免阻塞 UI；返回含原始 draws 供门槛滑杆即时重算 */
+/* calc_worker.js — 后台做情景抽样，避免阻塞界面；返回原始抽样供门槛滑杆即时重算 */
 importScripts("engine.js");
 self.onmessage = function (ev) {
   var q = ev.data; // {sid,n,shockStd,seed}

@@ -164,7 +164,7 @@
 
   /* ---- worker 调度 ---- */
   UI.workerRun = function (query, cbs) {
-    var w = new Worker("assets/mc_worker.js");
+    var w = new Worker("assets/calc_worker.js");
     w.onmessage = function (ev) {
       if (ev.data.type === "progress" && cbs.onProgress) cbs.onProgress(ev.data);
       else if (ev.data.type === "done") { w.terminate(); cbs.onDone(ev.data.result); }
