@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#070D18">
-<title>海南岛 VS 新加坡 2026–2035 演变风洞：预测它们未来长成什么样</title>
+<title>海南 VS 新加坡 社会网络关系演变图（2005–2035）</title>
 <style>
 :root{
   --bg:#070D18;--ink:#E8F1FB;--ink2:#A9C0D8;--ink3:#6E88A3;--ink4:#465E77;
@@ -34,8 +34,8 @@ a{color:inherit;text-decoration:none}
 
 .wrap{max-width:1280px;margin:0 auto;padding:30px 18px 40px}
 .kick{font-size:10.5px;font-weight:800;letter-spacing:.22em;color:var(--cyan);margin-bottom:12px}
-h1{font-size:clamp(28px,4.2vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.04em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
-.sub{margin-top:12px;font-size:12.5px;color:var(--ink2);max-width:920px}
+h1{font-size:clamp(26px,4vw,46px);font-weight:800;line-height:1.1;letter-spacing:-.04em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.sub{margin-top:12px;font-size:12.5px;color:var(--ink2);max-width:980px}
 .credit{margin-top:14px;display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;
   color:var(--ink3);border:1px solid var(--line);border-radius:999px;padding:6px 13px;background:rgba(7,13,24,.5)}
 .credit b{color:var(--amber);font-weight:700}
@@ -43,21 +43,26 @@ h1{font-size:clamp(28px,4.2vw,48px);font-weight:800;line-height:1.1;letter-spaci
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:22px;font-size:11px;color:var(--ink2)}
 .legend span{display:inline-flex;align-items:center;gap:7px}
 .legend i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.legend .ln{width:18px;height:0;border-top:2px solid}
 
-.gl-wrap{position:relative;margin-top:14px;border:1px solid var(--line);border-radius:18px;
-  background:radial-gradient(120% 120% at 50% 0%,rgba(20,40,66,.55),rgba(7,13,24,.35));overflow:hidden}
-#gl{width:100%;height:500px;display:block}
+.net-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.net-card{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  background:radial-gradient(120% 120% at 50% 0%,rgba(20,40,66,.5),rgba(7,13,24,.3))}
+.net-card h2{font-size:15px;font-weight:800;padding:14px 16px 0;display:flex;align-items:center;gap:9px}
+.net-card h2 .dot{width:11px;height:11px;border-radius:50%}
+.net-card .nstat{position:absolute;top:13px;right:16px;font-family:var(--mono);font-size:10px;color:var(--ink2)}
+.net-card canvas{width:100%;height:470px;display:block}
 
 .controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border-top:1px solid var(--line);
   background:rgba(7,13,24,.55)}
-.seg{display:flex;gap:4px;background:rgba(7,13,24,.6);border:1px solid var(--line);border-radius:11px;padding:3px}
-.seg button{border:0;background:transparent;color:var(--ink2);font-size:11.5px;font-weight:700;padding:7px 12px;
-  border-radius:8px;cursor:pointer;white-space:nowrap}
-.seg button.on{background:linear-gradient(150deg,#4FC3FF,#2E7DEB);color:#04101f}
-.timebox{flex:1;min-width:200px;display:flex;align-items:center;gap:11px}
+.phase-legend{display:flex;gap:12px;font-size:10.5px;color:var(--ink2);flex:none;flex-wrap:wrap}
+.phase-legend span{display:inline-flex;align-items:center;gap:6px}
+.phase-legend i{width:10px;height:10px;border-radius:3px}
+.timebox{flex:1;min-width:220px;display:flex;align-items:center;gap:11px}
 .playbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:rgba(79,195,255,.14);
   color:var(--cyan);font-size:14px;cursor:pointer;flex:none}
-input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:999px;outline:none;
+.range-wrap{flex:1;position:relative}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;outline:none;
   background:linear-gradient(90deg,var(--cyan) var(--fill,0%),rgba(150,190,235,.18) var(--fill,0%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
   background:#fff;border:3px solid var(--cyan);cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.5)}
@@ -69,19 +74,24 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 .ro-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--ink2)}
 .ro-top .tag{font-family:var(--mono);font-size:10px;color:var(--cyan);border:1px solid var(--line);
   border-radius:999px;padding:3px 9px}
-.ro-verdict{margin-top:10px;font-size:clamp(17px,2.4vw,24px);font-weight:800;line-height:1.35}
+.ro-verdict{margin-top:10px;font-size:clamp(16px,2.3vw,23px);font-weight:800;line-height:1.35}
 .ro-verdict b{color:var(--cyan)}
 .ro-sub{margin-top:8px;font-size:12.5px;color:var(--ink2)}
-.ro-sg{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--ink2)}
-.ro-sg b{color:var(--amber)}
 
-/* 五种形态：可读的 HTML 进度条 */
+.calib{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:14px 18px;
+  background:rgba(14,26,42,.45);font-family:var(--mono);font-size:10.5px;color:var(--ink2);
+  display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.calib b{color:var(--cyan);font-weight:700}
+.calib .grp{display:inline-flex;gap:6px;align-items:center}
+.calib .grp em{font-style:normal;color:var(--ink3)}
+.calib .note{color:var(--amber);flex-basis:100%}
+
 .formsec{margin-top:22px}
 .sec-h{font-size:15px;font-weight:800;margin-bottom:4px}
 .sec-note{font-size:11px;color:var(--ink3);margin-bottom:12px}
 .frow{display:grid;grid-template-columns:150px 1fr 52px;gap:14px;align-items:center;
   padding:11px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;
-  background:rgba(14,26,42,.42);transition:border-color .2s,background .2s}
+  background:rgba(14,26,42,.42)}
 .frow.best{border-color:rgba(79,195,255,.6);background:rgba(79,195,255,.1)}
 .fname{font-size:12.5px;font-weight:700}
 .frow.best .fname::after{content:'· 最接近';color:var(--cyan);font-size:10.5px;font-weight:700;margin-left:6px}
@@ -90,13 +100,14 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 .fsegs i.met{background:var(--cyan)}
 .fcount{font-family:var(--mono);font-size:12px;font-weight:800;text-align:right;color:var(--ink2)}
 .frow.best .fcount{color:var(--cyan)}
+.histnote{border:1px dashed var(--line);border-radius:12px;padding:16px;font-size:12px;color:var(--ink3);background:rgba(14,26,42,.3)}
 
 .panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
 .pcard{border:1px solid var(--line);border-radius:16px;background:rgba(14,26,42,.5);padding:18px}
 .pcard h3{display:flex;align-items:center;gap:9px;font-size:14.5px;font-weight:800;margin-bottom:14px}
 .pcard h3 .dot{width:10px;height:10px;border-radius:50%}
 .pcard h3 em{font-style:normal;margin-left:auto;font-size:9.5px;color:var(--ink3);font-family:var(--mono);font-weight:700}
-.drow{display:grid;grid-template-columns:78px 1fr 44px;gap:9px;align-items:center;margin:9px 0;font-size:11px}
+.drow{display:grid;grid-template-columns:84px 1fr 58px;gap:9px;align-items:center;margin:9px 0;font-size:11px}
 .drow .lab{color:var(--ink2)}
 .dbar{height:6px;border-radius:999px;background:rgba(150,190,235,.12);overflow:hidden}
 .dbar i{display:block;height:100%;border-radius:999px}
@@ -112,86 +123,96 @@ details summary{cursor:pointer;font-weight:700;color:var(--ink2)}
 details div{margin-top:8px;line-height:1.9}
 
 @media(max-width:880){
-  #gl{height:420px}
+  .net-grid{grid-template-columns:1fr}
+  .net-card canvas{height:380px}
   .panels{grid-template-columns:1fr}
   .wrap{padding:22px 12px 30px}
-  .seg button{padding:7px 9px;font-size:10.5px}
-  .legend{gap:10px}
   .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px}
-  .fname{font-size:11.5px}
 }
-/* JS 驱动的窄屏规则（本环境媒体查询不生效，innerWidth 可靠） */
+body.narrow .net-grid{grid-template-columns:1fr}
+body.narrow .net-card canvas{height:380px}
 body.narrow .panels{grid-template-columns:1fr}
 body.narrow .wrap{padding:22px 12px 30px}
-body.narrow .seg button{padding:7px 9px;font-size:10.5px}
-body.narrow .legend{gap:10px}
 body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px}
-body.narrow .fname{font-size:11.5px}
 </style>
 </head>
 <body>
 <header class="bar">
-  <div class="brand"><span class="mark">琼</span><span class="nm"><b>海南演变风洞</b><i>EVOLUTION WIND TUNNEL</i></span></div>
+  <div class="brand"><span class="mark">琼</span><span class="nm"><b>海南演变风洞</b><i>SNA NETWORK EVOLUTION</i></span></div>
   <nav class="nav">
     <a class="on" href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a>
     <a href="intelligence.html">02 情报</a><a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
     <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a><a href="factors.html">07 因素</a>
     <a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
   </nav>
-  <span class="stamp">2026–2035</span>
+  <span class="stamp">2005–2035</span>
 </header>
 
 <div class="wrap">
-  <div class="kick">演变预测模拟器 · 不是比高低</div>
-  <h1>海南与新加坡，未来各自长成什么样</h1>
-  <p class="sub">不排名、不论谁高谁低，只预测两个地方在 2026–2035 可能演化出的形态。下面这颗 3D 地球标出海南与新加坡的真实位置：光点是它们所在的地方，光点越大代表六维综合成熟度越高，弧线是两地的海上连接。海南可能长成的五种样子，在地球下方用带名字的进度条清楚列出。</p>
+  <div class="kick">社会网络分析 SNA · 两张分开的关系演变图</div>
+  <h1>海南与新加坡，各自的网络长成什么样</h1>
+  <p class="sub">两张图分开放：左边是海南岛自己的网络，右边是新加坡自己的网络。节点大小＝真实港口吞吐量，实线＝连线接通、虚线＝断裂。同一个时间轴一起演变，看 2005–2025 网络如何实际变化，再看 2026–2035 可能演化出的形态。不排名、不论高低，只看各自网络位置与关系结构。</p>
   <div class="credit"><b>张凌博士</b> · 公开数据 · <b>开源社区项目</b></div>
 
   <div class="legend">
-    <span><i style="background:var(--cyan)"></i>海南（真实位置）</span>
-    <span><i style="background:var(--amber)"></i>新加坡（真实位置）</span>
-    <span><i style="background:linear-gradient(#fff,#4FC3FF)"></i>光点大小＝六维综合成熟度</span>
-    <span><i style="background:var(--ink3)"></i>可拖拽地球旋转，也会自动慢转</span>
+    <span><i style="background:var(--cyan)"></i>海南</span>
+    <span><i style="background:var(--amber)"></i>新加坡</span>
+    <span><i style="background:#8fb0d0"></i>参照枢纽</span>
+    <span><span class="ln" style="border-color:#9fd0ff"></span>实线＝接通（明暗＝接通概率）</span>
+    <span><span class="ln" style="border-top:2px dashed #6E88A3"></span>虚线＝断裂</span>
+    <span><i style="background:transparent;border:1.5px solid #fff"></i>外圈＝官方真实航线</span>
   </div>
 
-  <div class="gl-wrap">
-    <canvas id="gl"></canvas>
+  <div class="net-grid">
+    <div class="net-card">
+      <h2><span class="dot" style="background:var(--cyan)"></span>海南岛的网络</h2>
+      <span class="nstat" id="hnStat"></span>
+      <canvas id="hnNet"></canvas>
+    </div>
+    <div class="net-card">
+      <h2><span class="dot" style="background:var(--amber)"></span>新加坡的网络</h2>
+      <span class="nstat" id="sgStat"></span>
+      <canvas id="sgNet"></canvas>
+    </div>
+  </div>
+
+  <div class="net-card" style="margin-top:16px">
     <div class="controls">
-      <div class="seg" id="scenSeg">
-        <button class="on" data-s="multipolar_regionalization">多极区域化</button>
-        <button data-s="bloc_fragmentation">阵营碎片化</button>
-        <button data-s="globalization_rebound">全球化回潮</button>
-        <button data-s="high_intensity_conflict">高强度冲突</button>
+      <div class="phase-legend">
+        <span><i style="background:#4FC3FF"></i>历史（真实数据）</span>
+        <span><i style="background:#F0B35E"></i>未来（模型推演）</span>
       </div>
       <div class="timebox">
         <button class="playbtn" id="playBtn">❚❚</button>
-        <input type="range" id="time" min="0" max="9" step="0.01" value="0">
-        <span class="yr" id="yr">2026</span>
+        <div class="range-wrap"><input type="range" id="time" min="0" max="30" step="0.1" value="0"></div>
+        <span class="yr" id="yr">2005</span>
       </div>
     </div>
   </div>
 
   <div class="readout">
-    <div class="ro-top"><span class="tag" id="roScen">情景：多极区域化</span><span class="tag" id="roYear">2026 年</span><span>这是模型推演，不是确定结论</span></div>
+    <div class="ro-top"><span class="tag" id="roPhase">历史实绩</span><span class="tag" id="roYear">2005 年</span><span id="roCaveat">真实统计，可核对</span></div>
     <div class="ro-verdict" id="roVerdict"></div>
     <div class="ro-sub" id="roSub"></div>
-    <div class="ro-sg" id="roSg"></div>
   </div>
 
+  <div class="calib" id="calibCard"></div>
+
   <div class="formsec">
-    <div class="sec-h">海南可能长成的五种样子</div>
-    <div class="sec-note">每种样子要同时满足 6 个条件；亮蓝段＝已达到，灰段＝还没达到，右侧写 n/6。</div>
+    <div class="sec-h">海南可能长成的五种样子（2026–2035 推演）</div>
+    <div class="sec-note">每种形态要同时满足 6 个条件；亮蓝段＝已达到，灰段＝未达到，右侧 n/6。历史期显示说明。</div>
     <div id="formTrack"></div>
+    <div class="histnote" id="histNote">2005–2025 为历史期，形态推演从 2026 年开始。把时间轴拖到 2025 之后，查看海南在基准情景下可能长成的五种形态与条件进度。</div>
   </div>
 
   <div class="panels">
     <div class="pcard">
-      <h3><span class="dot" style="background:var(--cyan)"></span>海南岛 · 六维变化<em id="hnMeta">2026</em></h3>
-      <div id="hnDims"></div>
+      <h3><span class="dot" style="background:var(--cyan)"></span>海南岛 · 六维<em id="hnMeta">2005</em></h3>
+      <div id="hnBox"></div>
     </div>
     <div class="pcard">
-      <h3><span class="dot" style="background:var(--amber)"></span>新加坡 · 六维变化<em id="sgMeta">2026</em></h3>
-      <div id="sgDims"></div>
+      <h3><span class="dot" style="background:var(--amber)"></span>新加坡 · 六维<em id="sgMeta">2005</em></h3>
+      <div id="sgBox"></div>
     </div>
   </div>
 
@@ -204,211 +225,173 @@ body.narrow .fname{font-size:11.5px}
   <details>
     <summary>数据与口径（点击展开）</summary>
     <div>
-      3D 地球上的海岸与国界来自 Natural Earth 公开地理数据，海南与新加坡按真实经纬度标注；光点大小＝六维功能水平的综合均值，是<b>成熟度的直观编码</b>，不新增模型结论。<br>
-      海南六维由前端引擎按当前情景实时推演（显式 Euler，方法与 v3 内核一致，精确值以 Python v3 为准）；五种形态的门槛来自 ROLE_THRESHOLDS，亮蓝段＝当前值已达到该条件。严格六维 AND 联合概率见蒙特卡洛页。<br>
-      新加坡六维为成熟枢纽的<b>参照推演</b>，非实测点值，用于并排观察，不代表排名。本页 3D 由 three.js 渲染，所有数字可在 evidence/、data.js 与公开原文核对，不杜撰。
+      两张图各自以本地为中心，节点大小＝各港口当年集装箱吞吐量（百万 TEU），核心节点含官方实测，参照节点部分年份为公开锚点线性插值。<br>
+      连线为<b>校准后的引力模型</b> I_ij＝sqrt(teu_i)·sqrt(teu_j)/d_ij^β（β 经真实航线标签校准为 0.2，距离为测地公里），再用 logistic 平滑输出 0–1 的接通概率（1000 次 bootstrap，固定种子）。有官方真实航线记录的 5 条边（新加坡/香港/深圳/巴生/迪拜）从真实开通年起概率强制为 1，并在节点加白色外圈；其余为模型估计，低置信度边（如鹿特丹）以明暗呈现、不硬判。新加坡作为成熟枢纽，其连线 2005 年起全部接通。<br>
+      2005–2025 为真实统计（海南 GDP/贸易来自中经数据与统计公报，新加坡 TEU 来自 data.gov.sg，香港来自 data.gov.hk）；2026–2035 为模型推演，六维门槛来自 ROLE_THRESHOLDS，默认多极区域化情景。本页为 2D Canvas 绘制，不杜撰。
     </div>
   </details>
 </div>
 
-<script src="assets/three.min.js"></script>
+<script src="assets/sna_data.js"></script>
+<script src="assets/sna_edges.js"></script>
 <script src="assets/engine.js"></script>
 <script>
 (function(){
-  var LV_IDS=Engine.constants.LV_IDS, ROLE_T=Engine.constants.ROLE_THRESHOLDS;
-  var DIM_CN={LV_inst:'规则与制度',LV_conn:'全球连通',LV_alloc:'资源配置',LV_resil:'战略韧性',LV_talent:'人才议程',LV_diff:'模式示范'};
-  var SCEN_LAB={multipolar_regionalization:'多极区域化',bloc_fragmentation:'阵营碎片化',globalization_rebound:'全球化回潮',high_intensity_conflict:'高强度冲突'};
   var mobile=window.innerWidth<=880;
   function applyNarrow(){document.body.classList.toggle('narrow',window.innerWidth<=880);}
   applyNarrow();
+  var byId={};SNA.nodes.forEach(function(n){byId[n.id]=n;});
 
-  var SCEN=['multipolar_regionalization','bloc_fragmentation','globalization_rebound','high_intensity_conflict'];
-  var HN={}; SCEN.forEach(function(s){HN[s]=Engine.simulate(null,s).functional_levels;});
-  var SG_REF={
-    LV_inst:[82,82.4,82.8,83.1,83.5,83.8,84.1,84.4,84.7,85],
-    LV_conn:[88,88.3,88.6,88.9,89.1,89.3,89.5,89.7,89.9,90],
-    LV_alloc:[80,80.5,81,81.4,81.9,82.3,82.7,83.1,83.6,84],
-    LV_resil:[78,78.5,79,79.4,79.9,80.3,80.8,81.2,81.6,82],
-    LV_talent:[83,83.4,83.7,84,84.4,84.7,85,85.4,85.7,86],
-    LV_diff:[80,80.5,80.9,81.3,81.8,82.2,82.6,83,83.5,84]
-  };
-  function valAt(fl,idx){var i=Math.floor(idx),f=idx-i;var a=fl[i],b=fl[Math.min(i+1,9)];return a+(b-a)*f;}
-  function sixAt(store,idx){return LV_IDS.map(function(id){return valAt(store[id],idx);});}
-  function avg6(six){return six.reduce(function(a,b){return a+b;},0)/6;}
+  /* ---------- 连线：读取火山引擎校准后的接通概率 ---------- */
+  function teuAt(id,t){var i=Math.floor(t),f=t-i;return byId[id].teu[i]+(byId[id].teu[Math.min(i+1,30)]-byId[id].teu[i])*f;}
+  function probAt(ego,alter,t){var arr=SNA_EDGES.probs[ego][alter],i=Math.floor(t),f=t-i;
+    if(i>=30)return arr[30];return arr[i]+(arr[i+1]-arr[i])*f;}
+  function realYear(ego,alter){var r=SNA_EDGES.realEdge[ego];return (r&&Object.prototype.hasOwnProperty.call(r,alter))?r[alter]:null;}
 
-  /* ---------- 3D 地球 ---------- */
-  var R=5;
-  var canvas=document.getElementById('gl');
-  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-  var GH=mobile?420:500,cw=canvas.clientWidth;renderer.setSize(cw,GH,false);
-  var scene=new THREE.Scene();
-  var camera=new THREE.PerspectiveCamera(42,cw/GH,.1,100);
-  camera.position.set(0,.6,14.5);camera.lookAt(0,0,0);
-  var pivot=new THREE.Group();scene.add(pivot);
-  var globe=new THREE.Group();pivot.add(globe);
-  pivot.rotation.y=(-90-107)*Math.PI/180;
-
-  function ll(lon,lat,r){
-    var la=lat*Math.PI/180,lo=lon*Math.PI/180;
-    return [r*Math.cos(la)*Math.cos(lo),r*Math.sin(la),-r*Math.cos(la)*Math.sin(lo)];
+  /* ---------- 单张径向网络图 ---------- */
+  function makeNetwork(canvasId,ego,egoHex,statId){
+    var canvas=document.getElementById(canvasId),ctx=canvas.getContext('2d');
+    var partnerIds=SNA.nodes.filter(function(n){return n.id!==ego;}).map(function(n){return n.id;});
+    var ring=partnerIds.map(function(id,i){return {id:id,angle:-Math.PI/2+i/partnerIds.length*Math.PI*2};});
+    var DPR=Math.min(window.devicePixelRatio||1,2),W=0,H=0,cx=0,cy=0,Rr=0;
+    function resize(){var cw=canvas.clientWidth,ch=mobile?380:470;
+      W=cw;H=ch;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);
+      cx=W/2;cy=H/2;Rr=Math.min(W,H)/2-80;}
+    function rpos(r){return {x:cx+Math.cos(r.angle)*Rr,y:cy+Math.sin(r.angle)*Rr};}
+    function prColor(id){return id==='hainan'?'#4FC3FF':id==='sg'?'#F0B35E':'#8fb0d0';}
+    function pradius(teu){return 7+15*Math.sqrt(Math.max(0,teu)/55);}
+    function draw(t){
+      ctx.clearRect(0,0,W,H);
+      var year=2005+Math.floor(t);
+      var egoR=13+22*Math.sqrt(Math.max(0,teuAt(ego,t))/55);
+      ring.forEach(function(r){var p=rpos(r),pv=probAt(ego,r.id,t);
+        if(pv<.15){ctx.save();ctx.setLineDash([5,6]);ctx.strokeStyle='rgba(110,136,163,.35)';ctx.lineWidth=1;
+          ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.restore();}
+        else{ctx.save();ctx.setLineDash([]);ctx.globalAlpha=.2+pv*.72;ctx.strokeStyle=egoHex;
+          ctx.lineWidth=1+pv*1.8;ctx.shadowColor=egoHex;ctx.shadowBlur=8*pv;
+          ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.restore();}
+      });
+      ctx.save();ctx.fillStyle=egoHex;ctx.shadowColor=egoHex;ctx.shadowBlur=18;
+      ctx.beginPath();ctx.arc(cx,cy,egoR,0,7);ctx.fill();
+      ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.globalAlpha=.9;
+      ctx.beginPath();ctx.arc(cx-egoR*.25,cy-egoR*.25,egoR*.26,0,7);ctx.fill();ctx.restore();
+      ctx.save();ctx.font='700 13px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.fillStyle=egoHex;ctx.textAlign='center';ctx.fillText(ego==='hainan'?'海南':'新加坡',cx,cy+egoR+16);ctx.restore();
+      ring.forEach(function(r){var p=rpos(r),col=prColor(r.id),rad=pradius(teuAt(r.id,t)),ry=realYear(ego,r.id);
+        ctx.save();ctx.fillStyle=col;ctx.shadowColor=col;ctx.shadowBlur=7;
+        ctx.beginPath();ctx.arc(p.x,p.y,rad,0,7);ctx.fill();ctx.restore();
+        // 官方真实航线：外圈标记
+        if(ry!==null&&year>=ry){ctx.save();ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=1.4;
+          ctx.beginPath();ctx.arc(p.x,p.y,rad+3.5,0,7);ctx.stroke();ctx.restore();}
+        var lx=p.x+Math.cos(r.angle)*(rad+8),ly=p.y+Math.sin(r.angle)*(rad+8),right=Math.cos(r.angle)>=0;
+        ctx.save();ctx.font='600 11px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillStyle=col;ctx.textAlign=right?'left':'right';ctx.textBaseline='middle';
+        ctx.fillText(byId[r.id].name,lx,ly);ctx.restore();
+      });
+      var on=ring.filter(function(r){return probAt(ego,r.id,t)>=.5;}).length;
+      document.getElementById(statId).textContent='接通 '+on+'/9';
+    }
+    resize();return {draw:draw,resize:resize};
   }
 
-  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R*.995,64,64),
-    new THREE.MeshBasicMaterial({color:0x0a1830})));
-  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R*1.18,48,48),
-    new THREE.MeshBasicMaterial({color:0x2e7deb,side:THREE.BackSide,transparent:true,opacity:.16,blending:THREE.AdditiveBlending})));
+  var hnNet=makeNetwork('hnNet','hainan','#4FC3FF','hnStat');
+  var sgNet=makeNetwork('sgNet','sg','#F0B35E','sgStat');
 
-  var cc=document.createElement('canvas');cc.width=cc.height=64;var gx=cc.getContext('2d');
-  var ggd=gx.createRadialGradient(32,32,0,32,32,32);
-  ggd.addColorStop(0,'rgba(255,255,255,1)');ggd.addColorStop(1,'rgba(255,255,255,0)');
-  gx.fillStyle=ggd;gx.fillRect(0,0,64,64);var glowTex=new THREE.CanvasTexture(cc);
+  /* ---------- 六维 / 五形态 ---------- */
+  var LV_IDS=Engine.constants.LV_IDS,ROLE_T=Engine.constants.ROLE_THRESHOLDS;
+  var DIM_CN={LV_inst:'规则与制度',LV_conn:'全球连通',LV_alloc:'资源配置',LV_resil:'战略韧性',LV_talent:'人才议程',LV_diff:'模式示范'};
+  var HN_FL=Engine.simulate(null,'multipolar_regionalization').functional_levels;
+  var SG_REF={LV_inst:[82,82.4,82.8,83.1,83.5,83.8,84.1,84.4,84.7,85],LV_conn:[88,88.3,88.6,88.9,89.1,89.3,89.5,89.7,89.9,90],
+    LV_alloc:[80,80.5,81,81.4,81.9,82.3,82.7,83.1,83.6,84],LV_resil:[78,78.5,79,79.4,79.9,80.3,80.8,81.2,81.6,82],
+    LV_talent:[83,83.4,83.7,84,84.4,84.7,85,85.4,85.7,86],LV_diff:[80,80.5,80.9,81.3,81.8,82.2,82.6,83,83.5,84]};
+  var BEACONS=[{key:'regional_transshipment_hub',name:'区域中转枢纽'},{key:'institutional_opening_testbed',name:'制度开放试验田'},
+    {key:'offshore_node',name:'离岸节点'},{key:'tropical_marine_economy_base',name:'热带海洋经济基地'},
+    {key:'global_south_cooperation_platform',name:'全球南方合作平台'}];
+  var formTrack=document.getElementById('formTrack');
+  BEACONS.forEach(function(b){var row=document.createElement('div');row.className='frow';var segs='<span class="fsegs">';
+    for(var i=0;i<6;i++)segs+='<i></i>';segs+='</span>';
+    row.innerHTML='<span class="fname">'+b.name+'</span>'+segs+'<span class="fcount">0/6</span>';
+    formTrack.appendChild(row);b.row=row;b.segEls=row.querySelectorAll('.fsegs i');b.countEl=row.querySelector('.fcount');});
+  function evalForms(hn6){var best=null;
+    BEACONS.forEach(function(b){var thr=ROLE_T[b.key],met=0,rsum=0;
+      for(var d=0;d<6;d++){var ok=hn6[d]>=thr[d];if(ok)met++;b.segEls[d].classList.toggle('met',ok);rsum+=Math.max(0,Math.min(1,hn6[d]/thr[d]));}
+      b.countEl.textContent=met+'/6';var score=met*10+rsum/6;
+      if(!best||score>best.score)best={b:b,met:met,score:score};b.row.classList.remove('best');});
+    best.b.row.classList.add('best');return best;}
+  function barRows(boxId,rows,hex){var box=document.getElementById(boxId);box.innerHTML='';
+    rows.forEach(function(r){var d=document.createElement('div');d.className='drow';
+      d.innerHTML='<span class="lab">'+r.lab+'</span><span class="dbar"><i style="background:'+hex+';width:'+r.pct+'%"></i></span><span class="val">'+r.val+'</span>';
+      box.appendChild(d);});}
 
-  function textSprite(text,color,scale){
-    var c=document.createElement('canvas'),x=c.getContext('2d');
-    x.font='700 30px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    var w=Math.ceil(x.measureText(text).width)+20,h=46;c.width=w;c.height=h;
-    x=c.getContext('2d');x.font='700 30px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    x.fillStyle=color;x.textAlign='center';x.textBaseline='middle';x.fillText(text,w/2,h/2);
-    var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));
-    sp.scale.set(w/h*scale,scale,1);return sp;
-  }
+  /* ---------- 时间轴 ---------- */
+  var qp=new URLSearchParams(location.search);
+  var cur=0,playing=!qp.get('y');
+  if(qp.get('y')){var yy=parseInt(qp.get('y'));cur=Math.max(0,Math.min(30,yy-2005));playing=false;}
+  if(!playing)document.getElementById('playBtn').textContent='▶';
+  var timeEl=document.getElementById('time'),yrEl=document.getElementById('yr'),playBtn=document.getElementById('playBtn');
+  var MILE={2005:'海南中心节点很小、连线基本断裂；新加坡中心节点大，9 条线全部接通。',
+    2010:'海南贸易放量，与枢纽的关系开始增强；新加坡在 2009 回调后重回增长。',
+    2018:'海南自贸港政策启动，节点定位开始转变，洋浦约 50 万标箱。',
+    2020:'洋浦突破 100 万标箱，海南多条连线接通；新加坡在疫情下保持韧性。',
+    2025:'全岛封关，洋浦约 310 万标箱，海南中心节点明显变大，更多连线接通。'};
 
-  fetch('assets/world.geojson').then(function(r){return r.json();}).then(function(fc){
-    var pos=[];
-    function ring(pts){for(var i=0;i<pts.length-1;i++){
-      var a=ll(pts[i][0],pts[i][1],R*1.002),b=ll(pts[i+1][0],pts[i+1][1],R*1.002);
-      pos.push(a[0],a[1],a[2],b[0],b[1],b[2]);}}
-    fc.features.forEach(function(f){var g=f.geometry;
-      if(g.type==='Polygon')g.coordinates.forEach(ring);
-      else g.coordinates.forEach(function(poly){poly.forEach(ring);});});
-    var geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
-    globe.add(new THREE.LineSegments(geo,new THREE.LineBasicMaterial({color:0x7fb0e6,transparent:true,opacity:.5})));
-  });
-
-  // 光点 + 光柱（线），光柱长度随成熟度更新
-  function place(lon,lat,hex,label){
-    var p=ll(lon,lat,R*1.01);
-    var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:hex,transparent:true,
-      blending:THREE.AdditiveBlending,depthWrite:false}));
-    sp.scale.set(.66,.66,1);sp.position.set(p[0],p[1],p[2]);globe.add(sp);
-    var lineGeo=new THREE.BufferGeometry();
-    lineGeo.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0,0,1,0],3));
-    var line=new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:hex,transparent:true,opacity:.85}));
-    line.position.set(p[0],p[1],p[2]);globe.add(line);
-    var lab=textSprite(label,'#'+hex.toString(16).padStart(6,'0'),.42);
-    var lp=ll(lon,lat,R*1.16);lab.position.set(lp[0],lp[1],lp[2]);globe.add(lab);
-    return {sp:sp,line:line,lon:lon,lat:lat};
-  }
-  var HN_M=place(110,19.5,0x4FC3FF,'海南岛');
-  var SG_M=place(103.8,1.35,0xF0B35E,'新加坡');
-
-  function setMaturity(m,avg){
-    // 光点大小编码成熟度（主），短光柱做层次
-    var s=.5+(avg/100)*.95;
-    m.sp.userData.base=s;
-    var h=.12+(avg/100)*.22;
-    var base=ll(m.lon,m.lat,R*1.0),top=ll(m.lon,m.lat,R*(1+h));
-    var a=m.line.geometry.attributes.position.array;
-    a[0]=base[0];a[1]=base[1];a[2]=base[2];a[3]=top[0];a[4]=top[1];a[5]=top[2];
-    m.line.geometry.attributes.position.needsUpdate=true;
-  }
-
-  // 两地弧线
-  (function(){
-    var va=new THREE.Vector3().fromArray(ll(110,19.5,1)),vb=new THREE.Vector3().fromArray(ll(103.8,1.35,1)),pts=[];
-    for(var i=0;i<=40;i++){var t=i/40,v=new THREE.Vector3().copy(va).lerp(vb,t).normalize().multiplyScalar(R*(1+.18*Math.sin(Math.PI*t)));
-      pts.push(v.x,v.y,v.z);}
-    var geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));
-    globe.add(new THREE.Line(geo,new THREE.LineBasicMaterial({color:0x9fd0ff,transparent:true,opacity:.65})));
+  // 校准参数卡
+  (function(){var P=SNA_EDGES.params,f=P.fit,nb=P.naive_baseline,c=document.getElementById('calibCard');
+    c.innerHTML='<span class="grp"><em>距离衰减 β</em><b>'+P.beta+'</b></span>'+
+      '<span class="grp"><em>接通阈值 I*</em><b>'+P.threshold_Istar.toFixed(2)+'</b></span>'+
+      '<span class="grp"><em>过渡带</em><b>'+P.band_ln+'</b></span>'+
+      '<span class="grp"><em>准确率</em><b>'+(f.accuracy*100).toFixed(1)+'%</b></span>'+
+      '<span class="grp"><em>log-loss</em><b>'+f.logloss+'</b></span>'+
+      '<span class="grp"><em>年份误差</em><b>'+f.year_error_mean_abs+' 年</b></span>'+
+      '<span class="grp"><em>bootstrap</em><b>'+P.bootstrap_n+' 次</b></span>'+
+      '<span class="note">朴素模型（β=2）下海南-迪拜 2024 接通概率仅 '+(nb.hainan_dubai_2024_p*100).toFixed(0)+'%，与真实直航冲突；校准并按官方事件接通。距离口径：'+P.distance_metric+'。</span>';
   })();
 
-  // 拖拽
-  var drag=false,lastX=0;
-  canvas.addEventListener('pointerdown',function(e){drag=true;lastX=e.clientX;});
-  window.addEventListener('pointermove',function(e){if(!drag)return;pivot.rotation.y+=(e.clientX-lastX)*.005;lastX=e.clientX;});
-  window.addEventListener('pointerup',function(){drag=false;});
-
-  /* ---------- 五种形态 HTML ---------- */
-  var BEACONS=[
-    {key:'regional_transshipment_hub',name:'区域中转枢纽'},
-    {key:'institutional_opening_testbed',name:'制度开放试验田'},
-    {key:'offshore_node',name:'离岸节点'},
-    {key:'tropical_marine_economy_base',name:'热带海洋经济基地'},
-    {key:'global_south_cooperation_platform',name:'全球南方合作平台'}
-  ];
-  var track=document.getElementById('formTrack');
-  BEACONS.forEach(function(b){
-    var row=document.createElement('div');row.className='frow';
-    var segs='<span class="fsegs">';for(var i=0;i<6;i++)segs+='<i></i>';segs+='</span>';
-    row.innerHTML='<span class="fname">'+b.name+'</span>'+segs+'<span class="fcount">0/6</span>';
-    track.appendChild(row);b.row=row;b.segEls=row.querySelectorAll('.fsegs i');b.countEl=row.querySelector('.fcount');
-  });
-
-  function buildDims(id,hex){var box=document.getElementById(id);box.innerHTML='';
-    LV_IDS.forEach(function(id2){var row=document.createElement('div');row.className='drow';
-      row.innerHTML='<span class="lab">'+DIM_CN[id2]+'</span><span class="dbar"><i style="background:#'+hex.toString(16)+'"></i></span><span class="val">0</span>';
-      box.appendChild(row);});}
-  buildDims('hnDims',0x4FC3FF);buildDims('sgDims',0xF0B35E);
-
-  var qp=new URLSearchParams(location.search);
-  var curScen=qp.get('s')||'multipolar_regionalization',curIdx=Math.max(0,Math.min(9,parseFloat(qp.get('t'))||0)),playing=!qp.get('t');
-  if(qp.get('s')){document.querySelectorAll('#scenSeg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-s')===curScen);});}
-  if(!playing){document.getElementById('playBtn').textContent='▶';}
-  var timeEl=document.getElementById('time'),yrEl=document.getElementById('yr'),playBtn=document.getElementById('playBtn');
-
-  function evalForms(hn6){
-    var best=null;
-    BEACONS.forEach(function(b){var thr=ROLE_T[b.key],met=0,rsum=0;
-      for(var d=0;d<6;d++){var ok=hn6[d]>=thr[d];if(ok)met++;
-        b.segEls[d].classList.toggle('met',ok);
-        rsum+=Math.max(0,Math.min(1,hn6[d]/thr[d]));}
-      b.countEl.textContent=met+'/6';
-      var score=met*10+rsum/6;
-      if(!best||score>best.score)best={b:b,met:met,score:score};
-      b.row.classList.remove('best');});
-    best.b.row.classList.add('best');
-    return best;
-  }
-
-  function readout(hn6,year,best){
-    document.getElementById('roScen').textContent='情景：'+SCEN_LAB[curScen];
+  function render(){
+    var year=2005+Math.floor(cur),isHist=year<=2025;
+    yrEl.textContent=year;timeEl.value=cur;timeEl.style.setProperty('--fill',cur/30*100+'%');
+    document.getElementById('roPhase').textContent=isHist?'历史实绩':'模型推演';
     document.getElementById('roYear').textContent=year+' 年';
-    document.getElementById('roVerdict').innerHTML='这一年，海南最接近 <b>「'+best.b.name+'」</b>（6 个条件已达到 '+best.met+'/6）';
-    document.getElementById('roSub').textContent=best.met===6?'6 个条件全部达到，该形态成形。':'方向已经明确，但条件还没全部达到——下方五种形态的进度条显示每个条件卡在哪。';
-    document.getElementById('roSg').innerHTML='<b>新加坡</b>：6 个条件早已全部达到（成熟枢纽），这十年只小幅升级（全球连通 88→90、人才 83→86 等），形态基本稳定，不经历海南这种“重新定位”。';
-  }
-
-  function refresh(){
-    var hn6=sixAt(HN[curScen],curIdx),sg6=sixAt(SG_REF,curIdx);
-    var year=Math.round(2026+curIdx);yrEl.textContent=year;
-    timeEl.style.setProperty('--fill',(curIdx/9)*100+'%');timeEl.value=curIdx;
-    [[hn6,'hnDims'],[sg6,'sgDims']].forEach(function(pr){var rows=document.getElementById(pr[1]).children;
-      for(var r=0;r<6;r++){var v=pr[0][r];rows[r].querySelector('.dbar i').style.width=Math.min(100,v)+'%';
-        rows[r].querySelector('.val').textContent=v.toFixed(1);}});
+    document.getElementById('roCaveat').textContent=isHist?'真实统计，可核对':'情景推演，非确定结论';
     document.getElementById('hnMeta').textContent=year;document.getElementById('sgMeta').textContent=year;
-    setMaturity(HN_M,avg6(hn6));setMaturity(SG_M,avg6(sg6));
-    var best=evalForms(hn6);
-    readout(hn6,year,best);
+    document.getElementById('histNote').style.display=isHist?'block':'none';
+    formTrack.style.display=isHist?'none':'grid';
+
+    var hnOn=SNA.nodes.filter(function(n){return n.id!=='hainan'&&probAt('hainan',n.id,cur)>=.5;}).length;
+    var realN=SNA.nodes.filter(function(n){return realYear('hainan',n.id)!==null;}).length;
+    if(isHist){
+      document.getElementById('roVerdict').innerHTML='海南网络接通 <b>'+hnOn+'/9</b> 条（其中 '+realN+' 条有官方真实航线记录）；新加坡网络 9/9 全部接通。两张图各自独立，不排名。';
+      document.getElementById('roSub').textContent=(MILE[year]||'连线明暗＝校准后的接通概率，由真实吞吐量驱动。')+' 概率经 1000 次 bootstrap 校准，非硬判。';
+      var gdp=SNA.egoReal.hnGDP[year],trade=SNA.egoReal.hnTrade[year],hnTeu=byId.hainan.teu[year-2005];
+      barRows('hnBox',[{lab:'GDP(亿元)',pct:gdp==null?0:Math.min(100,gdp/80),val:gdp==null?'待公布':gdp.toFixed(1)},
+        {lab:'进出口(亿$)',pct:trade==null?0:Math.min(100,trade/4),val:trade==null?'待公布':trade.toFixed(1)},
+        {lab:'集装箱(万TEU)',pct:Math.min(100,hnTeu*100/3.1),val:(hnTeu*100).toFixed(0)}],'#4FC3FF');
+      var sgTeu=byId.sg.teu[year-2005];
+      barRows('sgBox',[{lab:'集装箱(万TEU)',pct:Math.min(100,sgTeu*100/45),val:(sgTeu*100).toFixed(0)},
+        {lab:'全球位次',pct:95,val:'前列枢纽'},{lab:'网络角色',pct:90,val:'中转核心'}],'#F0B35E');
+    } else {
+      var fi=year-2026;
+      var hn6=LV_IDS.map(function(id){return HN_FL[id][fi];});
+      var sg6=LV_IDS.map(function(id){return SG_REF[id][fi];});
+      var best=evalForms(hn6);
+      document.getElementById('roVerdict').innerHTML='基准情景下，海南最接近 <b>「'+best.b.name+'」</b>（条件达到 '+best.met+'/6），网络接通 '+hnOn+'/9。';
+      document.getElementById('roSub').textContent=(best.met===6?'六个条件全部达到，该形态成形。':'方向明确但条件未全部达到，下方进度条显示每个条件卡在哪。')+' 低置信度边（如鹿特丹）以概率明暗呈现，不硬判。';
+      barRows('hnBox',LV_IDS.map(function(id,i){var v=hn6[i];return {lab:DIM_CN[id],pct:Math.min(100,v),val:v.toFixed(1)};}),'#4FC3FF');
+      barRows('sgBox',LV_IDS.map(function(id,i){var v=sg6[i];return {lab:DIM_CN[id],pct:Math.min(100,v),val:v.toFixed(1)};}),'#F0B35E');
+    }
+    hnNet.draw(cur);sgNet.draw(cur);
   }
 
-  document.getElementById('scenSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
-    document.querySelectorAll('#scenSeg button').forEach(function(x){x.classList.remove('on');});
-    b.classList.add('on');curScen=b.getAttribute('data-s');refresh();});
-  timeEl.addEventListener('input',function(){curIdx=parseFloat(timeEl.value);refresh();});
+  timeEl.addEventListener('input',function(){cur=parseFloat(timeEl.value);render();});
   playBtn.addEventListener('click',function(){playing=!playing;playBtn.textContent=playing?'❚❚':'▶';});
 
-  var clock=new THREE.Clock();
-  function animate(){requestAnimationFrame(animate);var dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
-    if(playing){curIdx+=dt*.55;if(curIdx>9)curIdx=0;refresh();}
-    if(!drag)pivot.rotation.y+=dt*.08;
-    var ps=1+Math.sin(t*2)*.1;
-    [HN_M,SG_M].forEach(function(m){var b=m.sp.userData.base||.6;m.sp.scale.set(b*ps,b*ps,1);});
-    renderer.render(scene,camera);}
-  refresh();animate();
+  var last=performance.now();
+  function loop(now){requestAnimationFrame(loop);var dt=Math.min(.05,(now-last)/1000);last=now;
+    if(playing){cur+=dt*.5;if(cur>30)cur=0;render();}else{hnNet.draw(cur);sgNet.draw(cur);}}
+  render();requestAnimationFrame(loop);
 
-  window.addEventListener('resize',function(){applyNarrow();var w=canvas.clientWidth;renderer.setSize(w,GH,false);
-    camera.aspect=w/GH;camera.updateProjectionMatrix();});
+  window.addEventListener('resize',function(){applyNarrow();mobile=window.innerWidth<=880;
+    hnNet.resize();sgNet.resize();render();});
 })();
 </script>
 </body>
