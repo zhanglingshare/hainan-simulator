@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#070D18">
-<title>海南 VS 新加坡 社会网络关系演变图（2005–2035）</title>
+<title>海南 VS 新加坡 两地关系演变图（2005–2035）</title>
 <style>
 :root{
   --bg:#070D18;--ink:#E8F1FB;--ink2:#A9C0D8;--ink3:#6E88A3;--ink4:#465E77;
@@ -159,18 +159,18 @@ body.narrow .spark canvas{height:50px}
 </head>
 <body>
 <header class="bar">
-  <div class="brand"><span class="mark">琼</span><span class="nm"><b>海南演变风洞</b><i>SNA NETWORK EVOLUTION</i></span></div>
+  <div class="brand"><span class="mark">琼</span><span class="nm"><b>海南演变风洞</b><i>NETWORK EVOLUTION</i></span></div>
   <nav class="nav">
     <a class="on" href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a>
     <a href="intelligence.html">02 情报</a><a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
-    <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a><a href="factors.html">07 因素</a>
+    <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 推演</a><a href="factors.html">07 因素</a>
     <a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
   </nav>
   <span class="stamp">2005–2035</span>
 </header>
 
 <div class="wrap">
-  <div class="kick">社会网络分析 SNA · 两张分开的关系演变图</div>
+  <div class="kick">两地伙伴关系网络 · 两张分开的演变图</div>
   <h1>海南与新加坡，各自的网络长成什么样</h1>
   <p class="sub">两张图分开放：左边是海南岛自己的网络，右边是新加坡自己的网络。节点大小＝真实港口吞吐量，实线＝连线接通、虚线＝断裂。同一个时间轴一起演变，看 2005–2025 网络如何实际变化，再看 2026–2035 可能演化出的形态。不排名、不论高低，只看各自网络位置与关系结构。</p>
   <div class="credit"><b>张凌博士</b> · 公开数据 · <b>开源社区项目</b></div>
@@ -191,7 +191,7 @@ body.narrow .spark canvas{height:50px}
       <span class="nstat" id="hnStat"></span>
       <canvas id="hnNet"></canvas>
       <div class="spark">
-        <div class="spark-h">网络密度（9 条连线平均接通度）<b id="hnSparkV"></b></div>
+        <div class="spark-h">关系紧密度（9 条连线平均接通度）<b id="hnSparkV"></b></div>
         <canvas id="hnSpark"></canvas>
       </div>
     </div>
@@ -259,8 +259,8 @@ body.narrow .spark canvas{height:50px}
     <summary>数据与口径（点击展开）</summary>
     <div>
       两张图各自以本地为中心，节点大小＝各港口当年集装箱吞吐量（百万 TEU），核心节点含官方实测，参照节点部分年份为公开锚点线性插值。<br>
-      连线为<b>校准后的引力模型</b> I_ij＝sqrt(teu_i)·sqrt(teu_j)/d_ij^β（β 经真实航线标签校准为 <b>0.07</b>，距离为测地公里），再用 logistic 平滑输出 0–1 的接通概率（1000 次 bootstrap，固定种子）。<b>节点位置由接通概率决定</b>：未接通的伙伴漂在外圈暗小点，接通后被连线一环环拉向中心并随吞吐量成长——这就是网络生长的过程。有官方真实航线记录的 5 条边（新加坡/香港/深圳/巴生/迪拜）从真实开通年起概率强制为 1，并在节点加白色外圈；其余为模型估计，低置信度边（如鹿特丹）以明暗呈现、不硬判。新加坡作为成熟枢纽，其连线 2005 年起全部接通。<br>
-      2005–2025 为真实统计（海南 GDP/贸易来自中经数据与统计公报，新加坡 TEU 来自 data.gov.sg，香港来自 data.gov.hk）；2026–2035 为模型推演，六维门槛来自 ROLE_THRESHOLDS，默认多极区域化情景。本页为 2D Canvas 绘制，不杜撰。
+      连线依据两地贸易体量与地理距离估算，并用公开的真实航线记录做过比对校正：有官方开通记录的 5 条（新加坡/香港/深圳/巴生/迪拜）从真实开通年起显示，节点加白色外圈；其余为估算，把握较小的（如鹿特丹）以明暗呈现、不硬判。<b>节点位置由关系强度决定</b>：未接通的伙伴漂在外圈暗小点，接通后被连线一环环拉向中心并随吞吐量成长——这就是网络生长的过程。新加坡作为成熟枢纽，其连线 2005 年起全部接通。<br>
+      2005–2025 为真实统计（海南 GDP/贸易来自统计公报与公开数据库，新加坡与香港货运量来自当地公开数据）；2026–2035 为推演，默认多极区域化情景。不排名、不杜撰。
     </div>
   </details>
 </div>
@@ -275,7 +275,7 @@ body.narrow .spark canvas{height:50px}
   applyNarrow();
   var byId={};SNA.nodes.forEach(function(n){byId[n.id]=n;});
 
-  /* ---------- 连线：读取火山引擎校准后的接通概率 ---------- */
+  /* ---------- 连线 ---------- */
   function teuAt(id,t){t=Math.max(0,Math.min(30,t||0));var i=Math.floor(t),f=t-i;return byId[id].teu[i]+(byId[id].teu[Math.min(i+1,30)]-byId[id].teu[i])*f;}
   function probAt(ego,alter,t){var arr=SNA_EDGES.probs[ego][alter],i=Math.floor(t),f=t-i;
     if(i>=30)return arr[30];return arr[i]+(arr[i+1]-arr[i])*f;}
@@ -363,7 +363,7 @@ body.narrow .spark canvas{height:50px}
 
       var on=ring.filter(function(r){return probAt(ego,r.id,t)>=.5;}).length;
       var dens=ring.reduce(function(s,r){return s+probAt(ego,r.id,t);},0)/9;
-      document.getElementById(statId).textContent='节点 '+on+'/9 · 密度 '+(dens*100).toFixed(0)+'% · '+teuAt(ego,t).toFixed(1)+' M TEU';
+      document.getElementById(statId).textContent='节点 '+on+'/9 · 紧密度 '+(dens*100).toFixed(0)+'% · '+teuAt(ego,t).toFixed(1)+' M TEU';
     }
     resize();return {draw:draw,resize:resize};
   }
@@ -466,16 +466,14 @@ body.narrow .spark canvas{height:50px}
     2020:'洋浦突破 100 万标箱，海南多条连线接通；新加坡在疫情下保持韧性。',
     2025:'全岛封关，洋浦约 310 万标箱，海南中心节点明显变大，更多连线接通。'};
 
-  // 校准参数卡
-  (function(){var P=SNA_EDGES.params,f=P.fit,nb=P.naive_baseline,c=document.getElementById('calibCard');
-    c.innerHTML='<span class="grp"><em>距离衰减 β</em><b>'+P.beta+'</b></span>'+
-      '<span class="grp"><em>接通阈值 I*</em><b>'+P.threshold_Istar.toFixed(2)+'</b></span>'+
-      '<span class="grp"><em>过渡带</em><b>'+P.band_ln+'</b></span>'+
-      '<span class="grp"><em>准确率</em><b>'+(f.accuracy*100).toFixed(1)+'%</b></span>'+
-      '<span class="grp"><em>log-loss</em><b>'+f.logloss+'</b></span>'+
-      '<span class="grp"><em>年份误差</em><b>'+f.year_error_mean_abs+' 年</b></span>'+
-      '<span class="grp"><em>bootstrap</em><b>'+P.bootstrap_n+' 次</b></span>'+
-      '<span class="note">朴素模型（β=2）下海南-迪拜 2024 接通概率仅 '+(nb.hainan_dubai_2024_p*100).toFixed(0)+'%，与真实直航冲突；校准并按官方事件接通。距离口径：'+P.distance_metric+'。</span>';
+  // 可信度说明（只讲口径与边界，不展示参数）
+  (function(){
+    var c=document.getElementById('calibCard');
+    c.innerHTML='<span class="grp"><em>历史段</em><b>真实统计</b></span>'+
+      '<span class="grp"><em>推演段</em><b>情景，非结论</b></span>'+
+      '<span class="grp"><em>对表</em><b>5 条官方航线</b></span>'+
+      '<span class="grp"><em>低把握边</em><b>不硬判</b></span>'+
+      '<span class="note">5 条有官方开通记录的航线，图上年份与官方一致；其余连线为估算，把握较小的以明暗呈现、不当作结论。2005–2025 为真实统计，可核对；2026–2035 为推演，不是预测。</span>';
   })();
 
   function render(){
@@ -496,7 +494,7 @@ body.narrow .spark canvas{height:50px}
       var prevOn=SNA.nodes.filter(function(n){return n.id!=='hainan'&&probAt('hainan',n.id,cur-.5)>=.5;}).length;
       var delta=hnOn-prevOn;
       var dTxt=delta>0?('，这一年新增 <b>'+delta+'</b> 个节点被拉进网络'):(delta<0?('，有 <b>'+(-delta)+'</b> 条断开退到外圈'):'');
-      document.getElementById('roVerdict').innerHTML='海南节点 <b>'+hnOn+'/9</b>、网络密度 <b>'+dens+'%</b>'+dTxt+'；新加坡 9/9 早已长满，只在自己变重。';
+      document.getElementById('roVerdict').innerHTML='海南节点 <b>'+hnOn+'/9</b>、关系紧密度 <b>'+dens+'%</b>'+dTxt+'；新加坡 9/9 早已长满，只在自己变重。';
       document.getElementById('roSub').textContent=(MILE[year]||'节点被连线一环环拉向中心，越靠内＝关系越硬。')+' 两张图各自独立，不排名。';
       var gdp=SNA.egoReal.hnGDP[year],trade=SNA.egoReal.hnTrade[year],hnTeu=byId.hainan.teu[year-2005];
       barRows('hnBox',[{lab:'GDP(亿元)',pct:gdp==null?0:Math.min(100,gdp/80),val:gdp==null?'待公布':gdp.toFixed(1)},
@@ -510,7 +508,7 @@ body.narrow .spark canvas{height:50px}
       var hn6=LV_IDS.map(function(id){return HN_FL[id][fi];});
       var sg6=LV_IDS.map(function(id){return SG_REF[id][fi];});
       var best=evalForms(hn6);
-      document.getElementById('roVerdict').innerHTML='基准情景下，海南会收敛到 <b>「'+best.b.name+'」</b> 这一形态（六条件达 '+best.met+'/6），网络节点 '+hnOn+'/9、密度 '+dens+'%。';
+      document.getElementById('roVerdict').innerHTML='基准情景下，海南会收敛到 <b>「'+best.b.name+'」</b> 这一形态（六条件达 '+best.met+'/6），网络节点 '+hnOn+'/9、紧密度 '+dens+'%。';
       document.getElementById('roSub').textContent=(best.met===6?'六个条件全部达到，该形态成形。':'方向明确但条件没全达标——这正是它可能长成的样子，不是必然。')+' 低置信度边（如鹿特丹）以明暗呈现，不硬判。';
       barRows('hnBox',LV_IDS.map(function(id,i){var v=hn6[i];return {lab:DIM_CN[id],pct:Math.min(100,v),val:v.toFixed(1)};}),'#4FC3FF');
       barRows('sgBox',LV_IDS.map(function(id,i){var v=sg6[i];return {lab:DIM_CN[id],pct:Math.min(100,v),val:v.toFixed(1)};}),'#F0B35E');
