@@ -6,25 +6,64 @@
 <title>蒙特卡洛 · 海南演变风洞</title>
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/charts.css">
+<link rel="stylesheet" href="assets/controls.css">
 </head>
 <body>
 <header class="site-header"><div class="header-inner">
   <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
   <nav class="desktop-nav">
-    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a><a href="intelligence.html">02 情报</a>
     <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
     <a href="dynamics.html">05 动力学</a><a class="current" href="montecarlo.html">06 蒙特卡洛</a>
     <a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
   </nav>
   <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
 </div></header>
-<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="current" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="current" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
 
-<main class="discovery-wrap">
+<main class="discovery-wrap report-only" id="root">
   <div class="eyebrow">模块四 · 蒙特卡洛（48,000 次，10 不确定源）</div>
   <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">把不确定性，跑出形状</h1>
   <p class="muted">10 个不确定源（初始三角/杠杆 Beta/速率乘子/侵蚀/回路增益/延迟/情景/校准/SEM 后验/年度冲击），随机冲击 std=2.5。</p>
 
+  <div class="sandbox-head" style="margin-top:16px">
+    <div class="mode-bar">
+      <button data-m="report" class="active">静态报告</button>
+      <button data-m="sandbox">调参沙盘</button>
+    </div>
+    <span class="hint">滑杆实时跑 MC（Web Worker 不卡页面）；前端为独立种子近似，精确值以 v3 为准</span>
+  </div>
+
+  <div class="sandbox-block">
+    <div class="sandbox">
+      <div class="sandbox-head">
+        <h2>蒙特卡洛调参台</h2><span class="hint">改冲击/抽样 → 后台重跑；改门槛/k → 即时重算</span>
+        <div class="spacer"></div>
+        <div class="status-pill" id="mc-status"><span class="blip"></span><span id="mc-status-txt">就绪</span></div>
+      </div>
+      <div class="sandbox-head" style="margin-bottom:14px"><div class="seg-group" id="mc-scen"></div></div>
+      <div class="sandbox-grid">
+        <div>
+          <div id="mc-run-sliders"></div>
+          <div class="progress-track" id="mc-progwrap" style="display:none"><i id="mc-prog" style="width:0"></i></div>
+        </div>
+        <div>
+          <div id="mc-thr-sliders"></div>
+          <div class="slider-row" style="margin-top:14px">
+            <div class="sr-top"><label>k-of-n 规则</label></div>
+            <div id="mc-k"></div>
+          </div>
+        </div>
+      </div>
+      <div class="live-grid">
+        <div class="live-card"><h3>2035 综合分实时分布</h3><div id="mc-hist"></div></div>
+        <div class="live-card"><h3>角色 AND 达成概率</h3><div id="mc-role"></div></div>
+      </div>
+      <div class="live-card" style="margin-top:16px"><h3>当前 k-of-n 达标概率</h3><div id="mc-kprob"></div></div>
+    </div>
+  </div>
+
+  <div class="report-block">
   <section class="section">
     <div class="kpi-row">
       <div class="kpi"><div class="lab">总抽样</div><div class="val blue">48,000</div><div class="sub">每情景 12,000</div></div>
@@ -66,10 +105,86 @@
     <div class="svg-box"><svg id="conv" viewBox="0 0 900 260" style="width:100%;height:auto"></svg></div>
   </section>
 
-  <footer class="sources"><div class="foot-note">来源：v3/mc/mc_results.json、fan_bands.csv、role_probs.csv、mc_convergence.csv。概率为当前门槛下的模型估计。</div></footer>
+  </div><!-- /report-block -->
+  <footer class="sources"><div class="foot-note">来源：v3/mc/mc_results.json、fan_bands.csv、role_probs.csv、mc_convergence.csv。静态报告为权威模型估计；调参沙盘为前端独立种子近似，精确值以 Python v3 为准。</div></footer>
 </main>
 
 <script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/ui.js"></script>
+<script>
+/* ===== 蒙特卡洛调参沙盘 ===== */
+(function(){
+  var root=document.getElementById("root");
+  function setMode(m){
+    document.querySelectorAll(".mode-bar button").forEach(function(x){
+      x.classList.toggle("active",x.dataset.m===m);});
+    root.classList.toggle("is-sandbox",m==="sandbox");
+  }
+  document.querySelectorAll(".mode-bar button").forEach(function(b){
+    b.addEventListener("click",function(){setMode(b.dataset.m);});});
+  if(new URLSearchParams(location.search).get("mode")==="sandbox") setMode("sandbox");
+
+  var SCENS=[{value:"multipolar_regionalization",label:"多极区域化"},
+    {value:"bloc_fragmentation",label:"阵营碎片化"},
+    {value:"globalization_rebound",label:"全球化回潮"},
+    {value:"high_intensity_conflict",label:"高烈度冲突"}];
+  var scen=UI.segment(document.getElementById("mc-scen"),SCENS,function(v){scen=v;run();},"multipolar_regionalization");
+
+  var rs=document.getElementById("mc-run-sliders");
+  var sStd=UI.slider(rs,{label:"随机冲击 std",sub:"外层年度冲击宽度",min:0,max:5,step:.1,value:2.5,format:function(v){return v.toFixed(1);}});
+  var sN=UI.slider(rs,{label:"MC 抽样次数",sub:"前端精简版（权威为12000/情景）",min:500,max:6000,step:500,value:2000,color:"teal",format:function(v){return v.toFixed(0);}});
+  sStd.el.querySelector("input").addEventListener("change",run);
+  sN.el.querySelector("input").addEventListener("change",run);
+
+  var ts=document.getElementById("mc-thr-sliders");
+  var sShift=UI.slider(ts,{label:"门槛整体偏移",sub:"负值=下调门槛（仅实验，不改权威结论）",min:-15,max:5,step:1,value:0,color:"coral",format:function(v){return (v>0?"+":"")+v;}});
+  sShift.el.querySelector("input").addEventListener("input",recomputeFromDraws);
+  var kstep=UI.stepper(document.getElementById("mc-k"),{min:1,max:6,value:6,onChange:recomputeFromDraws});
+
+  var status=document.getElementById("mc-status"),statusTxt=document.getElementById("mc-status-txt");
+  var progWrap=document.getElementById("mc-progwrap"),prog=document.getElementById("mc-prog");
+  var worker=null,cached=null;
+
+  function run(){
+    if(worker)worker.terminate();
+    status.classList.add("busy");statusTxt.textContent="计算中";
+    progWrap.style.display="block";prog.style.width="0";
+    worker=UI.workerRun({sid:scen.get(),n:sN.get(),shockStd:sStd.get(),seed:20261108},{
+      onProgress:function(d){prog.style.width=(d.done/d.total*100)+"%";},
+      onDone:function(r){
+        cached=r;status.classList.remove("busy");statusTxt.textContent="完成（"+r.n+" 次）";
+        progWrap.style.display="none";recomputeFromDraws();
+      },
+      onError:function(m){status.classList.remove("busy");statusTxt.textContent="出错";}
+    });
+  }
+  var ROLE_LAB={regional_transshipment_hub:"区域中转枢纽",institutional_opening_testbed:"制度开放试验田",
+    offshore_node:"离岸节点",tropical_marine_economy_base:"热带海洋经济基地",global_south_cooperation_platform:"全球南方合作平台"};
+
+  function recomputeFromDraws(){
+    if(!cached)return;
+    var shift=sShift.get();
+    var shifted=UI.shiftThr(Engine.constants.ROLE_THRESHOLDS,shift);
+    var comps=cached.draws.map(function(d){return d.reduce(function(a,b){return a+b;},0)/6;});
+    var lo=Math.min.apply(null,comps),hi=Math.max.apply(null,comps);
+    UI.histogram(document.getElementById("mc-hist"),comps,{min:lo,max:hi,bins:24});
+    var rp=UI.roleProbs(cached.draws,shifted);
+    var html='<table><tbody>'+Object.keys(ROLE_LAB).map(function(r){
+      return '<tr><td>'+ROLE_LAB[r]+'</td><td class="num" style="font-weight:800;color:#1369eb">'+(rp[r]*100).toFixed(2)+'%</td></tr>';
+    }).join("")+'</tbody></table>';
+    document.getElementById("mc-role").innerHTML=html;
+    var baseThr=shifted.regional_transshipment_hub;
+    var kp=UI.kProbs(cached.draws,baseThr);
+    var k=kstep.get();
+    var bars='<div class="bar" style="height:14px;margin-bottom:10px"><i class="blue" style="width:'+(kp[k]*100)+'%"></i></div>';
+    bars+='<div class="legend">'+Object.keys(kp).map(function(kk){return '<span><span class="dot '+(kk==k?'blue':'teal')+'"></span>'+kk+'/6：'+(kp[kk]*100).toFixed(1)+'%</span>';}).join("")+'</div>';
+    document.getElementById("mc-kprob").innerHTML=bars;
+  }
+  run();
+})();
+</script>
+
 <script>
 /* 直方图：用正态近似形态（中位37.75 sd~2.23），非逐样本 */
 (function(){

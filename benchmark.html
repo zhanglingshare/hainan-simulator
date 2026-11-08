@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>对比 · 海南演变风洞</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/charts.css">
+<link rel="stylesheet" href="assets/controls.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
+  <nav class="desktop-nav">
+    <a href="index.html">01 总览</a><a href="fundamentals.html">基本面</a>
+    <a href="strategy.html">战略</a><a class="current" href="benchmark.html">对比</a>
+    <a href="intelligence.html">02 情报</a><a href="measurement.html">03 测量</a>
+    <a href="sem.html">04 路径</a><a href="dynamics.html">05 动力学</a>
+    <a href="montecarlo.html">06 蒙特卡洛</a><a href="factors.html">07 因素</a>
+    <a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
+  </nav>
+  <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
+</div></header>
+<nav class="mobile-nav"><a href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a class="current" href="benchmark.html">对比</a><a href="intelligence.html">02 情报</a><a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a><a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a><a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a></nav>
+
+<main class="discovery-wrap">
+  <div class="eyebrow">事实层 · 横向对比（模型刻度 + 第三方指数）</div>
+  <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">差距在哪、速度如何</h1>
+  <p class="muted">海南在 11 类全球指数中均无单独排名，故雷达用<b>模型六维刻度</b>、指数热力用<b>新加坡 vs 中国</b>；新加坡雷达为成熟枢纽<b>参照刻度</b>，非实测点估计。</p>
+
+  <section class="section">
+    <div class="live-grid">
+      <div class="svg-box"><h2 style="font-size:16px;font-weight:850;margin-bottom:6px">六维雷达：海南 2026 → 2035 vs 标杆</h2><div id="radar"></div></div>
+      <div class="svg-box">
+        <h2 style="font-size:16px;font-weight:850;margin-bottom:10px">读图</h2>
+        <p class="muted" style="font-size:13px;line-height:1.9">海南 2026 起点最低的是<b>资源配置（22）</b>与人才（28）；到 2035 p50 六维整体抬升但仍在 45 分以下，与成熟枢纽标杆（80+）存在量级差距。差距最大的是<b>制度软环境与定价权</b>，而非物理吞吐量。</p>
+        <div class="legend" style="margin-top:14px">
+          <span><span class="dot coral"></span>海南 2026</span>
+          <span><span class="dot blue"></span>海南 2035 p50</span>
+          <span><span class="dot teal"></span>新加坡标杆参照</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>第三方指数热力</h2><span>新加坡 vs 中国（颜色越深越靠前）</span></div>
+    <div class="table-card"><div class="table-wrap">
+      <table class="data-table" id="heatmap">
+        <thead><tr><th>指数</th><th>新加坡</th><th>中国</th><th>口径 / 年份</th></tr></thead>
+        <tbody id="heat-body"></tbody>
+      </table>
+    </div></div>
+    <p class="muted" style="font-size:11.5px;margin-top:10px">GFCI 为城市级（中国取上海/深圳代理）；WEF GCR 2019 后停更、DB→B-Ready 口径断裂，跨期不可直接比较。</p>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>物理规模差距</h2><span>同口径绝对值对比（最新可得）</span></div>
+    <div class="table-card" id="gap-cards"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><h2>十年竞速</h2><span>综合分 p50 轨迹 vs 标杆区间</span></div>
+    <div class="svg-box"><div id="race"></div></div>
+  </section>
+
+  <footer class="sources"><div class="foot-note">来源：evidence/indices.md（32 条）、hainan.md、singapore.md；模型六维取自 v3/dynamics/baseline_trajectories.json。新加坡雷达为参照刻度，第三方排名均标注口径与年份。</div></footer>
+</main>
+
+<script src="assets/data.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/ui.js"></script>
+<script>
+/* ===== 雷达（6 轴 SVG） ===== */
+(function(){
+  var dims=[["LV_inst","规则与制度"],["LV_conn","全球连通"],["LV_alloc","资源配置"],
+    ["LV_resil","战略韧性"],["LV_talent","人才议程"],["LV_diff","模式示范"]];
+  var hn2026=[38,32,22,42,28,34.93];
+  // 2035 p50 取多极 functional 末值
+  var hn2035=[41.22,44.83,27.84,43.62,29.66,38.40];
+  var bench=[84,90,85,80,82,80]; // 成熟枢纽参照刻度（示意）
+  var W=520,H=460,cx=260,cy=230,r=160;
+  function ang(i){return -Math.PI/2+i*Math.PI/3;}
+  function pt(i,v){var rr=v/100*r;return [cx+Math.cos(ang(i))*rr,cy+Math.sin(ang(i))*rr];}
+  function poly(vals,fill,stroke,wd){
+    var p=vals.map(function(v,i){return pt(i,v)[0].toFixed(1)+","+pt(i,v)[1].toFixed(1);}).join(" ");
+    return '<polygon points="'+p+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+wd+'"/>';
+  }
+  var s="";
+  // 网格环
+  for(var ring=1;ring<=4;ring++){
+    var rv=ring*25;
+    var gp=Array.apply(null,Array(6)).map(function(_,i){return pt(i,rv)[0].toFixed(1)+","+pt(i,rv)[1].toFixed(1);}).join(" ");
+    s+='<polygon points="'+gp+'" fill="none" stroke="#eef2f7"/>';
+  }
+  // 轴
+  dims.forEach(function(d,i){
+    var p=pt(i,100);
+    s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="#e6ebf2"/>';
+    var lp=pt(i,112);
+    s+='<text x="'+lp[0]+'" y="'+(lp[1]+4)+'" text-anchor="middle" font-size="12" font-weight="750" fill="#3c5069">'+d[1]+'</text>';
+  });
+  s+=poly(bench,"rgba(35,163,167,.10)","#23a3a7",2);
+  s+=poly(hn2026,"rgba(237,102,94,.14)","#ed665e",2);
+  s+=poly(hn2035,"rgba(19,105,235,.16)","#1369eb",2.4);
+  document.getElementById("radar").innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg>';
+})();
+
+/* ===== 热力表 ===== */
+(function(){
+  var rows=[
+    ["DHL 全球连通","#1","#81","GCI 2026","rank"],
+    ["GFCI 金融中心","#4 · 763","上海#8/深圳#9","GFCI38 · 2025","rank"],
+    ["WEF 竞争力","#1 · 84.8","#28 · 73.9","GCR 2019（停更）","rank"],
+    ["物流绩效 LPI","#1 · 4.3","3.70","2023","score"],
+    ["人类发展 HDI","0.946","0.797","HDR2025","score"],
+    ["清廉 CPI","#3 · 84","#76 · 43","2024","rank"],
+    ["创新 GII","#4 · 61.2","#11","2024","rank"],
+    ["经济自由 IEF","#1 · 84.1","~#170 · 48.3","2025","rank"],
+    ["网络就绪 NRI","#2 · 76.94","#17 · 65.74","2024","rank"]
+  ];
+  function heat(cell,type,good){
+    var col=good?"#1369eb":"#9fb4cc";
+    return '<td style="font-weight:800;color:'+(good?"#1369eb":"#7c8da1")+'">'+cell+'</td>';
+  }
+  document.getElementById("heat-body").innerHTML=rows.map(function(r){
+    return '<tr><td><b>'+r[0]+'</b></td>'+heat(r[1],r[4],true)+heat(r[2],r[4],false)+'<td class="muted" style="font-size:11.5px">'+r[3]+'</td></tr>';
+  }).join("");
+})();
+
+/* ===== 物理规模差距卡 ===== */
+(function(){
+  var gaps=[
+    ["集装箱吞吐量","310 万标箱","4466 万标箱","洋浦2025 / 新加坡2025",14.4],
+    ["船用燃料加注","—","5677 万吨","新加坡全球最大加油港",null],
+    ["机场旅客","—","6998 万人次","樟宜2025",null],
+    ["资产管理 AUM","—","S$6.7 万亿","新加坡2025",null],
+    ["商品贸易总额","2776.51 亿元","S$1285.9B","2024",null]
+  ];
+  var html='<div class="grid g3">'+gaps.map(function(g){
+    var ratio=g[4]?('<div class="bar" style="margin-top:10px"><i class="coral" style="width:'+Math.min(100,100/g[4]).toFixed(1)+'%"></i></div><div class="muted" style="font-size:11px;margin-top:6px">规模约为新加坡 '+(100/g[4]).toFixed(1)+'%</div>'):
+      '<div class="muted" style="font-size:11.5px;margin-top:10px">海南无同口径公开值</div>';
+    return '<div class="event-card"><h3 style="font-size:13px">'+g[0]+'</h3>'+
+      '<div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px"><span class="muted">海南</span><b>'+g[1]+'</b></div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:12.5px"><span class="muted">新加坡</span><b style="color:#1369eb">'+g[2]+'</b></div>'+
+      ratio+'<div class="muted" style="font-size:10.5px;margin-top:8px">'+g[3]+'</div></div>';
+  }).join("")+'</div>';
+  document.getElementById("gap-cards").innerHTML=html;
+})();
+
+/* ===== 十年竞速 ===== */
+(function(){
+  var years=[2026,2027,2028,2029,2030,2031,2032,2033,2034,2035];
+  // 海南综合 p50 = 六维每年均值（多极）
+  var fl=Engine.simulate(null,"multipolar_regionalization",null).functional_levels;
+  var comp=years.map(function(_,i){
+    var sum=0,keys=Object.keys(fl);
+    keys.forEach(function(k){sum+=fl[k][i];});
+    return sum/keys.length;
+  });
+  UI.lineChart(document.getElementById("race"),[
+    {name:"海南综合 p50",color:"#1369eb",values:comp,width:2.6},
+    {name:"标杆下沿（参照80）",color:"#23a3a7",values:years.map(function(){return 80;}),dash:"6 4",width:1.8}
+  ],{xLabels:years,yMin:0,yMax:100});
+})();
+</script>
+</body></html>

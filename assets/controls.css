@@ -1,0 +1,89 @@
+/* 调参控件：分段开关 / 滑杆 / 沙盘 / 实时图 */
+
+/* 模式分段控件 */
+.mode-bar{display:inline-flex;background:#eef2f7;border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px}
+.mode-bar button{border:0;background:transparent;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:750;color:#6b7c90;white-space:nowrap}
+.mode-bar button.active{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(19,105,235,.25)}
+.mode-bar button:disabled{opacity:.45;cursor:not-allowed}
+
+/* 沙盘面板 */
+.sandbox{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);margin:18px 0}
+.sandbox-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sandbox-head h2{font-size:19px;font-weight:900;letter-spacing:-.03em}
+.sandbox-head .hint{font-size:11px;color:#8a97a7}
+.sandbox-head .spacer{margin-left:auto}
+.sandbox-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 34px}
+.sandbox-grid.single{grid-template-columns:1fr}
+
+/* 滑杆行 */
+.slider-row{display:flex;flex-direction:column;gap:9px}
+.slider-row .sr-top{display:flex;align-items:baseline;gap:10px}
+.slider-row label{font-size:13px;font-weight:750;color:#33455c}
+.slider-row .sr-val{margin-left:auto;font-size:14px;font-weight:850;color:var(--blue);font-variant-numeric:tabular-nums;white-space:nowrap}
+.slider-row .sr-sub{font-size:10.5px;color:#93a0b1;margin-top:-5px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;
+  background:linear-gradient(90deg,var(--blue) var(--fill,50%),#e8edf4 var(--fill,50%));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+  background:#fff;border:3px solid var(--blue);box-shadow:0 2px 6px rgba(19,105,235,.3);cursor:grab;transition:transform .12s}
+input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--blue);
+  box-shadow:0 2px 6px rgba(19,105,235,.3);cursor:grab}
+input[type=range].coral{background:linear-gradient(90deg,var(--coral) var(--fill,50%),#e8edf4 var(--fill,50%))}
+input[type=range].coral::-webkit-slider-thumb{border-color:var(--coral);box-shadow:0 2px 6px rgba(237,102,94,.3)}
+input[type=range].teal{background:linear-gradient(90deg,var(--teal) var(--fill,50%),#e8edf4 var(--fill,50%))}
+input[type=range].teal::-webkit-slider-thumb{border-color:var(--teal);box-shadow:0 2px 6px rgba(35,163,167,.3)}
+
+/* 步进器 */
+.stepper{display:inline-flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stepper button{width:38px;height:36px;border:0;background:#f7f9fc;font-size:18px;font-weight:800;color:var(--blue)}
+.stepper button:hover{background:#eef4ff}
+.stepper .st-val{min-width:58px;text-align:center;font-size:15px;font-weight:850;font-variant-numeric:tabular-nums}
+
+/* 情景按钮组 */
+.seg-group{display:flex;gap:8px;flex-wrap:wrap}
+.seg-group button{padding:9px 15px;border:1px solid #d4dfed;border-radius:9px;background:#fff;font-size:12.5px;font-weight:750;color:#3c5069}
+.seg-group button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.seg-group button:hover:not(.active){background:#f0f6ff}
+
+/* 工具按钮 */
+.btn-row{display:flex;gap:9px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;border:1px solid #d4dfed;
+  background:#fff;font-size:12.5px;font-weight:750;color:#3c5069;cursor:pointer}
+.btn:hover{background:#f0f6ff}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:#0b5bd2}
+.btn.coral{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* 实时结果布局 */
+.live-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;margin-top:20px}
+.live-card{background:#f8fafd;border:1px solid var(--line);border-radius:13px;padding:16px}
+.live-card h3{font-size:13px;font-weight:850;color:#33455c;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.live-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.live-kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px}
+.live-kpi .lk{font-size:10.5px;color:#8a97a7}
+.live-kpi .lv{font-size:22px;font-weight:850;letter-spacing:-.03em;margin-top:2px;font-variant-numeric:tabular-nums}
+.live-kpi .lv.blue{color:var(--blue)}.live-kpi .lv.coral{color:var(--coral)}.live-kpi .lv.teal{color:var(--teal)}
+
+/* 计算状态 */
+.status-pill{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:750;color:#6b7c90}
+.status-pill .blip{width:8px;height:8px;border-radius:50%;background:var(--teal)}
+.status-pill.busy .blip{background:#e8a33d;animation:pulse 1s infinite}
+.status-pill.busy{color:#b9851f}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.progress-track{height:6px;border-radius:6px;background:#e8edf4;overflow:hidden;margin-top:8px}
+.progress-track i{display:block;height:100%;background:var(--blue);transition:width .2s}
+
+/* 切换显隐 */
+.report-only.is-sandbox .report-block{display:none}
+.sandbox-block{display:none}
+.report-only.is-sandbox .sandbox-block{display:block}
+
+/* 分配条 */
+.alloc-bar{display:flex;height:30px;border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+.alloc-bar i{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:850;color:#fff;white-space:nowrap;transition:flex .2s}
+
+@media(max-width:980px){
+  .sandbox-grid{grid-template-columns:1fr}
+  .live-grid{grid-template-columns:1fr}
+}

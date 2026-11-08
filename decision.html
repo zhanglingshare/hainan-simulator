@@ -6,25 +6,65 @@
 <title>决策观察台 · 海南演变风洞</title>
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/charts.css">
+<link rel="stylesheet" href="assets/controls.css">
 </head>
 <body>
 <header class="site-header"><div class="header-inner">
   <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
   <nav class="desktop-nav">
-    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a><a href="intelligence.html">02 情报</a>
     <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
     <a href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a>
     <a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a class="current" href="decision.html">09 建议</a>
   </nav>
   <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
 </div></header>
-<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="current" href="decision.html">09 建议</a></nav>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="current" href="decision.html">09 建议</a></nav>
 
-<main class="discovery-wrap">
+<main class="discovery-wrap report-only" id="root">
   <div class="eyebrow">收口 · 决策观察台（带触发条件，不是正确的废话）</div>
   <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">该盯什么、什么时候动手</h1>
   <p class="muted">ACH 显示"部分成功"最可能、"全失败"最不被支持；概率低主要反映高门槛与配置瓶颈，不是宿命。建议按无憾行动 + 条件下注组织。</p>
 
+  <div class="sandbox-head" style="margin-top:16px">
+    <div class="mode-bar">
+      <button data-m="report" class="active">静态报告</button>
+      <button data-m="sandbox">调参沙盘</button>
+    </div>
+    <span class="hint">分配下注资源、设定触发阈值，实时看 2035 组合效果（前端推演，精确以 v3 为准）</span>
+  </div>
+
+  <div class="sandbox-block">
+    <div class="sandbox">
+      <div class="sandbox-head">
+        <h2>下注分配沙盘</h2><span class="hint">三类资源权重，拖动后自动归一为 100%</span>
+        <div class="spacer"></div>
+        <button class="btn" id="bet-reset">重置均衡</button>
+      </div>
+      <div class="sandbox-grid">
+        <div id="bet-sliders"></div>
+        <div>
+          <div class="slider-row" style="margin-bottom:16px">
+            <div class="sr-top"><label>资源分配（合计 100%）</label><span class="sr-val" id="bet-sum">100%</span></div>
+            <div class="alloc-bar" id="bet-bar"></div>
+          </div>
+          <div class="live-kpis" id="bet-kpis"></div>
+        </div>
+      </div>
+      <div class="sandbox-head" style="margin-top:24px;margin-bottom:10px">
+        <h2 style="font-size:16px">触发阈值设定</h2><span class="hint">黄线预警 / 红线行动，决定何时加码或止损</span>
+      </div>
+      <div class="sandbox-grid">
+        <div id="thr-sliders-1"></div>
+        <div id="thr-sliders-2"></div>
+      </div>
+      <div class="live-grid" style="grid-template-columns:1fr">
+        <div class="live-card"><h3>当前配置下 2035 六维实时推演</h3><div id="bet-chart"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-block">
   <section class="section">
     <div class="section-heading"><h2>四条无憾行动（跨四情景都加分）</h2><span>按 Shapley 贡献排序</span></div>
     <div class="event-grid">
@@ -75,5 +115,100 @@
     <ul><li>131 条公开证据（A124/B5/C2）</li><li>五方法链：情报/SEM/动力学/MC/因素</li><li>48,000 次蒙特卡洛</li><li>v2 recommendations 与 v3 归因融合</li></ul></details>
     <div class="foot-note">张凌博士 · 公开数据 · 开源社区项目。所有概率为模型估计、非确定性预测。</div>
   </footer>
+  </div><!-- /report-block -->
 </main>
+
+<script src="assets/engine.js"></script>
+<script src="assets/ui.js"></script>
+<script>
+/* ===== 决策下注分配沙盘 ===== */
+(function(){
+  var root=document.getElementById("root");
+  function setMode(m){
+    document.querySelectorAll(".mode-bar button").forEach(function(x){
+      x.classList.toggle("active",x.dataset.m===m);});
+    root.classList.toggle("is-sandbox",m==="sandbox");
+  }
+  document.querySelectorAll(".mode-bar button").forEach(function(b){
+    b.addEventListener("click",function(){setMode(b.dataset.m);});});
+  if(new URLSearchParams(location.search).get("mode")==="sandbox") setMode("sandbox");
+
+  /* 三类下注：改革兑现 / 连通投资 / 能力底座（吸收） */
+  var BETS=[{key:"reform",label:"改革兑现",color:"#1369eb",def:40},
+    {key:"conn",label:"连通投资",color:"#23a3a7",def:30},
+    {key:"absorptive",label:"能力底座",color:"#ed665e",def:30}];
+  var raw=BETS.map(function(b){return b.def;});
+  var bp=document.getElementById("bet-sliders");
+  var sliders=BETS.map(function(b,i){
+    return UI.slider(bp,{label:b.label,min:0,max:100,step:1,value:b.def,
+      color:b.color==="#ed665e"?"coral":(b.color==="#23a3a7"?"teal":""),
+      format:function(v){return v.toFixed(0);},
+      onChange:function(){normalize(i);}});
+  });
+  /* 归一：拖动某一项后，其余按比例缩放使合计=100 */
+  var normPct=BETS.map(function(b){return b.def;});
+  function normalize(changed){
+    var target=100;
+    var sumOthers=0;
+    for(var i=0;i<3;i++)if(i!==changed)sumOthers+=sliders[i].get();
+    var v=sliders[changed].get();
+    if(v>=100){
+      for(var j=0;j<3;j++){if(j!==changed)sliders[j].set(0);}
+      sliders[changed].set(100);
+    }else if(sumOthers>0){
+      var remain=100-v;
+      for(var k=0;k<3;k++)if(k!==changed){
+        sliders[k].set(Math.round(sliders[k].get()/sumOthers*remain));
+      }
+    }
+    refresh();
+  }
+  document.getElementById("bet-reset").addEventListener("click",function(){
+    BETS.forEach(function(b,i){sliders[i].set(b.def);});refresh();
+  });
+
+  /* 触发阈值：改革落地黄线 / 摩擦红线 / 投资黄线 / 吸收黄线 */
+  var t1=document.getElementById("thr-sliders-1"),t2=document.getElementById("thr-sliders-2");
+  var sRef=UI.slider(t1,{label:"改革落地率黄线",min:.2,max:.8,step:.01,value:.45,format:function(v){return v.toFixed(2);}});
+  var sFric=UI.slider(t1,{label:"制度摩擦红线",min:.5,max:1,step:.01,value:.75,color:"coral",format:function(v){return v.toFixed(2);}});
+  var sInv=UI.slider(t2,{label:"投资完成率黄线",min:.15,max:.7,step:.01,value:.35,format:function(v){return v.toFixed(2);}});
+  var sAbs=UI.slider(t2,{label:"吸收能力黄线",min:.1,max:.6,step:.01,value:.30,color:"teal",format:function(v){return v.toFixed(2);}});
+  [sRef,sFric,sInv,sAbs].forEach(function(s){s.el.querySelector("input").addEventListener("input",refresh);});
+
+  var COLORS={LV_inst:"#1369eb",LV_conn:"#23a3a7",LV_alloc:"#ed665e",LV_resil:"#8b5cf6",LV_talent:"#f59e0b",LV_diff:"#0ea5e9"};
+  var NAMES={LV_inst:"规则与制度",LV_conn:"全球连通",LV_alloc:"资源配置",LV_resil:"战略韧性",LV_talent:"人才议程",LV_diff:"模式示范"};
+
+  function refresh(){
+    normPct=sliders.map(function(s){return s.get();});
+    var total=normPct.reduce(function(a,b){return a+b;},0);
+    document.getElementById("bet-sum").textContent=total+"%";
+    var bar=document.getElementById("bet-bar");
+    bar.innerHTML=BETS.map(function(b,i){
+      var p=normPct[i];
+      return '<i style="flex:'+p+';background:'+b.color+'">'+(p>12?p+"%":"")+'</i>';
+    }).join("");
+    /* 权重映射到杠杆：改革→reform_delivery，连通→connInv，吸收→absorptive（相对默认缩放） */
+    var wRef=normPct[0]/100,wConn=normPct[1]/100,wAbs=normPct[2]/100;
+    var pd={levers:{
+      reform_delivery:.35+wRef*.4,
+      connectivity_investment:.25+wConn*.5,
+      absorptive_capacity:.2+wAbs*.45,
+      institutional_friction:sFric.get()
+    }};
+    var res=Engine.simulate(pd,"multipolar_regionalization",null);
+    var fl=res.functional_levels;
+    UI.lineChart(document.getElementById("bet-chart"),
+      Object.keys(COLORS).map(function(lv){return {name:NAMES[lv],color:COLORS[lv],values:fl[lv]};}),
+      {xLabels:res.years,refLine:70});
+    var kp=document.getElementById("bet-kpis");kp.innerHTML="";
+    [["LV_alloc","配置瓶颈"],["LV_inst","制度"],["LV_conn","连通"]].forEach(function(pair){
+      var v=fl[pair[0]][9];
+      var d=document.createElement("div");d.className="live-kpi";
+      d.innerHTML='<div class="lk">'+pair[1]+' · 2035</div><div class="lv" style="color:'+COLORS[pair[0]]+'">'+v.toFixed(1)+'</div>';
+      kp.appendChild(d);
+    });
+  }
+  refresh();
+})();
+</script>
 </body></html>

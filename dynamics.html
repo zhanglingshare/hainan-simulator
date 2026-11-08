@@ -6,25 +6,54 @@
 <title>系统动力学 · 海南演变风洞</title>
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/charts.css">
+<link rel="stylesheet" href="assets/controls.css">
 </head>
 <body>
 <header class="site-header"><div class="header-inner">
   <div class="brand"><div class="brand-icon">琼</div>海南演变风洞<span class="edition">V3</span></div>
   <nav class="desktop-nav">
-    <a href="index.html">01 总览</a><a href="intelligence.html">02 情报</a>
+    <a href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a><a href="intelligence.html">02 情报</a>
     <a href="measurement.html">03 测量</a><a href="sem.html">04 路径</a>
     <a class="current" href="dynamics.html">05 动力学</a><a href="montecarlo.html">06 蒙特卡洛</a>
     <a href="factors.html">07 因素</a><a href="evolution.html">08 演变</a><a href="decision.html">09 建议</a>
   </nav>
   <div class="header-actions"><a class="login-btn" href="decision.html">决策台</a></div>
 </div></header>
-<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="current" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
+<nav class="mobile-nav"><a class="" href="index.html">01 总览</a><a href="fundamentals.html">基本面</a><a href="strategy.html">战略</a><a href="benchmark.html">对比</a><a class="" href="intelligence.html">02 情报</a><a class="" href="measurement.html">03 测量</a><a class="" href="sem.html">04 路径</a><a class="current" href="dynamics.html">05 动力学</a><a class="" href="montecarlo.html">06 蒙特卡洛</a><a class="" href="factors.html">07 因素</a><a class="" href="evolution.html">08 演变</a><a class="" href="decision.html">09 建议</a></nav>
 
-<main class="discovery-wrap">
+<main class="discovery-wrap report-only" id="root">
   <div class="eyebrow">模块三 · 系统动力学（CLD + 存量流量，ODE）</div>
   <h1 style="font-size:clamp(26px,2.8vw,38px);font-weight:900;letter-spacing:-.06em;margin:12px 0 8px">反馈、延迟与约束，决定轨迹形状</h1>
   <p class="muted">连续 ODE、显式 Euler、dt=0.25 年；6 条回路（3 增强 3 平衡），含改革延迟 τ=2 年、再投资延迟 1 年。</p>
 
+  <div class="sandbox-head" style="margin-top:16px">
+    <div class="mode-bar">
+      <button data-m="report" class="active">静态报告</button>
+      <button data-m="sandbox">调参沙盘</button>
+    </div>
+    <span class="hint">拖动滑杆实时重算 ODE，结果为浏览器内推演（精确结论以 v3 内核为准）</span>
+  </div>
+
+  <div class="sandbox-block">
+    <div class="sandbox">
+      <div class="sandbox-head">
+        <h2>动力学调参台</h2><span class="hint">改任一参数 → 六维轨迹即时重算</span>
+        <div class="spacer"></div>
+        <div class="btn-row" id="dyn-scen"></div>
+      </div>
+      <div class="sandbox-grid">
+        <div id="dyn-sliders"></div>
+        <div>
+          <div class="live-kpis" id="dyn-kpis"></div>
+        </div>
+      </div>
+      <div class="live-grid" style="grid-template-columns:1fr">
+        <div class="live-card"><h3>六维 2026–2035 实时轨迹</h3><div id="dyn-chart"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-block">
   <section class="section">
     <div class="kpi-row">
       <div class="kpi"><div class="lab">节点 / 边</div><div class="val blue">17 / 25</div><div class="sub">4 存量 4 杠杆</div></div>
@@ -66,8 +95,71 @@
     </div>
   </section>
 
-  <footer class="sources"><div class="foot-note">来源：v3/dynamics/cld.json、stock_flow.json、baseline_trajectories.json。主观先验均带区间与证据缺口，MC 抽样覆盖。</div></footer>
+  </div><!-- /report-block -->
+  <footer class="sources"><div class="foot-note">来源：v3/dynamics/cld.json、stock_flow.json、baseline_trajectories.json。主观先验均带区间与证据缺口，MC 抽样覆盖。调参沙盘为前端引擎实时推演，精确结论以 Python v3 内核为准。</div></footer>
 </main>
+
+<script src="assets/engine.js"></script>
+<script src="assets/ui.js"></script>
+<script>
+/* ===== 动力学调参沙盘 ===== */
+(function(){
+  var root=document.getElementById("root");
+  function setMode(m){
+    document.querySelectorAll(".mode-bar button").forEach(function(x){
+      x.classList.toggle("active",x.dataset.m===m);
+    });
+    root.classList.toggle("is-sandbox",m==="sandbox");
+  }
+  document.querySelectorAll(".mode-bar button").forEach(function(b){
+    b.addEventListener("click",function(){setMode(b.dataset.m);});
+  });
+  if(new URLSearchParams(location.search).get("mode")==="sandbox") setMode("sandbox");
+
+  var SCENS=[{value:"multipolar_regionalization",label:"多极区域化"},
+    {value:"bloc_fragmentation",label:"阵营碎片化"},
+    {value:"globalization_rebound",label:"全球化回潮"},
+    {value:"high_intensity_conflict",label:"高烈度冲突"}];
+  var scen=UI.segment(document.getElementById("dyn-scen"),SCENS,function(v){scen=v;recompute();},"multipolar_regionalization");
+
+  var sp=document.getElementById("dyn-sliders");
+  var sFriction=UI.slider(sp,{label:"制度摩擦",sub:"越高改革落地折损越大",min:0,max:1,step:.01,value:.55,color:"coral",format:function(v){return v.toFixed(2);}});
+  var sReform=UI.slider(sp,{label:"改革兑现率",min:0,max:1,step:.01,value:.55,format:function(v){return v.toFixed(2);}});
+  var sConn=UI.slider(sp,{label:"连通投资强度",min:0,max:1,step:.01,value:.50,format:function(v){return v.toFixed(2);}});
+  var sTau=UI.slider(sp,{label:"改革延迟 τ",sub:"宣布→兑现（年）",min:0,max:5,step:.1,value:2.0,format:function(v){return v.toFixed(1)+" 年";}});
+  var sCap=UI.slider(sp,{label:"年增长上限",sub:"资源约束硬截断",min:0,max:15,step:.5,value:8.0,format:function(v){return v.toFixed(1);}});
+  var sR1=UI.slider(sp,{label:"R1 再投资增益",min:0,max:1.5,step:.05,value:.60,color:"teal",format:function(v){return v.toFixed(2);}});
+  [sFriction,sReform,sConn,sTau,sCap,sR1].forEach(function(s){
+    var orig=s.el.querySelector("input");
+    orig.addEventListener("input",recompute);
+  });
+
+  var COLORS={LV_inst:"#1369eb",LV_conn:"#23a3a7",LV_alloc:"#ed665e",LV_resil:"#8b5cf6",LV_talent:"#f59e0b",LV_diff:"#0ea5e9"};
+  var NAMES={LV_inst:"规则与制度",LV_conn:"全球连通",LV_alloc:"资源配置",LV_resil:"战略韧性",LV_talent:"人才议程",LV_diff:"模式示范"};
+
+  function recompute(){
+    var pd={
+      levers:{institutional_friction:sFriction.get(),reform_delivery:sReform.get(),connectivity_investment:sConn.get()},
+      delays:{tau_reform:sTau.get()},
+      annual_growth_cap:sCap.get(),
+      loop_gains:{alpha_r1_reinvest:sR1.get()}
+    };
+    var res=Engine.simulate(pd,scen.get(),null);
+    var fl=res.functional_levels;
+    var series=Object.keys(COLORS).map(function(lv){return {name:NAMES[lv],color:COLORS[lv],values:fl[lv]};});
+    UI.lineChart(document.getElementById("dyn-chart"),series,{xLabels:res.years,refLine:70});
+    // KPI: 2035 六维
+    var kp=document.getElementById("dyn-kpis");kp.innerHTML="";
+    Object.keys(COLORS).forEach(function(lv){
+      var v=fl[lv][fl[lv].length-1];
+      var d=document.createElement("div");d.className="live-kpi";
+      d.innerHTML='<div class="lk">'+NAMES[lv]+' · 2035</div><div class="lv" style="color:'+COLORS[lv]+'">'+v.toFixed(1)+'</div>';
+      kp.appendChild(d);
+    });
+  }
+  recompute();
+})();
+</script>
 
 <script>
 /* 精简 CLD 布局：4 存量 + 关键杠杆/中介 */
