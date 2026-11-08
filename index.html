@@ -35,7 +35,7 @@ a{color:inherit;text-decoration:none}
 .wrap{max-width:1280px;margin:0 auto;padding:30px 18px 40px}
 .kick{font-size:10.5px;font-weight:800;letter-spacing:.22em;color:var(--cyan);margin-bottom:12px}
 h1{font-size:clamp(28px,4.2vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.04em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
-.sub{margin-top:12px;font-size:12.5px;color:var(--ink2);max-width:880px}
+.sub{margin-top:12px;font-size:12.5px;color:var(--ink2);max-width:920px}
 .credit{margin-top:14px;display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;
   color:var(--ink3);border:1px solid var(--line);border-radius:999px;padding:6px 13px;background:rgba(7,13,24,.5)}
 .credit b{color:var(--amber);font-weight:700}
@@ -43,11 +43,10 @@ h1{font-size:clamp(28px,4.2vw,48px);font-weight:800;line-height:1.1;letter-spaci
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:22px;font-size:11px;color:var(--ink2)}
 .legend span{display:inline-flex;align-items:center;gap:7px}
 .legend i{width:12px;height:12px;border-radius:50%;display:inline-block}
-.segdemo{width:14px;height:14px;border-radius:50%;border:3px solid var(--cyan);background:transparent;display:inline-block}
 
-.gl-wrap{position:relative;margin-top:12px;border:1px solid var(--line);border-radius:18px;
+.gl-wrap{position:relative;margin-top:14px;border:1px solid var(--line);border-radius:18px;
   background:radial-gradient(120% 120% at 50% 0%,rgba(20,40,66,.55),rgba(7,13,24,.35));overflow:hidden}
-#gl{width:100%;height:480px;display:block}
+#gl{width:100%;height:500px;display:block}
 
 .controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border-top:1px solid var(--line);
   background:rgba(7,13,24,.55)}
@@ -75,12 +74,24 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 .ro-sub{margin-top:8px;font-size:12.5px;color:var(--ink2)}
 .ro-sg{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--ink2)}
 .ro-sg b{color:var(--amber)}
-.dimcheck{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.dimcheck span{font-size:10.5px;font-family:var(--mono);border-radius:8px;padding:5px 9px;border:1px solid var(--line)}
-.dimcheck .ok{color:#7fe0c3;background:rgba(35,163,167,.14)}
-.dimcheck .no{color:#ffb4ae;background:rgba(255,107,96,.12)}
 
-.panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+/* 五种形态：可读的 HTML 进度条 */
+.formsec{margin-top:22px}
+.sec-h{font-size:15px;font-weight:800;margin-bottom:4px}
+.sec-note{font-size:11px;color:var(--ink3);margin-bottom:12px}
+.frow{display:grid;grid-template-columns:150px 1fr 52px;gap:14px;align-items:center;
+  padding:11px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;
+  background:rgba(14,26,42,.42);transition:border-color .2s,background .2s}
+.frow.best{border-color:rgba(79,195,255,.6);background:rgba(79,195,255,.1)}
+.fname{font-size:12.5px;font-weight:700}
+.frow.best .fname::after{content:'· 最接近';color:var(--cyan);font-size:10.5px;font-weight:700;margin-left:6px}
+.fsegs{display:flex;gap:4px}
+.fsegs i{flex:1;height:8px;border-radius:2px;background:rgba(150,190,235,.14)}
+.fsegs i.met{background:var(--cyan)}
+.fcount{font-family:var(--mono);font-size:12px;font-weight:800;text-align:right;color:var(--ink2)}
+.frow.best .fcount{color:var(--cyan)}
+
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
 .pcard{border:1px solid var(--line);border-radius:16px;background:rgba(14,26,42,.5);padding:18px}
 .pcard h3{display:flex;align-items:center;gap:9px;font-size:14.5px;font-weight:800;margin-bottom:14px}
 .pcard h3 .dot{width:10px;height:10px;border-radius:50%}
@@ -90,11 +101,8 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 .dbar{height:6px;border-radius:999px;background:rgba(150,190,235,.12);overflow:hidden}
 .dbar i{display:block;height:100%;border-radius:999px}
 .drow .val{font-family:var(--mono);font-weight:700;text-align:right;font-size:11px}
-.roles{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px;padding-top:14px;border-top:1px solid var(--line)}
-.rtag{font-size:10.5px;font-weight:700;color:#04101f;border-radius:999px;padding:5px 10px;
-  background:linear-gradient(150deg,#F0B35E,#d98a2e)}
 
-.cta{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+.cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:13px 22px;font-size:13.5px;font-weight:800;cursor:pointer}
 .btn.primary{background:linear-gradient(150deg,#4FC3FF,#2E7DEB);color:#04101f}
 .btn.ghost{border:1px solid var(--line);color:var(--ink2);background:rgba(255,255,255,.04)}
@@ -104,12 +112,21 @@ details summary{cursor:pointer;font-weight:700;color:var(--ink2)}
 details div{margin-top:8px;line-height:1.9}
 
 @media(max-width:880){
-  #gl{height:400px}
+  #gl{height:420px}
   .panels{grid-template-columns:1fr}
   .wrap{padding:22px 12px 30px}
   .seg button{padding:7px 9px;font-size:10.5px}
   .legend{gap:10px}
+  .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px}
+  .fname{font-size:11.5px}
 }
+/* JS 驱动的窄屏规则（本环境媒体查询不生效，innerWidth 可靠） */
+body.narrow .panels{grid-template-columns:1fr}
+body.narrow .wrap{padding:22px 12px 30px}
+body.narrow .seg button{padding:7px 9px;font-size:10.5px}
+body.narrow .legend{gap:10px}
+body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px}
+body.narrow .fname{font-size:11.5px}
 </style>
 </head>
 <body>
@@ -127,14 +144,14 @@ details div{margin-top:8px;line-height:1.9}
 <div class="wrap">
   <div class="kick">演变预测模拟器 · 不是比高低</div>
   <h1>海南与新加坡，未来各自长成什么样</h1>
-  <p class="sub">不排名、不论谁高谁低，只预测两个地方在 2026–2035 可能演化出的形态。画面里每个带名字的光圈，是海南可能长成的一种样子；光圈分成 6 段，每段代表一个必须达到的条件——白色＝已达到，彩色＝还差一点，旁边写着 n/6。</p>
+  <p class="sub">不排名、不论谁高谁低，只预测两个地方在 2026–2035 可能演化出的形态。下面这颗 3D 地球标出海南与新加坡的真实位置：光点是它们所在的地方，光点越大代表六维综合成熟度越高，弧线是两地的海上连接。海南可能长成的五种样子，在地球下方用带名字的进度条清楚列出。</p>
   <div class="credit"><b>张凌博士</b> · 公开数据 · <b>开源社区项目</b></div>
 
   <div class="legend">
-    <span><i class="segdemo"></i>光圈的 6 段＝长成该形态需要的 6 个条件</span>
-    <span><i style="background:#fff"></i>白色段＝条件已达到</span>
-    <span><i style="background:var(--cyan)"></i>彩色段＝还没达到（越亮越接近）</span>
-    <span><i style="background:var(--amber)"></i>新加坡六段全白＝已成形</span>
+    <span><i style="background:var(--cyan)"></i>海南（真实位置）</span>
+    <span><i style="background:var(--amber)"></i>新加坡（真实位置）</span>
+    <span><i style="background:linear-gradient(#fff,#4FC3FF)"></i>光点大小＝六维综合成熟度</span>
+    <span><i style="background:var(--ink3)"></i>可拖拽地球旋转，也会自动慢转</span>
   </div>
 
   <div class="gl-wrap">
@@ -158,8 +175,13 @@ details div{margin-top:8px;line-height:1.9}
     <div class="ro-top"><span class="tag" id="roScen">情景：多极区域化</span><span class="tag" id="roYear">2026 年</span><span>这是模型推演，不是确定结论</span></div>
     <div class="ro-verdict" id="roVerdict"></div>
     <div class="ro-sub" id="roSub"></div>
-    <div class="dimcheck" id="dimcheck"></div>
     <div class="ro-sg" id="roSg"></div>
+  </div>
+
+  <div class="formsec">
+    <div class="sec-h">海南可能长成的五种样子</div>
+    <div class="sec-note">每种样子要同时满足 6 个条件；亮蓝段＝已达到，灰段＝还没达到，右侧写 n/6。</div>
+    <div id="formTrack"></div>
   </div>
 
   <div class="panels">
@@ -170,10 +192,6 @@ details div{margin-top:8px;line-height:1.9}
     <div class="pcard">
       <h3><span class="dot" style="background:var(--amber)"></span>新加坡 · 六维变化<em id="sgMeta">2026</em></h3>
       <div id="sgDims"></div>
-      <div class="roles">
-        <span class="rtag">全球航运枢纽</span><span class="rtag">财富管理中心</span>
-        <span class="rtag">外汇与规则标杆</span><span class="rtag">成熟后小幅进化</span>
-      </div>
     </div>
   </div>
 
@@ -186,9 +204,9 @@ details div{margin-top:8px;line-height:1.9}
   <details>
     <summary>数据与口径（点击展开）</summary>
     <div>
-      海南六维由前端引擎按当前情景实时推演（显式 Euler，方法与 v3 内核一致，精确值以 Python v3 为准）；每段的亮度＝当前值与门槛的接近比例，变白＝当前值已达到门槛，是<b>门槛达成情况的可视化</b>，不新增模型结论。<br>
-      新加坡六维为成熟枢纽的<b>参照推演</b>，非实测点值，用于并排观察，不代表排名。严格六维 AND 联合概率见蒙特卡洛页。<br>
-      本页 3D 由 three.js 渲染，所有数字可在 evidence/、data.js 与公开原文核对，不杜撰。
+      3D 地球上的海岸与国界来自 Natural Earth 公开地理数据，海南与新加坡按真实经纬度标注；光点大小＝六维功能水平的综合均值，是<b>成熟度的直观编码</b>，不新增模型结论。<br>
+      海南六维由前端引擎按当前情景实时推演（显式 Euler，方法与 v3 内核一致，精确值以 Python v3 为准）；五种形态的门槛来自 ROLE_THRESHOLDS，亮蓝段＝当前值已达到该条件。严格六维 AND 联合概率见蒙特卡洛页。<br>
+      新加坡六维为成熟枢纽的<b>参照推演</b>，非实测点值，用于并排观察，不代表排名。本页 3D 由 three.js 渲染，所有数字可在 evidence/、data.js 与公开原文核对，不杜撰。
     </div>
   </details>
 </div>
@@ -201,9 +219,8 @@ details div{margin-top:8px;line-height:1.9}
   var DIM_CN={LV_inst:'规则与制度',LV_conn:'全球连通',LV_alloc:'资源配置',LV_resil:'战略韧性',LV_talent:'人才议程',LV_diff:'模式示范'};
   var SCEN_LAB={multipolar_regionalization:'多极区域化',bloc_fragmentation:'阵营碎片化',globalization_rebound:'全球化回潮',high_intensity_conflict:'高强度冲突'};
   var mobile=window.innerWidth<=880;
-
-  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);
-    t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  function applyNarrow(){document.body.classList.toggle('narrow',window.innerWidth<=880);}
+  applyNarrow();
 
   var SCEN=['multipolar_regionalization','bloc_fragmentation','globalization_rebound','high_intensity_conflict'];
   var HN={}; SCEN.forEach(function(s){HN[s]=Engine.simulate(null,s).functional_levels;});
@@ -217,79 +234,116 @@ details div{margin-top:8px;line-height:1.9}
   };
   function valAt(fl,idx){var i=Math.floor(idx),f=idx-i;var a=fl[i],b=fl[Math.min(i+1,9)];return a+(b-a)*f;}
   function sixAt(store,idx){return LV_IDS.map(function(id){return valAt(store[id],idx);});}
+  function avg6(six){return six.reduce(function(a,b){return a+b;},0)/6;}
 
-  var cnv=document.createElement('canvas');cnv.width=cnv.height=64;var cx=cnv.getContext('2d');
-  var g=cx.createRadialGradient(32,32,0,32,32,32);
-  g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.4,'rgba(160,210,255,.9)');g.addColorStop(1,'rgba(160,210,255,0)');
-  cx.fillStyle=g;cx.fillRect(0,0,64,64);var glowTex=new THREE.CanvasTexture(cnv);
-
-  function textSprite(text,color,scale){
-    var c=document.createElement('canvas'),x=c.getContext('2d');
-    x.font='700 30px '+'-apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    var w=Math.ceil(x.measureText(text).width)+20,h=46;c.width=w;c.height=h;
-    x=c.getContext('2d');x.font='700 30px '+'-apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    x.fillStyle=color;x.textAlign='center';x.textBaseline='middle';x.fillText(text,w/2,h/2);
-    var tex=new THREE.CanvasTexture(c),mat=new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false});
-    var sp=new THREE.Sprite(mat);sp.scale.set(w/h*scale,scale,1);return sp;
-  }
-  function countLabel(hex){
-    var c=document.createElement('canvas');c.width=128;c.height=64;var x=c.getContext('2d');
-    var tex=new THREE.CanvasTexture(c),mat=new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false});
-    var sp=new THREE.Sprite(mat);sp.scale.set(1.1,.55,1);
-    function set(txt){x.clearRect(0,0,128,64);x.font='800 32px ui-monospace,Menlo,monospace';x.fillStyle='#'+hex.toString(16);
-      x.textAlign='center';x.textBaseline='middle';x.fillText(txt,64,33);tex.needsUpdate=true;}
-    return {sp:sp,set:set};
-  }
-  function gateRing(hex){
-    var grp=new THREE.Group(),mats=[];
-    for(var s=0;s<6;s++){var start=-Math.PI/2+s*(Math.PI*2/6),span=(Math.PI*2/6)-.06;
-      var geo=new THREE.RingGeometry(.6,.76,18,1,start,span);
-      var mat=new THREE.MeshBasicMaterial({color:hex,transparent:true,opacity:.12,side:THREE.DoubleSide});
-      grp.add(new THREE.Mesh(geo,mat));mats.push(mat);}
-    return {grp:grp,mats:mats};
-  }
-
+  /* ---------- 3D 地球 ---------- */
+  var R=5;
   var canvas=document.getElementById('gl');
   var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-  var cw=canvas.clientWidth,ch=mobile?400:480;renderer.setSize(cw,ch,false);
+  var GH=mobile?420:500,cw=canvas.clientWidth;renderer.setSize(cw,GH,false);
   var scene=new THREE.Scene();
-  var camera=new THREE.PerspectiveCamera(42,cw/ch,.1,100);
-  camera.position.set(0,.4,mobile?15:12);camera.lookAt(0,0,0);
-  var root=new THREE.Group();root.scale.setScalar(mobile?0.6:1);scene.add(root);
+  var camera=new THREE.PerspectiveCamera(42,cw/GH,.1,100);
+  camera.position.set(0,.6,14.5);camera.lookAt(0,0,0);
+  var pivot=new THREE.Group();scene.add(pivot);
+  var globe=new THREE.Group();pivot.add(globe);
+  pivot.rotation.y=(-90-107)*Math.PI/180;
 
-  var rng=mulberry32(777),BN=mobile?300:520,bp=new Float32Array(BN*3);
-  for(var i=0;i<BN;i++){bp[i*3]=(rng()-.5)*26;bp[i*3+1]=(rng()-.5)*14;bp[i*3+2]=(rng()-.5)*20;}
-  var bgGeo=new THREE.BufferGeometry();bgGeo.setAttribute('position',new THREE.BufferAttribute(bp,3));
-  scene.add(new THREE.Points(bgGeo,new THREE.PointsMaterial({size:.08,color:0x8fb4dd,transparent:true,opacity:.4,depthWrite:false})));
+  function ll(lon,lat,r){
+    var la=lat*Math.PI/180,lo=lon*Math.PI/180;
+    return [r*Math.cos(la)*Math.cos(lo),r*Math.sin(la),-r*Math.cos(la)*Math.sin(lo)];
+  }
 
-  var BEACONS=[
-    {key:'regional_transshipment_hub',name:'区域中转枢纽',pos:[-6.0,2.2]},
-    {key:'institutional_opening_testbed',name:'制度开放试验田',pos:[-2.6,2.9]},
-    {key:'offshore_node',name:'离岸节点',pos:[0.7,2.0]},
-    {key:'tropical_marine_economy_base',name:'热带海洋经济基地',pos:[-4.3,-1.6]},
-    {key:'global_south_cooperation_platform',name:'全球南方合作平台',pos:[-1.0,-2.0]}
-  ];
-  BEACONS.forEach(function(b){
-    var grp=new THREE.Group();grp.position.set(b.pos[0],b.pos[1],0);
-    var ring=gateRing(0x4FC3FF);
-    var hm=new THREE.SpriteMaterial({map:glowTex,color:0x4FC3FF,transparent:true,opacity:.12,blending:THREE.AdditiveBlending,depthWrite:false});
-    var halo=new THREE.Sprite(hm);halo.scale.set(1.9,1.9,1);
-    var name=textSprite(b.name,'#E8F1FB',.48);name.position.y=-1.05;
-    var cl=countLabel(0x4FC3FF);cl.sp.position.y=1.05;
-    grp.add(halo);grp.add(ring.grp);grp.add(name);grp.add(cl.sp);root.add(grp);
-    b.ring=ring;b.halo=hm;b.cl=cl;b.g=grp;
+  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R*.995,64,64),
+    new THREE.MeshBasicMaterial({color:0x0a1830})));
+  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R*1.18,48,48),
+    new THREE.MeshBasicMaterial({color:0x2e7deb,side:THREE.BackSide,transparent:true,opacity:.16,blending:THREE.AdditiveBlending})));
+
+  var cc=document.createElement('canvas');cc.width=cc.height=64;var gx=cc.getContext('2d');
+  var ggd=gx.createRadialGradient(32,32,0,32,32,32);
+  ggd.addColorStop(0,'rgba(255,255,255,1)');ggd.addColorStop(1,'rgba(255,255,255,0)');
+  gx.fillStyle=ggd;gx.fillRect(0,0,64,64);var glowTex=new THREE.CanvasTexture(cc);
+
+  function textSprite(text,color,scale){
+    var c=document.createElement('canvas'),x=c.getContext('2d');
+    x.font='700 30px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+    var w=Math.ceil(x.measureText(text).width)+20,h=46;c.width=w;c.height=h;
+    x=c.getContext('2d');x.font='700 30px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+    x.fillStyle=color;x.textAlign='center';x.textBaseline='middle';x.fillText(text,w/2,h/2);
+    var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));
+    sp.scale.set(w/h*scale,scale,1);return sp;
+  }
+
+  fetch('assets/world.geojson').then(function(r){return r.json();}).then(function(fc){
+    var pos=[];
+    function ring(pts){for(var i=0;i<pts.length-1;i++){
+      var a=ll(pts[i][0],pts[i][1],R*1.002),b=ll(pts[i+1][0],pts[i+1][1],R*1.002);
+      pos.push(a[0],a[1],a[2],b[0],b[1],b[2]);}}
+    fc.features.forEach(function(f){var g=f.geometry;
+      if(g.type==='Polygon')g.coordinates.forEach(ring);
+      else g.coordinates.forEach(function(poly){poly.forEach(ring);});});
+    var geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+    globe.add(new THREE.LineSegments(geo,new THREE.LineBasicMaterial({color:0x7fb0e6,transparent:true,opacity:.5})));
   });
 
-  /* 新加坡：六段全白 */
-  var sgGrp=new THREE.Group();sgGrp.position.set(5.6,.4,0);
-  var sgRing=gateRing(0xF0B35E);
-  sgRing.mats.forEach(function(m){m.color.set(0xffffff);m.opacity=1;});
-  var sgHm=new THREE.SpriteMaterial({map:glowTex,color:0xF0B35E,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false});
-  var sgHalo=new THREE.Sprite(sgHm);sgHalo.scale.set(1.9,1.9,1);
-  var sgName=textSprite('新加坡·成熟枢纽','#F0B35E',.48);sgName.position.y=-1.05;
-  var sgCl=countLabel(0xffffff);sgCl.sp.position.y=1.05;sgCl.set('6/6');
-  sgGrp.add(sgHalo);sgGrp.add(sgRing.grp);sgGrp.add(sgName);sgGrp.add(sgCl.sp);root.add(sgGrp);
+  // 光点 + 光柱（线），光柱长度随成熟度更新
+  function place(lon,lat,hex,label){
+    var p=ll(lon,lat,R*1.01);
+    var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:hex,transparent:true,
+      blending:THREE.AdditiveBlending,depthWrite:false}));
+    sp.scale.set(.66,.66,1);sp.position.set(p[0],p[1],p[2]);globe.add(sp);
+    var lineGeo=new THREE.BufferGeometry();
+    lineGeo.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0,0,1,0],3));
+    var line=new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:hex,transparent:true,opacity:.85}));
+    line.position.set(p[0],p[1],p[2]);globe.add(line);
+    var lab=textSprite(label,'#'+hex.toString(16).padStart(6,'0'),.42);
+    var lp=ll(lon,lat,R*1.16);lab.position.set(lp[0],lp[1],lp[2]);globe.add(lab);
+    return {sp:sp,line:line,lon:lon,lat:lat};
+  }
+  var HN_M=place(110,19.5,0x4FC3FF,'海南岛');
+  var SG_M=place(103.8,1.35,0xF0B35E,'新加坡');
+
+  function setMaturity(m,avg){
+    // 光点大小编码成熟度（主），短光柱做层次
+    var s=.5+(avg/100)*.95;
+    m.sp.userData.base=s;
+    var h=.12+(avg/100)*.22;
+    var base=ll(m.lon,m.lat,R*1.0),top=ll(m.lon,m.lat,R*(1+h));
+    var a=m.line.geometry.attributes.position.array;
+    a[0]=base[0];a[1]=base[1];a[2]=base[2];a[3]=top[0];a[4]=top[1];a[5]=top[2];
+    m.line.geometry.attributes.position.needsUpdate=true;
+  }
+
+  // 两地弧线
+  (function(){
+    var va=new THREE.Vector3().fromArray(ll(110,19.5,1)),vb=new THREE.Vector3().fromArray(ll(103.8,1.35,1)),pts=[];
+    for(var i=0;i<=40;i++){var t=i/40,v=new THREE.Vector3().copy(va).lerp(vb,t).normalize().multiplyScalar(R*(1+.18*Math.sin(Math.PI*t)));
+      pts.push(v.x,v.y,v.z);}
+    var geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));
+    globe.add(new THREE.Line(geo,new THREE.LineBasicMaterial({color:0x9fd0ff,transparent:true,opacity:.65})));
+  })();
+
+  // 拖拽
+  var drag=false,lastX=0;
+  canvas.addEventListener('pointerdown',function(e){drag=true;lastX=e.clientX;});
+  window.addEventListener('pointermove',function(e){if(!drag)return;pivot.rotation.y+=(e.clientX-lastX)*.005;lastX=e.clientX;});
+  window.addEventListener('pointerup',function(){drag=false;});
+
+  /* ---------- 五种形态 HTML ---------- */
+  var BEACONS=[
+    {key:'regional_transshipment_hub',name:'区域中转枢纽'},
+    {key:'institutional_opening_testbed',name:'制度开放试验田'},
+    {key:'offshore_node',name:'离岸节点'},
+    {key:'tropical_marine_economy_base',name:'热带海洋经济基地'},
+    {key:'global_south_cooperation_platform',name:'全球南方合作平台'}
+  ];
+  var track=document.getElementById('formTrack');
+  BEACONS.forEach(function(b){
+    var row=document.createElement('div');row.className='frow';
+    var segs='<span class="fsegs">';for(var i=0;i<6;i++)segs+='<i></i>';segs+='</span>';
+    row.innerHTML='<span class="fname">'+b.name+'</span>'+segs+'<span class="fcount">0/6</span>';
+    track.appendChild(row);b.row=row;b.segEls=row.querySelectorAll('.fsegs i');b.countEl=row.querySelector('.fcount');
+  });
 
   function buildDims(id,hex){var box=document.getElementById(id);box.innerHTML='';
     LV_IDS.forEach(function(id2){var row=document.createElement('div');row.className='drow';
@@ -303,28 +357,25 @@ details div{margin-top:8px;line-height:1.9}
   if(!playing){document.getElementById('playBtn').textContent='▶';}
   var timeEl=document.getElementById('time'),yrEl=document.getElementById('yr'),playBtn=document.getElementById('playBtn');
 
-  function evalBeacons(hn6){
+  function evalForms(hn6){
     var best=null;
     BEACONS.forEach(function(b){var thr=ROLE_T[b.key],met=0,rsum=0;
-      for(var d=0;d<6;d++){var ratio=Math.max(0,Math.min(1,hn6[d]/thr[d]));rsum+=ratio;
-        var ok=hn6[d]>=thr[d];if(ok)met++;
-        b.ring.mats[d].color.set(ok?0xffffff:0x4FC3FF);
-        b.ring.mats[d].opacity=ok?1:.12+.83*ratio;}
-      b.cl.set(met+'/6');
+      for(var d=0;d<6;d++){var ok=hn6[d]>=thr[d];if(ok)met++;
+        b.segEls[d].classList.toggle('met',ok);
+        rsum+=Math.max(0,Math.min(1,hn6[d]/thr[d]));}
+      b.countEl.textContent=met+'/6';
       var score=met*10+rsum/6;
-      if(!best||score>best.score){best={b:b,met:met,score:score,avg:rsum/6};}});
+      if(!best||score>best.score)best={b:b,met:met,score:score};
+      b.row.classList.remove('best');});
+    best.b.row.classList.add('best');
     return best;
   }
 
   function readout(hn6,year,best){
     document.getElementById('roScen').textContent='情景：'+SCEN_LAB[curScen];
     document.getElementById('roYear').textContent=year+' 年';
-    var thr=ROLE_T[best.b.key];
     document.getElementById('roVerdict').innerHTML='这一年，海南最接近 <b>「'+best.b.name+'」</b>（6 个条件已达到 '+best.met+'/6）';
-    document.getElementById('roSub').textContent=best.met===6?'6 个条件全部达到，该形态成形。':'方向已经明确，但条件还没全部达到——下面列出每个条件的现状与门槛。';
-    var dc=document.getElementById('dimcheck');dc.innerHTML='';
-    LV_IDS.forEach(function(id,d){var ok=hn6[d]>=thr[d];var sp=document.createElement('span');sp.className=ok?'ok':'no';
-      sp.textContent=(ok?'✓ ':'✗ ')+DIM_CN[id]+' '+hn6[d].toFixed(1)+'/'+thr[d];dc.appendChild(sp);});
+    document.getElementById('roSub').textContent=best.met===6?'6 个条件全部达到，该形态成形。':'方向已经明确，但条件还没全部达到——下方五种形态的进度条显示每个条件卡在哪。';
     document.getElementById('roSg').innerHTML='<b>新加坡</b>：6 个条件早已全部达到（成熟枢纽），这十年只小幅升级（全球连通 88→90、人才 83→86 等），形态基本稳定，不经历海南这种“重新定位”。';
   }
 
@@ -336,8 +387,8 @@ details div{margin-top:8px;line-height:1.9}
       for(var r=0;r<6;r++){var v=pr[0][r];rows[r].querySelector('.dbar i').style.width=Math.min(100,v)+'%';
         rows[r].querySelector('.val').textContent=v.toFixed(1);}});
     document.getElementById('hnMeta').textContent=year;document.getElementById('sgMeta').textContent=year;
-    var best=evalBeacons(hn6);
-    BEACONS.forEach(function(b){var isBest=b.key===best.b.key;b.halo.opacity=isBest?.8:.1;b.g.scale.setScalar(isBest?1.12:1);});
+    setMaturity(HN_M,avg6(hn6));setMaturity(SG_M,avg6(sg6));
+    var best=evalForms(hn6);
     readout(hn6,year,best);
   }
 
@@ -350,12 +401,14 @@ details div{margin-top:8px;line-height:1.9}
   var clock=new THREE.Clock();
   function animate(){requestAnimationFrame(animate);var dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
     if(playing){curIdx+=dt*.55;if(curIdx>9)curIdx=0;refresh();}
-    sgHalo.scale.set(1.9+Math.sin(t*2)*.08,1.9+Math.sin(t*2)*.08,1);
+    if(!drag)pivot.rotation.y+=dt*.08;
+    var ps=1+Math.sin(t*2)*.1;
+    [HN_M,SG_M].forEach(function(m){var b=m.sp.userData.base||.6;m.sp.scale.set(b*ps,b*ps,1);});
     renderer.render(scene,camera);}
   refresh();animate();
 
-  window.addEventListener('resize',function(){var w=canvas.clientWidth;renderer.setSize(w,mobile?400:480,false);
-    camera.aspect=w/(mobile?400:480);camera.updateProjectionMatrix();});
+  window.addEventListener('resize',function(){applyNarrow();var w=canvas.clientWidth;renderer.setSize(w,GH,false);
+    camera.aspect=w/GH;camera.updateProjectionMatrix();});
 })();
 </script>
 </body>
