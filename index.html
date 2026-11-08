@@ -51,14 +51,27 @@ h1{font-size:clamp(26px,4vw,46px);font-weight:800;line-height:1.1;letter-spacing
 .net-card h2{font-size:15px;font-weight:800;padding:14px 16px 0;display:flex;align-items:center;gap:9px}
 .net-card h2 .dot{width:11px;height:11px;border-radius:50%}
 .net-card .nstat{position:absolute;top:13px;right:16px;font-family:var(--mono);font-size:10px;color:var(--ink2)}
-.net-card canvas{width:100%;height:470px;display:block}
+.net-card canvas{width:100%;height:520px;display:block}
+
+/* 网络演变轨迹（每张卡底部） */
+.spark{position:relative;padding:0 16px 14px}
+.spark-h{display:flex;align-items:baseline;gap:8px;font-size:9.5px;color:var(--ink3);
+  font-family:var(--mono);letter-spacing:.06em;margin-bottom:5px}
+.spark-h b{color:var(--ink2);font-weight:700;letter-spacing:0}
+.spark canvas{width:100%;height:58px;display:block}
 
 .controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border-top:1px solid var(--line);
   background:rgba(7,13,24,.55)}
 .phase-legend{display:flex;gap:12px;font-size:10.5px;color:var(--ink2);flex:none;flex-wrap:wrap}
 .phase-legend span{display:inline-flex;align-items:center;gap:6px}
 .phase-legend i{width:10px;height:10px;border-radius:3px}
-.timebox{flex:1;min-width:220px;display:flex;align-items:center;gap:11px}
+.timebox{flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px}
+.time-row{display:flex;align-items:center;gap:11px}
+.mile{position:relative;height:16px;margin:0 2px 2px 49px}
+.mile i{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:8.5px;
+  color:var(--ink4);white-space:nowrap;cursor:pointer;padding:1px 3px;border-radius:3px}
+.mile i.real{color:var(--cyan);font-weight:800}
+.mile i:hover{background:rgba(79,195,255,.16)}
 .playbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:rgba(79,195,255,.14);
   color:var(--cyan);font-size:14px;cursor:pointer;flex:none}
 .range-wrap{flex:1;position:relative}
@@ -124,16 +137,24 @@ details div{margin-top:8px;line-height:1.9}
 
 @media(max-width:880){
   .net-grid{grid-template-columns:1fr}
-  .net-card canvas{height:380px}
+  .net-card canvas{height:360px}
   .panels{grid-template-columns:1fr}
-  .wrap{padding:22px 12px 30px}
+  .wrap{padding:16px 12px 30px}
   .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px}
 }
 body.narrow .net-grid{grid-template-columns:1fr}
-body.narrow .net-card canvas{height:380px}
+body.narrow .net-card canvas{height:360px}
 body.narrow .panels{grid-template-columns:1fr}
-body.narrow .wrap{padding:22px 12px 30px}
+body.narrow .wrap{padding:16px 12px 30px}
 body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px}
+/* 移动端首屏压缩：让第一张网络图尽早出现 */
+body.narrow h1{font-size:clamp(21px,6.2vw,27px);line-height:1.16;letter-spacing:-.03em}
+body.narrow .kick{font-size:9.5px;letter-spacing:.16em;margin-bottom:8px}
+body.narrow .sub{font-size:11.5px;margin-top:8px;line-height:1.62}
+body.narrow .credit{margin-top:10px;padding:4px 10px;font-size:9.5px}
+body.narrow .legend{margin-top:12px;gap:9px 12px;font-size:10px}
+body.narrow .legend .ln{width:14px}
+body.narrow .spark canvas{height:50px}
 </style>
 </head>
 <body>
@@ -161,6 +182,7 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
     <span><span class="ln" style="border-color:#9fd0ff"></span>实线＝接通（明暗＝接通概率）</span>
     <span><span class="ln" style="border-top:2px dashed #6E88A3"></span>虚线＝断裂</span>
     <span><i style="background:transparent;border:1.5px solid #fff"></i>外圈＝官方真实航线</span>
+    <span style="color:#8fb0d0">节点位置＝接通程度：外圈待接通 → 内圈已接通</span>
   </div>
 
   <div class="net-grid">
@@ -168,11 +190,19 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
       <h2><span class="dot" style="background:var(--cyan)"></span>海南岛的网络</h2>
       <span class="nstat" id="hnStat"></span>
       <canvas id="hnNet"></canvas>
+      <div class="spark">
+        <div class="spark-h">网络密度（9 条连线平均接通度）<b id="hnSparkV"></b></div>
+        <canvas id="hnSpark"></canvas>
+      </div>
     </div>
     <div class="net-card">
       <h2><span class="dot" style="background:var(--amber)"></span>新加坡的网络</h2>
       <span class="nstat" id="sgStat"></span>
       <canvas id="sgNet"></canvas>
+      <div class="spark">
+        <div class="spark-h">枢纽自身吞吐量（百万 TEU）<b id="sgSparkV"></b></div>
+        <canvas id="sgSpark"></canvas>
+      </div>
     </div>
   </div>
 
@@ -183,9 +213,12 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
         <span><i style="background:#F0B35E"></i>未来（模型推演）</span>
       </div>
       <div class="timebox">
-        <button class="playbtn" id="playBtn">❚❚</button>
-        <div class="range-wrap"><input type="range" id="time" min="0" max="30" step="0.1" value="0"></div>
-        <span class="yr" id="yr">2005</span>
+        <div class="time-row">
+          <button class="playbtn" id="playBtn">❚❚</button>
+          <div class="range-wrap"><input type="range" id="time" min="0" max="30" step="0.1" value="0"></div>
+          <span class="yr" id="yr">2005</span>
+        </div>
+        <div class="mile" id="mile"></div>
       </div>
     </div>
   </div>
@@ -226,7 +259,7 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
     <summary>数据与口径（点击展开）</summary>
     <div>
       两张图各自以本地为中心，节点大小＝各港口当年集装箱吞吐量（百万 TEU），核心节点含官方实测，参照节点部分年份为公开锚点线性插值。<br>
-      连线为<b>校准后的引力模型</b> I_ij＝sqrt(teu_i)·sqrt(teu_j)/d_ij^β（β 经真实航线标签校准为 0.2，距离为测地公里），再用 logistic 平滑输出 0–1 的接通概率（1000 次 bootstrap，固定种子）。有官方真实航线记录的 5 条边（新加坡/香港/深圳/巴生/迪拜）从真实开通年起概率强制为 1，并在节点加白色外圈；其余为模型估计，低置信度边（如鹿特丹）以明暗呈现、不硬判。新加坡作为成熟枢纽，其连线 2005 年起全部接通。<br>
+      连线为<b>校准后的引力模型</b> I_ij＝sqrt(teu_i)·sqrt(teu_j)/d_ij^β（β 经真实航线标签校准为 <b>0.07</b>，距离为测地公里），再用 logistic 平滑输出 0–1 的接通概率（1000 次 bootstrap，固定种子）。<b>节点位置由接通概率决定</b>：未接通的伙伴漂在外圈暗小点，接通后被连线一环环拉向中心并随吞吐量成长——这就是网络生长的过程。有官方真实航线记录的 5 条边（新加坡/香港/深圳/巴生/迪拜）从真实开通年起概率强制为 1，并在节点加白色外圈；其余为模型估计，低置信度边（如鹿特丹）以明暗呈现、不硬判。新加坡作为成熟枢纽，其连线 2005 年起全部接通。<br>
       2005–2025 为真实统计（海南 GDP/贸易来自中经数据与统计公报，新加坡 TEU 来自 data.gov.sg，香港来自 data.gov.hk）；2026–2035 为模型推演，六维门槛来自 ROLE_THRESHOLDS，默认多极区域化情景。本页为 2D Canvas 绘制，不杜撰。
     </div>
   </details>
@@ -243,7 +276,7 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
   var byId={};SNA.nodes.forEach(function(n){byId[n.id]=n;});
 
   /* ---------- 连线：读取火山引擎校准后的接通概率 ---------- */
-  function teuAt(id,t){var i=Math.floor(t),f=t-i;return byId[id].teu[i]+(byId[id].teu[Math.min(i+1,30)]-byId[id].teu[i])*f;}
+  function teuAt(id,t){t=Math.max(0,Math.min(30,t||0));var i=Math.floor(t),f=t-i;return byId[id].teu[i]+(byId[id].teu[Math.min(i+1,30)]-byId[id].teu[i])*f;}
   function probAt(ego,alter,t){var arr=SNA_EDGES.probs[ego][alter],i=Math.floor(t),f=t-i;
     if(i>=30)return arr[30];return arr[i]+(arr[i+1]-arr[i])*f;}
   function realYear(ego,alter){var r=SNA_EDGES.realEdge[ego];return (r&&Object.prototype.hasOwnProperty.call(r,alter))?r[alter]:null;}
@@ -254,48 +287,146 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
     var partnerIds=SNA.nodes.filter(function(n){return n.id!==ego;}).map(function(n){return n.id;});
     var ring=partnerIds.map(function(id,i){return {id:id,angle:-Math.PI/2+i/partnerIds.length*Math.PI*2};});
     var DPR=Math.min(window.devicePixelRatio||1,2),W=0,H=0,cx=0,cy=0,Rr=0;
-    function resize(){var cw=canvas.clientWidth,ch=mobile?380:470;
+    function resize(){var cw=canvas.clientWidth,ch=mobile?360:520;
       W=cw;H=ch;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);
-      cx=W/2;cy=H/2;Rr=Math.min(W,H)/2-80;}
-    function rpos(r){return {x:cx+Math.cos(r.angle)*Rr,y:cy+Math.sin(r.angle)*Rr};}
+      cx=W/2;cy=H/2;Rr=Math.min(W,H)/2-70;}
+    function rpos(r,t){var pv=probAt(ego,r.id,t);
+      /* 生长：未接通漂在外圈，接通后被连线一环环拉进中心 */
+      var far=Rr*1.06,near=Rr*.50;
+      var rr=far-(far-near)*pv;
+      return {x:cx+Math.cos(r.angle)*rr,y:cy+Math.sin(r.angle)*rr,r:rr,pv:pv};}
     function prColor(id){return id==='hainan'?'#4FC3FF':id==='sg'?'#F0B35E':'#8fb0d0';}
     function pradius(teu){return 7+15*Math.sqrt(Math.max(0,teu)/55);}
     function draw(t){
       ctx.clearRect(0,0,W,H);
       var year=2005+Math.floor(t);
-      var egoR=13+22*Math.sqrt(Math.max(0,teuAt(ego,t))/55);
-      ring.forEach(function(r){var p=rpos(r),pv=probAt(ego,r.id,t);
-        if(pv<.15){ctx.save();ctx.setLineDash([5,6]);ctx.strokeStyle='rgba(110,136,163,.35)';ctx.lineWidth=1;
+      var egoR=10+16*Math.sqrt(Math.max(0,teuAt(ego,t))/55);
+      var flow=(performance.now()/1000)%1;
+      var far=Rr*1.06,near=Rr*.50;
+
+      /* 0. 参照环：外圈＝待接通，内圈＝已接通（节点跨过即生长） */
+      ctx.save();
+      ctx.setLineDash([3,6]);ctx.strokeStyle='rgba(150,190,235,.13)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(cx,cy,far,0,7);ctx.stroke();
+      ctx.setLineDash([4,5]);ctx.strokeStyle='rgba(79,195,255,.20)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(cx,cy,near,0,7);ctx.stroke();
+      ctx.restore();
+
+      /* 1. 连线 */
+      ring.forEach(function(r){var p=rpos(r,t),pv=p.pv;
+        if(pv<.15){ctx.save();ctx.setLineDash([4,7]);ctx.strokeStyle='rgba(110,136,163,.28)';ctx.lineWidth=1;
           ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.restore();}
-        else{ctx.save();ctx.setLineDash([]);ctx.globalAlpha=.2+pv*.72;ctx.strokeStyle=egoHex;
-          ctx.lineWidth=1+pv*1.8;ctx.shadowColor=egoHex;ctx.shadowBlur=8*pv;
-          ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.restore();}
+        else{ctx.save();ctx.setLineDash([]);ctx.globalAlpha=.18+pv*.66;ctx.strokeStyle=egoHex;
+          ctx.lineWidth=1+pv*2;ctx.shadowColor=egoHex;ctx.shadowBlur=9*pv;
+          ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.restore();
+          /* 流动光点：网络在跑 */
+          if(pv>.5){for(var k=0;k<2;k++){
+            var f=(flow+k*.5)%1,ex=cx+(p.x-cx)*f,ey=cy+(p.y-cy)*f;
+            ctx.save();ctx.globalAlpha=(pv-.4)*.75*Math.sin(Math.PI*f);ctx.fillStyle='#fff';
+            ctx.beginPath();ctx.arc(ex,ey,1.6+pv*1.2,0,7);ctx.fill();ctx.restore();}}
+        }
       });
-      ctx.save();ctx.fillStyle=egoHex;ctx.shadowColor=egoHex;ctx.shadowBlur=18;
+
+      /* 2. 中心节点 */
+      ctx.save();ctx.fillStyle=egoHex;ctx.shadowColor=egoHex;ctx.shadowBlur=10;
       ctx.beginPath();ctx.arc(cx,cy,egoR,0,7);ctx.fill();
       ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.globalAlpha=.9;
       ctx.beginPath();ctx.arc(cx-egoR*.25,cy-egoR*.25,egoR*.26,0,7);ctx.fill();ctx.restore();
-      ctx.save();ctx.font='700 13px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-      ctx.fillStyle=egoHex;ctx.textAlign='center';ctx.fillText(ego==='hainan'?'海南':'新加坡',cx,cy+egoR+16);ctx.restore();
-      ring.forEach(function(r){var p=rpos(r),col=prColor(r.id),rad=pradius(teuAt(r.id,t)),ry=realYear(ego,r.id);
-        ctx.save();ctx.fillStyle=col;ctx.shadowColor=col;ctx.shadowBlur=7;
+      /* 名称：节点下方（吞吐量移到卡片头部） */
+      ctx.save();ctx.font='700 12px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.fillStyle=egoHex;ctx.textAlign='center';ctx.shadowColor='#070D18';ctx.shadowBlur=6;ctx.fillText(ego==='hainan'?'海南':'新加坡',cx,cy+Math.max(egoR+26,36));ctx.restore();
+
+      /* 3. 伙伴节点：浮现→成长；接通瞬间扩散涟漪 */
+      ring.forEach(function(r){var p=rpos(r,t),pv=p.pv,col=prColor(r.id),ry=realYear(ego,r.id);
+        var alive=Math.min(1,Math.max(0,(pv-.30)/.30));
+        var teuR=pradius(teuAt(r.id,t));
+        var rad=teuR*(.32+.68*alive);
+        var op=.34+.66*alive;
+        /* 涟漪：概率穿过 0.5 时向外扩散一圈 */
+        if(pv>.38&&pv<.72){var ph=(pv-.38)/.34;
+          ctx.save();ctx.globalAlpha=(1-ph)*.55;ctx.strokeStyle=col;ctx.lineWidth=1.6;
+          ctx.beginPath();ctx.arc(p.x,p.y,rad+6+ph*16,0,7);ctx.stroke();ctx.restore();}
+        ctx.save();ctx.globalAlpha=op;ctx.fillStyle=col;
+        ctx.shadowColor=col;ctx.shadowBlur=8*alive;
         ctx.beginPath();ctx.arc(p.x,p.y,rad,0,7);ctx.fill();ctx.restore();
-        // 官方真实航线：外圈标记
-        if(ry!==null&&year>=ry){ctx.save();ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=1.4;
+        if(alive<.2){ctx.save();ctx.globalAlpha=.42;ctx.strokeStyle=col;ctx.lineWidth=1;
+          ctx.beginPath();ctx.arc(p.x,p.y,rad,0,7);ctx.stroke();ctx.restore();}
+        /* 官方真实航线：外圈标记 */
+        if(ry!==null&&year>=ry&&alive>.2){ctx.save();ctx.globalAlpha=Math.min(1,alive*1.4);
+          ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=1.4;
           ctx.beginPath();ctx.arc(p.x,p.y,rad+3.5,0,7);ctx.stroke();ctx.restore();}
-        var lx=p.x+Math.cos(r.angle)*(rad+8),ly=p.y+Math.sin(r.angle)*(rad+8),right=Math.cos(r.angle)>=0;
-        ctx.save();ctx.font='600 11px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-        ctx.fillStyle=col;ctx.textAlign=right?'left':'right';ctx.textBaseline='middle';
+        var lx=p.x+Math.cos(r.angle)*(rad+9),ly=p.y+Math.sin(r.angle)*(rad+9),right=Math.cos(r.angle)>=0;
+        ctx.save();ctx.globalAlpha=op;ctx.font=(alive>.6?'600':'500')+' 11px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillStyle=alive>.6?col:'rgba(143,176,208,.9)';ctx.textAlign=right?'left':'right';ctx.textBaseline='middle';
         ctx.fillText(byId[r.id].name,lx,ly);ctx.restore();
       });
+
       var on=ring.filter(function(r){return probAt(ego,r.id,t)>=.5;}).length;
-      document.getElementById(statId).textContent='接通 '+on+'/9';
+      var dens=ring.reduce(function(s,r){return s+probAt(ego,r.id,t);},0)/9;
+      document.getElementById(statId).textContent='节点 '+on+'/9 · 密度 '+(dens*100).toFixed(0)+'% · '+teuAt(ego,t).toFixed(1)+' M TEU';
     }
     resize();return {draw:draw,resize:resize};
   }
 
   var hnNet=makeNetwork('hnNet','hainan','#4FC3FF','hnStat');
   var sgNet=makeNetwork('sgNet','sg','#F0B35E','sgStat');
+
+  /* ---------- 底部轨迹：曲线随年份生长 ---------- */
+  function makeSpark(cvId,ego,valId,col,kind){
+    var cv=document.getElementById(cvId),c=cv.getContext('2d');
+    var DPR=Math.min(window.devicePixelRatio||1,2),W=0,H=0;
+    function val(i){                    // i = 0..30
+      if(kind==='dens'){var t=i;
+        return SNA.nodes.filter(function(nd){return nd.id!==ego;})
+          .reduce(function(s,nd){return s+probAt(ego,nd.id,t);},0)/9;}
+      return byId[ego].teu[Math.max(0,Math.min(30,i))];
+    }
+    function resize(){var cw=cv.clientWidth;W=cw;H=66;cv.width=W*DPR;cv.height=H*DPR;
+      c.setTransform(DPR,0,0,DPR,0,0);}
+    function draw(t){
+      c.clearRect(0,0,W,H);
+      var maxv=kind==='dens'?1:Math.max.apply(null,byId[ego].teu)*1.08;
+      var pad=6,h=H-pad*2;
+      var X=function(i){return 4+(W-8)*i/30;};
+      var Y=function(v){return pad+h-(v/maxv)*h;};
+      /* 未来区底纹 */
+      var fx=X(20);
+      c.save();c.fillStyle='rgba(240,179,94,.035)';c.fillRect(fx,0,W-fx,H);c.restore();
+      /* 整条生长轨迹底图：先给出"它要长成什么样"，当前段再压亮，形成悬念 */
+      c.save();c.beginPath();c.moveTo(X(0),Y(val(0)));
+      for(var q=1;q<=20;q++)c.lineTo(X(q),Y(val(q)));
+      c.strokeStyle='rgba(255,255,255,.13)';c.lineWidth=1.1;c.stroke();c.restore();
+      /* 未来段（2025→2035）固定琥珀虚线：模型推演，尚未发生 */
+      c.save();c.setLineDash([3,4]);c.strokeStyle='#F0B35E';c.globalAlpha=.28;c.lineWidth=1.1;
+      c.beginPath();c.moveTo(X(20),Y(val(20)));
+      for(var i=21;i<=30;i++)c.lineTo(X(i),Y(val(i)));c.stroke();c.restore();
+      /* 已发生部分：实线 + 面积（只画到 2025） */
+      var now=Math.min(20,Math.floor(t));
+      c.save();c.beginPath();c.moveTo(X(0),Y(val(0)));
+      for(var j=0;j<=now;j++)c.lineTo(X(j),Y(val(j)));
+      c.strokeStyle=col;c.lineWidth=2;c.shadowColor=col;c.shadowBlur=8;
+      c.globalAlpha=.95;c.stroke();c.restore();
+      c.save();c.beginPath();c.moveTo(X(0),H-pad);
+      for(var k=0;k<=now;k++)c.lineTo(X(k),Y(val(k)));
+      c.lineTo(X(now),H-pad);c.closePath();
+      var g=c.createLinearGradient(0,pad,0,H-pad);
+      g.addColorStop(0,col+'55');g.addColorStop(1,col+'00');
+      c.fillStyle=g;c.fill();c.restore();
+      /* 年份游标 */
+      var cx0=X(Math.min(30,t)),isFut=t>20,curCol=isFut?'#F0B35E':col;
+      c.save();c.strokeStyle='rgba(255,255,255,.42)';c.lineWidth=1;
+      c.setLineDash([2,3]);c.beginPath();c.moveTo(cx0,0);c.lineTo(cx0,H);c.stroke();c.restore();
+      c.save();c.fillStyle=curCol;c.beginPath();c.arc(cx0,Y(val(Math.min(30,Math.floor(t)))),3.2,0,7);c.fill();c.restore();
+      /* 当前值 */
+      var v=val(Math.max(0,Math.min(30,Math.floor(t))));
+      var el=document.getElementById(valId);
+      el.textContent=kind==='dens'?(Math.round(v*100)+'%'):(v.toFixed(1)+' M');
+      el.style.color=isFut?'var(--amber)':col;
+    }
+    resize();return {draw:draw,resize:resize};
+  }
+  var hnSp=makeSpark('hnSpark','hainan','hnSparkV','#4FC3FF','dens');
+  var sgSp=makeSpark('sgSpark','sg','sgSparkV','#F0B35E','teu');
 
   /* ---------- 六维 / 五形态 ---------- */
   var LV_IDS=Engine.constants.LV_IDS,ROLE_T=Engine.constants.ROLE_THRESHOLDS;
@@ -358,10 +489,15 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
     formTrack.style.display=isHist?'none':'grid';
 
     var hnOn=SNA.nodes.filter(function(n){return n.id!=='hainan'&&probAt('hainan',n.id,cur)>=.5;}).length;
-    var realN=SNA.nodes.filter(function(n){return realYear('hainan',n.id)!==null;}).length;
+    var realN=SNA.nodes.filter(function(n){return realYear('hainan',n.id)!==null&&year>=realYear('hainan',n.id);}).length;
+    var dens=Math.round(SNA.nodes.filter(function(n){return n.id!=='hainan';})
+      .reduce(function(s,n){return s+probAt('hainan',n.id,cur);},0)/9*100);
     if(isHist){
-      document.getElementById('roVerdict').innerHTML='海南网络接通 <b>'+hnOn+'/9</b> 条（其中 '+realN+' 条有官方真实航线记录）；新加坡网络 9/9 全部接通。两张图各自独立，不排名。';
-      document.getElementById('roSub').textContent=(MILE[year]||'连线明暗＝校准后的接通概率，由真实吞吐量驱动。')+' 概率经 1000 次 bootstrap 校准，非硬判。';
+      var prevOn=SNA.nodes.filter(function(n){return n.id!=='hainan'&&probAt('hainan',n.id,cur-.5)>=.5;}).length;
+      var delta=hnOn-prevOn;
+      var dTxt=delta>0?('，这一年新增 <b>'+delta+'</b> 个节点被拉进网络'):(delta<0?('，有 <b>'+(-delta)+'</b> 条断开退到外圈'):'');
+      document.getElementById('roVerdict').innerHTML='海南节点 <b>'+hnOn+'/9</b>、网络密度 <b>'+dens+'%</b>'+dTxt+'；新加坡 9/9 早已长满，只在自己变重。';
+      document.getElementById('roSub').textContent=(MILE[year]||'节点被连线一环环拉向中心，越靠内＝关系越硬。')+' 两张图各自独立，不排名。';
       var gdp=SNA.egoReal.hnGDP[year],trade=SNA.egoReal.hnTrade[year],hnTeu=byId.hainan.teu[year-2005];
       barRows('hnBox',[{lab:'GDP(亿元)',pct:gdp==null?0:Math.min(100,gdp/80),val:gdp==null?'待公布':gdp.toFixed(1)},
         {lab:'进出口(亿$)',pct:trade==null?0:Math.min(100,trade/4),val:trade==null?'待公布':trade.toFixed(1)},
@@ -374,24 +510,33 @@ body.narrow .frow{grid-template-columns:104px 1fr 44px;gap:10px;padding:9px 10px
       var hn6=LV_IDS.map(function(id){return HN_FL[id][fi];});
       var sg6=LV_IDS.map(function(id){return SG_REF[id][fi];});
       var best=evalForms(hn6);
-      document.getElementById('roVerdict').innerHTML='基准情景下，海南最接近 <b>「'+best.b.name+'」</b>（条件达到 '+best.met+'/6），网络接通 '+hnOn+'/9。';
-      document.getElementById('roSub').textContent=(best.met===6?'六个条件全部达到，该形态成形。':'方向明确但条件未全部达到，下方进度条显示每个条件卡在哪。')+' 低置信度边（如鹿特丹）以概率明暗呈现，不硬判。';
+      document.getElementById('roVerdict').innerHTML='基准情景下，海南会收敛到 <b>「'+best.b.name+'」</b> 这一形态（六条件达 '+best.met+'/6），网络节点 '+hnOn+'/9、密度 '+dens+'%。';
+      document.getElementById('roSub').textContent=(best.met===6?'六个条件全部达到，该形态成形。':'方向明确但条件没全达标——这正是它可能长成的样子，不是必然。')+' 低置信度边（如鹿特丹）以明暗呈现，不硬判。';
       barRows('hnBox',LV_IDS.map(function(id,i){var v=hn6[i];return {lab:DIM_CN[id],pct:Math.min(100,v),val:v.toFixed(1)};}),'#4FC3FF');
       barRows('sgBox',LV_IDS.map(function(id,i){var v=sg6[i];return {lab:DIM_CN[id],pct:Math.min(100,v),val:v.toFixed(1)};}),'#F0B35E');
     }
-    hnNet.draw(cur);sgNet.draw(cur);
+    hnNet.draw(cur);sgNet.draw(cur);hnSp.draw(cur);sgSp.draw(cur);
   }
+
+  /* 时间轴里程碑刻度 */
+  (function(){var m=document.getElementById('mile');
+    var marks=[{y:2018,real:1},{y:2020,real:1},{y:2022,real:1},{y:2024,real:1},{y:2025,real:0}];
+    marks.forEach(function(k){var i=document.createElement('i');
+      i.textContent=k.y;i.className=k.real?'real':'';i.style.left=(k.y-2005)/30*100+'%';
+      i.addEventListener('click',function(){cur=k.y-2005;render();});m.appendChild(i);});
+  })();
 
   timeEl.addEventListener('input',function(){cur=parseFloat(timeEl.value);render();});
   playBtn.addEventListener('click',function(){playing=!playing;playBtn.textContent=playing?'❚❚':'▶';});
 
   var last=performance.now();
-  function loop(now){requestAnimationFrame(loop);var dt=Math.min(.05,(now-last)/1000);last=now;
-    if(playing){cur+=dt*.5;if(cur>30)cur=0;render();}else{hnNet.draw(cur);sgNet.draw(cur);}}
+  function loop(now){requestAnimationFrame(loop);var dt=Math.max(0,Math.min(.05,(now-last)/1000));last=now;
+    if(playing){cur+=dt*.42;if(cur>=30){cur=30;playing=false;playBtn.textContent='▶';}render();}
+    else{hnNet.draw(cur);sgNet.draw(cur);}}
   render();requestAnimationFrame(loop);
 
   window.addEventListener('resize',function(){applyNarrow();mobile=window.innerWidth<=880;
-    hnNet.resize();sgNet.resize();render();});
+    hnNet.resize();sgNet.resize();hnSp.resize();sgSp.resize();render();});
 })();
 </script>
 </body>
