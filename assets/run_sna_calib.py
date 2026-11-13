@@ -20,8 +20,8 @@ import json, math, hashlib, os
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(HERE, "sna_data.js")
-OUT = os.path.join(HERE, "sna_edges.js")
+SRC = os.path.join(HERE, "net_data.js")
+OUT = os.path.join(HERE, "net_edges.js")
 SEED = 20261108
 R_EARTH_KM = 6371.0
 
