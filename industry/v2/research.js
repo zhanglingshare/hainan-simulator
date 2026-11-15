@@ -5,6 +5,7 @@
 "use strict";
 if(!M)throw Error("HainanModel V1 required");
 const SOURCES={
+ ...M.SOURCES,
  year:"https://stats.hainan.gov.cn/tjj/tjgb/fzgb/2023_88252/202602/t20260226_4032927.html",
  latest:"https://stats.hainan.gov.cn/tjj/ywdt/xwfb/202609/t20260918_4149645.html",
  industry:"https://stats.hainan.gov.cn/tjj/ywdt/xwfb/202609/t20260922_4152139.html",
