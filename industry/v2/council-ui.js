@@ -13,6 +13,61 @@ let state=safeGet(),tab="debate",open=false;
 const context=new URLSearchParams(location.search),qClaim=context.get("claim");
 const PAGE_LINKS={discover:"index.html",history:"history.html",network:"network.html",sectors:"sectors.html",value:"value.html",worlds:"worlds.html",pressure:"pressure.html",models:"models.html",blindspots:"blindspots.html",archive:"archive.html"};
 const PAGE_LABELS={discover:"岛屿异动",history:"六年产业史",network:"全息关系",sectors:"五大产业现场",value:"价值留岛",worlds:"双世界实验",pressure:"压力风洞",models:"机制对抗",blindspots:"忽略了什么",archive:"我的研究档案"};
+
+const LENSES=[["worker","工作与家庭"],["shop","小店与个体"],["founder","企业与创业"],["researcher","研究与决策"]];
+const LENS_QUESTIONS={
+ "trade-contrast":{
+ worker:"进出口变化是否对应新增的稳定岗位、工资和技能需求？先核对招聘、就业和行业工资，而不是只看贸易额。",
+ shop:"货物贸易更活跃，是否让本地运输、餐饮或生活服务产生真实订单？先查分行业经营额和客户来源。",
+ founder:"研发检测、软件和跨境物流的哪些服务仍从岛外采购？先找实际客户需求与采购门槛。",
+ researcher:"能否在同一行业与时间窗口里同时测量贸易货值、本地加工增加值和企业服务采购地？"},
+ "industry-investment":{
+ worker:"现有工厂是加班生产、用工扩张还是少人自动化？先查实际招聘、工时和岗位稳定性。",
+ shop:"项目投产或延期会改变哪些周边消费需求？先查真实投产日程与商圈经营数据。",
+ founder:"新增产能来自已投产项目还是在建项目？在决定投资配套前先确认客户兑现计划。",
+ researcher:"能否构建项目开工、完工、投产与产出的时间对照，排除价格和行业组成干扰？"},
+ "tourism-benefit":{
+ worker:"游客消费增长是否改善旺淡季岗位、工资和工作稳定性？需要真实就业样本。",
+ shop:"游客花费增长，你的净利润有无增长？最值得拆开看房租、平台抽成、采购成本和客单价。",
+ founder:"本地文化产品、医养服务、农产供应链是否真的有新增复购，而不只是客流热闹？",
+ researcher:"如何区分游客总花费、行业增加值、经营利润和居民收入，并进行分行业统计？"},
+ "agri-chain":{
+ worker:"冷链加工能否创造更稳定的本地岗位，还是只是机械替代？需要企业用工与工资证据。",
+ shop:"当地农产品的产地价格、损耗与终端售价之间，谁真正得到差额？",
+ founder:"先找真实损耗、账期和订单约束，再决定是否有必要投资加工或冷链。",
+ researcher:"如何取得分品类的价格、产销流量、采购合同和农户净收入数据？"},
+ "hidden-services":{
+ worker:"本地是否存在尚未被注意的研发、检测、工业软件岗位需求？先查企业招聘和采购意向。",
+ shop:"是否有可承接的本地专业服务订单，而不是凭‘产业很大’就盲目转型？",
+ founder:"哪些企业真实愿意付费购买检测、物流、软件或供应商配套？先验证客户需求和替代成本。",
+ researcher:"如何用匿名企业采购样本收紧本地价值留存的识别区间？"},
+ "history-vintage":{
+ worker:"产业结构变化是否对应你所在行业的长期用工趋势？需要岗位数据与修订后产业数据配对。",
+ shop:"自己看到的经营变化是否真是产业转型，还是季节、价格和统计口径的影响？",
+ founder:"用哪个修订版本的行业数据判断长期市场？未经核对的份额变化可能误导选址。",
+ researcher:"统计修订、产业分类和价格基期变动会怎样影响结构断点识别？"},
+ "scenario-identity":{
+ worker:"模型里GDP多增长几百亿，并不等于你的工资会上升。还需要就业与分配传导证据。",
+ shop:"情景里的增长与小店客流不是同一个变量。能否找到具体行业的中间传导？",
+ founder:"不要用未经标定的2030终值直接决定投入。先测试在哪些前提改变时结果会翻转。",
+ researcher:"同随机种子对照、结构模型分歧和真实参数不确定性该怎样严格区分？"},
+ "fragile-connectivity":{
+ worker:"关键产业联系中断时，哪些职业能转岗，哪些技能没有替代路径？先查真实岗位网络。",
+ shop:"一个大客户或大渠道出现问题，是否存在真正能替代的供应与客源？",
+ founder:"企业对单一物流、供应商或关键技能有多大依赖？先调查替代率和恢复周期。",
+ researcher:"候选网络删边暴露如何在真实关系权重与漏边估计下重新检验？"}
+};
+let lens=(()=>{try{const v=localStorage.getItem("HAINAN_COUNCIL_LENS");return LENSES.some(x=>x[0]===v)?v:"worker";}catch{return "worker";}})();
+function lensQuestion(c){return LENS_QUESTIONS[c.id]?.[lens]||"你最希望知道这条候选机制会怎样影响自己？先找到能够观察的主体、行为和数据，再讨论结果。";}
+function disputeMap(c){
+ const ms=state.messages.filter(m=>m.claim===c.id);
+ const conf={build:ms.filter(m=>m.type==="发现").length,check:ms.filter(m=>m.type==="质疑").length,dissent:ms.filter(m=>m.type==="异见").length};
+ return '<div class="hdc-argument-map"><div class="hdc-argument-title">三种意见正面交锋 <small>下方数字是发言次数，不是可信度评分</small></div>'+
+ '<div class="hdc-argument-cols">'+
+ '<button type="button" data-hdc="round" class="hdc-argument-role builder"><span>✦</span><b>建构</b><strong>'+conf.build+'</strong><small>'+esc(API.agent(c.inventor).name)+'：提出连接</small></button>'+
+ '<button type="button" data-hdc="challenge" class="hdc-argument-role skeptic"><span>⌁</span><b>反证</b><strong>'+conf.check+'</strong><small>'+esc(API.agent(c.reviewer).name)+'：质疑依据</small></button>'+
+ '<button type="button" data-hdc="dissent" class="hdc-argument-role dissenter"><span>◇</span><b>异见</b><strong>'+conf.dissent+'</strong><small>'+esc(API.agent(c.dissenter).name)+'：替代解释</small></button></div></div>';
+}
 const role=API.agent(API.agentForPage(PAGE));
 const ids=API.workPage(PAGE);
 if(qClaim&&(API.CLAIMS[qClaim]||state.claims[qClaim]))state.active=qClaim;
@@ -71,7 +126,8 @@ function debateView(){
  '<h3>'+esc(c.title)+'</h3>'+line(c.origin)+
  '<div class="hdc-trio"><span><b>建构</b> '+esc(assigned.name)+'</span><span><b>审查</b> '+esc(reviewer.name)+'</span><span><b>异见</b> '+esc(dissenter.name)+'</span></div>'+
  '<div class="hdc-evidence-grade">引用公开指标 '+g.facts.length+' 项 / 不等于已经验证产业机制。</div></div>'+
- '<div class="hdc-action-row"><button type="button" class="primary" data-hdc="round">召开一轮研究争论</button>'+
+ 'disputeMap(c)+
+ '<div class="hdc-action-row"><button type="button" class="primary" data-hdc="round">召开一轮研究争论</button>''+
  '<button type="button" data-hdc="challenge">专门反驳它</button><button type="button" data-hdc="invent">跨域再想一种可能</button>'+
  '<button type="button" data-hdc="dissent">让异见发言</button></div>'+
  '<div class="hdc-flow"><h3>公开争论流 <small>五种消息 · 不强行平均</small></h3>'+
@@ -85,7 +141,7 @@ function debateView(){
 function valueView(){
  const c=activeClaim(),facts=API.epistemic(c).facts;
  const gains=[["视野","eye",c.vision],["思维工具","sliders-horizontal",c.tool],["认知升级","brain-circuit",c.insight],["灵感","lightbulb",c.inspiration],["下一个核验动作","search",c.test]];
- return discoveryTopics()+'<div class="hdc-question"><span class="hdc-kicker">WHAT THE USER TAKES AWAY</span><h3>'+esc(c.title)+'</h3>'+
+ return discoveryTopics()+'<div class="hdc-lens"><div class="hdc-argument-title">这件事，与你有什么关系？</div><div class="hdc-lens-buttons">'+LENSES.map(x=>'<button data-hdc="lens" data-lens="'+x[0]+'" class="'+(lens===x[0]?"active":"")+'">'+x[1]+'</button>').join("")+'</div><p>'+esc(lensQuestion(c))+'</p></div>'+'<div class="hdc-question"><span class="hdc-kicker">WHAT THE USER TAKES AWAY</span><h3>'+esc(c.title)+'</h3>'+
  '<p>并不是每个问题都要在这里算出答案。更重要的是用户有没有获得新的观察角度和调查方向。</p></div>'+
  '<div class="hdc-gains">'+gains.map(x=>'<div class="hdc-gain"><span>'+x[0]+'</span><p>'+esc(x[2])+'</p></div>').join("")+'</div>'+
  '<div class="hdc-next-evidence"><h3>最能改变当前判断的证据</h3><p>'+esc(c.test)+'</p>'+
@@ -130,6 +186,7 @@ function exportJson(){
 function act(name,button){
  const id=state.active;
  try{
+  if(name==="lens"){const next=button.dataset.lens;if(LENSES.some(x=>x[0]===next)){lens=next;try{localStorage.setItem("HAINAN_COUNCIL_LENS",next);}catch{}render();}return;}
   if(name==="close"){closeDrawer();return;}
   if(name==="select"){select(button.dataset.id);return;}
   if(name==="tab"){tab=button.dataset.tab||"debate";render();return;}
