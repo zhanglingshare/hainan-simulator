@@ -26,8 +26,10 @@ jobs:
           node --check industry/model.js
           node --check industry/v2/research.js
           node --check industry/v2/app.js
+          node --check industry/v2/council-core.js
+          node --check industry/v2/council-ui.js
       - name: Mathematical and scientific invariants
-        run: node --test industry/v2/tests/science.test.cjs
+        run: node --test industry/v2/tests/science.test.cjs industry/v2/tests/council.test.cjs
       - name: Verify original sites and legacy experiments are untouched
         run: |
           test -f index.html
@@ -43,3 +45,4 @@ jobs:
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/hainan-v2-http.log 2>&1 &
           node industry/v2/tests/browser.cjs
+          node industry/v2/tests/council.browser.cjs
