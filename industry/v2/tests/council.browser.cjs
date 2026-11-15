@@ -22,7 +22,7 @@ try{
  await desk.locator("#hdcOpen").click();
  assert.equal(await desk.locator("#hdcDrawer").getAttribute("aria-hidden"),"false");
  assert.equal(await desk.locator("#hdcDrawer .hdc-message").count()>=4,true);
- assert.match(await desk.locator("#hdcDrawer").innerText(),/规则驱动/);
+ assert.match(await desk.locator("#hdcDrawer").textContent(),/规则驱动/);
  const first=await desk.locator("#hdcDrawer .hdc-message").count();
  await desk.locator("#hdcDrawer [data-hdc=invent]").click();
  assert.equal(await desk.locator("#hdcDrawer .hdc-message").count(),first+2,"invent must create a fresh hypothesis AND its critique");
@@ -30,16 +30,16 @@ try{
  assert.equal(await desk.locator("#hdcDrawer .hdc-message").count(),first+3,"dissent must remain visible");
  await desk.locator("#hdcRevisionReason").fill("新增调查表明最初的推断缺少供应商服务地的数据支持");
  await desk.locator("#hdcDrawer [data-hdc=retire]").click();
- assert.match(await desk.locator("#hdcDrawer").innerText(),/退役假设/);
+ assert.match(await desk.locator("#hdcDrawer").textContent(),/退役假设/);
  await desk.locator("#hdcDrawer [data-hdc=tab][data-tab=memory]").click();
- assert.match(await desk.locator("#hdcDrawer").innerText(),/改判记录/);
+ assert.match(await desk.locator("#hdcDrawer").textContent(),/改判记录/);
  await desk.locator("#hdcIdeaTitle").fill("旅游消费能否影响热带农产的订单结算周期？");
  await desk.locator("#hdcIdeaMechanism").fill("旅游餐饮采购的时间分布可能经过批发商传导到农户结算账期，需要采购订单与回款数据验证。");
  await desk.locator("#hdcDrawer [data-hdc=idea]").click();
- assert.match(await desk.locator("#hdcDrawer").innerText(),/用户候选想法/);
- assert.match(await desk.locator("#hdcDrawer").innerText(),/测量Agent/);
+ assert.match(await desk.locator("#hdcDrawer").textContent(),/用户候选想法/);
+ assert.match(await desk.locator("#hdcDrawer").textContent(),/测量Agent/);
  await desk.locator("#hdcDrawer [data-hdc=tab][data-tab=memory]").click();
- assert.match(await desk.locator("#hdcDrawer").innerText(),/你的新假说/);
+ assert.match(await desk.locator("#hdcDrawer").textContent(),/你的新假说/);
  const exportButton=desk.locator("#hdcDrawer [data-hdc=export]");
  const downloadPromise=desk.waitForEvent("download");
  await exportButton.click();
@@ -50,9 +50,9 @@ try{
  // A handoff must keep the original hypothesis active on the destination page.
  await desk.goto(root+"value.html?claim=trade-contrast",{waitUntil:"networkidle"});
  await desk.locator("#hdcDrawer.is-open").waitFor();
- assert.match(await desk.locator("#hdcDrawer .hdc-question h3").first().innerText(),/贸易越来越活跃/);
+ assert.match(await desk.locator("#hdcDrawer .hdc-question h3").first().textContent(),/贸易越来越活跃/);
  await desk.locator("#hdcDrawer [data-hdc=tab][data-tab=value]").click();
- for(const x of ["视野","思维工具","认知升级","灵感","下一个核验动作"])assert.match(await desk.locator("#hdcDrawer").innerText(),new RegExp(x));
+ for(const x of ["视野","思维工具","认知升级","灵感","下一个核验动作"])assert.match(await desk.locator("#hdcDrawer").textContent(),new RegExp(x));
  assert.ok(await desk.locator("#hdcDrawer .hdc-fact-row").count()>=1,"trace direct observed evidence");
  // Retired claims should remain after reload.
  await desk.goto(root+"index.html",{waitUntil:"networkidle"});
