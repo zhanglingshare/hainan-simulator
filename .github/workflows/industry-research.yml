@@ -1,0 +1,36 @@
+name: Hainan Industry Research Quality Gate
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'industry/**'
+      - '.github/workflows/industry-research.yml'
+  pull_request:
+    paths:
+      - 'industry/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify scientific model syntax and UI
+        run: |
+          node --check industry/model.js
+          node --check industry/app.js
+      - name: Scientific contracts and reproducibility tests
+        run: node --test industry/tests/*.test.cjs
+      - name: Verify no overwritten source pages
+        run: |
+          test -f index.html
+          test -f scenario.html
+          test -f measurement.html
+          test -f industry/index.html
