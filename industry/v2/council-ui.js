@@ -126,8 +126,8 @@ function debateView(){
  '<h3>'+esc(c.title)+'</h3>'+line(c.origin)+
  '<div class="hdc-trio"><span><b>建构</b> '+esc(assigned.name)+'</span><span><b>审查</b> '+esc(reviewer.name)+'</span><span><b>异见</b> '+esc(dissenter.name)+'</span></div>'+
  '<div class="hdc-evidence-grade">引用公开指标 '+g.facts.length+' 项 / 不等于已经验证产业机制。</div></div>'+
- 'disputeMap(c)+
- '<div class="hdc-action-row"><button type="button" class="primary" data-hdc="round">召开一轮研究争论</button>''+
+ disputeMap(c)+
+ '<div class="hdc-action-row"><button type="button" class="primary" data-hdc="round">召开一轮研究争论</button>'+
  '<button type="button" data-hdc="challenge">专门反驳它</button><button type="button" data-hdc="invent">跨域再想一种可能</button>'+
  '<button type="button" data-hdc="dissent">让异见发言</button></div>'+
  '<div class="hdc-flow"><h3>公开争论流 <small>五种消息 · 不强行平均</small></h3>'+
