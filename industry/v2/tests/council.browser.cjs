@@ -27,7 +27,7 @@ try{
  const first=await desk.locator("#hdcDrawer .hdc-message").count();
  await desk.locator("#hdcDrawer [data-hdc=invent]").click();
  assert.equal(await desk.locator("#hdcDrawer .hdc-message").count(),first+2,"invent must create a fresh hypothesis AND its critique");
- await desk.locator("#hdcDrawer [data-hdc=dissent]").click();
+ await desk.locator("#hdcDrawer [data-hdc=dissent]").first().click();
  assert.equal(await desk.locator("#hdcDrawer .hdc-message").count(),first+3,"dissent must remain visible");
  await desk.locator("#hdcRevisionReason").fill("新增调查表明最初的推断缺少供应商服务地的数据支持");
  await desk.locator("#hdcDrawer [data-hdc=retire]").click();
