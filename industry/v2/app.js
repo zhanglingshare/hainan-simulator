@@ -150,7 +150,7 @@ function sectorPage(){
  panel("从比较GDP，转向比较你在哪一层创造价值",'<p>海南与新加坡的产业结构、法律制度、贸易网络、人才储备和市场腹地不同。不能用港口吞吐或GDP一项指标决定谁“领先”。这里要问：海南的生产、服务、开放制度与岛内就业之间，哪些功能正在形成可验证的连接？</p>'+note('国际比较需要统一统计口径与可复核网络数据。当前项目不计算没有观测支持的跨岛排名。'),"soft");
 }
 function valueHeat(opts){
- const a=[],v=R.accounting(opts);for(let j=10;j>=0;j--)for(let i=0;i<=10;i++){const val=i*j;const l=Math.round(val/100*55+15);const color='hsl('+(172-val/3.5)+',62%,'+l+'%)';a.push('<button class="heatcell" type="button" data-act="valueCell" data-x="'+i*10+'" data-y="'+j*10+'" title="本地采购'+i*10+'%，增加值率'+j*10+'%，假设增加值'+val+'单位" style="background:'+color+'">'+(i+j)%3===0?val:""+'</button>');}
+ const a=[],v=R.accounting(opts);for(let j=10;j>=0;j--)for(let i=0;i<=10;i++){const val=i*j;const l=Math.round(val/100*55+15);const color='hsl('+(172-val/3.5)+',62%,'+l+'%)';a.push('<button class="heatcell" type="button" data-act="valueCell" data-x="'+i*10+'" data-y="'+j*10+'" title="本地采购'+i*10+'%，增加值率'+j*10+'%，假设增加值'+val+'单位" style="background:'+color+'">'+(((i+j)%3===0)?val:"")+'</button>');}
  return '<div class="heatmap">'+a.join("")+'</div><div class="legend"><span>横向：本地采购比例从0到100%</span><span>纵向：增加值率从100%到0%</span></div>';
 }
 function valuePage(){
