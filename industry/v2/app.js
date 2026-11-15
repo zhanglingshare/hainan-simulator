@@ -359,5 +359,12 @@ document.addEventListener("click",e=>{
 document.addEventListener("click",e=>{const b=e.target.closest("[data-node]");if(b){F.node=b.dataset.node;render();}});
 document.addEventListener("keydown",e=>{const b=e.target.closest("[data-node]");if(b&&(e.key==="Enter"||e.key===" ")){e.preventDefault();F.node=b.dataset.node;render();}});
 $("copyLink").addEventListener("click",()=>{if(navigator.clipboard?.writeText)navigator.clipboard.writeText(location.href).then(()=>toast("本页地址已复制")).catch(()=>toast("复制失败"));else window.prompt("复制地址",location.href);});
+const mapButton=$("mapMenu"),navMap=$("navMap");
+if(mapButton&&navMap){
+ const close=()=>{navMap.classList.remove("is-open");mapButton.setAttribute("aria-expanded","false");};
+ mapButton.addEventListener("click",()=>{const open=!navMap.classList.contains("is-open");navMap.classList.toggle("is-open",open);mapButton.setAttribute("aria-expanded",String(open));});
+ document.addEventListener("click",e=>{if(!mapButton.contains(e.target)&&!navMap.contains(e.target))close();});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();mapButton.focus();}});
+}
 render();
 })();
