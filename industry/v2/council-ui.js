@@ -182,7 +182,9 @@ function setup(){
   const experience=e.target.closest("[data-act]");if(experience)onExperience(experience.dataset.act,experience);
  });
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&open){e.preventDefault();closeDrawer();} if(open&&e.key==="Tab"){const focusables=[...drawer.querySelectorAll('button:not([disabled]),a[href],input,textarea,select,[tabindex]:not([tabindex="-1"])')].filter(el=>el.getClientRects().length);if(focusables.length){const first=focusables[0],last=focusables[focusables.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}}});
- initialRound();render();
+ initialRound();
+ if(qClaim&&API.claimFor(state,qClaim)){state.active=qClaim;save();}
+ render();
  if(qClaim&&API.claimFor(state,qClaim))setTimeout(()=>openDrawer("debate"),200);
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup,{once:true});else setup();
