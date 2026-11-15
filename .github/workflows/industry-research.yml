@@ -28,6 +28,14 @@ jobs:
           node --check industry/app.js
       - name: Scientific contracts and reproducibility tests
         run: node --test industry/tests/*.test.cjs
+      - name: Install headless Chromium for independent UI acceptance
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run desktop and mobile interaction smoke
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/hainan-http.log 2>&1 &
+          node industry/tests/browser-smoke.cjs
       - name: Verify no overwritten source pages
         run: |
           test -f index.html
