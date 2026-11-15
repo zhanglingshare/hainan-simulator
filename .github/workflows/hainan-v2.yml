@@ -1,0 +1,45 @@
+name: Hainan Industry V2 | Ten Research Experiences
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'industry/v2/**'
+      - 'industry/model.js'
+      - '.github/workflows/hainan-v2.yml'
+  pull_request:
+    paths:
+      - 'industry/v2/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Research engine and frontend syntax
+        run: |
+          node --check industry/model.js
+          node --check industry/v2/research.js
+          node --check industry/v2/app.js
+      - name: Mathematical and scientific invariants
+        run: node --test industry/v2/tests/science.test.cjs
+      - name: Verify original sites and legacy experiments are untouched
+        run: |
+          test -f index.html
+          test -f scenario.html
+          test -f industry/index.html
+          test -f industry/v2/index.html
+          for f in index history network sectors value worlds pressure models blindspots archive; do test -f industry/v2/$f.html; done
+      - name: Install Chromium
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Desktop and phone browser acceptance
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/hainan-v2-http.log 2>&1 &
+          node industry/v2/tests/browser.cjs
