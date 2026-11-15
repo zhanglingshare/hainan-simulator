@@ -8,7 +8,7 @@ if(!R||!M)throw Error("HainanResearch and HainanModel required");
 const VERSION="HDC-1.0.0";
 const TYPES=["发现","质疑","交接","异见","改判"];
 const AGENTS=[
- ["host","主持","把分歧摆上桌","怀疑被平均掉的假确定性","全站"],
+ ["host","主持","把真实分歧与隐藏的前提摆上桌","怀疑被平均掉的假确定性","全站"],
  ["question","提问","寻找最值得重新提出的问题","怀疑含混问题与隐藏前提","discover"],
  ["data","数据","核对时间窗、总体与出处","怀疑没有来源或跨口径拼接的数字","history"],
  ["cliff","断崖","追踪订单、资金与兑现接续","怀疑流量会自动变成存量与收入","value"],
