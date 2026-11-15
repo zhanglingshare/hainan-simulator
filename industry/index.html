@@ -6,15 +6,15 @@
 <meta name="theme-color" content="#071225">
 <meta name="description" content="海南岛产业决策风洞：从真实产业信号出发，探索岛内产业连接，调节情景条件，对照未来结果，并发现值得核实的盲区。">
 <title>海南岛产业决策风洞 · 让整座岛动起来</title>
-<link rel="stylesheet" href="./style.css?v=1">
-<script defer src="./model.js?v=1"></script>
-<script defer src="./app.js?v=1"></script>
+<link rel="stylesheet" href="./style.css?v=2">
+<script defer src="./model.js?v=2"></script>
+<script defer src="./app.js?v=2"></script>
 </head>
 <body>
 <div class="ambient ambient-a" aria-hidden="true"></div><div class="ambient ambient-b" aria-hidden="true"></div>
 <a class="skip" href="#discover">跳到主内容</a>
 <header class="topbar">
- <a class="brand" href="#discover" aria-label="海南岛产业风洞首页"><span class="brand-mark">H<span>·</span></span><span><strong>海南岛产业风洞</strong><small>INDUSTRY WIND TUNNEL · 2025→2030</small></span></a>
+ <a class="brand" href="#discover" aria-label="海南岛产业风洞首页"><span class="brand-mark">H<span>·</span></span><span><strong>海南岛产业风洞</strong><small>INDUSTRY WIND TUNNEL · 2020—2025历史 · 2026监测 · 2030情景</small></span></a>
  <nav class="topnav" aria-label="探索导航">
   <button type="button" data-nav="discover" class="active">01 发现</button>
   <button type="button" data-nav="network">02 连接</button>
@@ -50,11 +50,11 @@
     <div class="stage-bottom"><div><small>2025 GDP · 官方现价</small><strong>8,108.85 <span>亿元</span></strong></div><div><small>2025 三次产业结构</small><strong>20.3 : 18.0 : 61.7</strong></div></div>
    </div>
   </div>
-  <div class="fact-ribbon" aria-label="2025与2026上半年反向信号">
+  <div class="fact-ribbon" aria-label="2025全年与2026年1—8月反向信号">
    <div><span>2025规上工业实际增速</span><strong class="positive">+9.9%</strong><small>全年同比</small></div>
    <div><span>2025固定资产投资</span><strong class="negative">−16.5%</strong><small>全年同比</small></div>
-   <div><span>2026上半年货物进出口</span><strong class="positive">+59.9%</strong><small>上半年同比</small></div>
-   <div><span>2026上半年规上工业</span><strong class="negative">−0.2%</strong><small>上半年同比</small></div>
+   <div><span>2026年1—8月货物进出口</span><strong class="positive">+55.2%</strong><small>1—8月同比</small></div>
+   <div><span>2026年1—8月规上工业</span><strong class="negative">−6.2%</strong><small>1—8月同比</small></div>
   </div>
   <div class="section-head"><div><span class="kicker">01 / 选一个真实信号</span><h2>最值得研究的，不是最大的数字。</h2></div><p>点击一张情报卡，看看同一现象可能意味着什么，也可能不意味着什么。</p></div>
   <div class="signal-grid" id="signalCards"></div>
@@ -84,12 +84,12 @@
  </section>
 
  <section id="lab" class="scene" aria-labelledby="labHeading">
-  <div class="scene-top"><span class="kicker">03 / TWO WORLDS · ONE CHANGE</span><span class="minor">模型参数均为演示假设 · 2030非官方目标</span></div>
-  <div class="section-head large"><div><h1 id="labHeading">如果一条联系变强，<br><em>2030会有多不一样？</em></h1><p>同一2025年真实起点，同一随机扰动。左边保留默认假设，右边只改变你动过的条件。</p></div></div>
+  <div class="scene-top"><span class="kicker">03 / TWO WORLDS · ONE CHANGE</span><span class="minor">增长率由玩家直接设定，所有未来结果均为假设 · 不是官方预测</span></div>
+  <div class="section-head large"><div><h1 id="labHeading">如果产业增长条件不同，<br><em>2030会有多不一样？</em></h1><p>同一2025年现价基数、相同的随机扰动。你直接设定三个部门的名义增长率，并比较不同模型机制。假设网络断裂只影响图上关系，不会伪造GDP乘数。</p></div></div>
   <div class="presets" id="presets" aria-label="选择一组研究情景"></div>
   <div class="experiment-layout">
    <div class="card experiment-view">
-    <div class="dual-totals"><div><span>对照世界 · 中性假设</span><strong id="baselineValue">…</strong><small>2030年 · 假设现价亿元</small></div><div><span>你的世界 · 条件演示</span><strong id="scenarioValue">…</strong><small>2030年 · 假设现价亿元</small></div><div class="delta-wrap"><span>相对对照世界</span><strong id="deltaValue">…</strong><small id="deltaPct">同一扰动种子</small></div></div>
+    <div class="dual-totals"><div><span>对照世界 · 人为中性条件</span><strong id="baselineValue">…</strong><small>2030年 · 假设现价亿元</small></div><div><span>你的世界 · 人为增长假设</span><strong id="scenarioValue">…</strong><small>2030年 · 假设现价亿元</small></div><div class="delta-wrap"><span>相对对照世界</span><strong id="deltaValue">…</strong><small id="deltaPct">同一扰动种子</small></div></div>
     <div class="chart-head"><h3>两种条件，六年怎样分叉？</h3><span>中位轨迹 + P10–P90模型区间</span></div>
     <svg id="trajectory" viewBox="0 0 760 345" role="img" aria-label="2025至2030年度模拟GDP中位数和情景波动区间"></svg>
     <div class="chart-legend"><span><i class="legend-line baseline"></i>中性对照</span><span><i class="legend-line altered"></i>你的情景</span><span>半透明带为模型分位区间</span></div>
@@ -98,21 +98,21 @@
    </div>
    <aside class="card control-panel"><div class="control-head"><div><span class="eyebrow">CHANGE THE CONDITIONS</span><h3>你来调节这座岛</h3></div><button id="reset" class="tiny-button" type="button">恢复中性</button></div>
     <div class="controls" id="controls"></div>
-    <div class="stress-box"><div class="control-label"><span>一次外部冲击强度</span><b id="shockLabel">0</b></div><input id="shock" type="range" min="0" max="100" step="10" value="0"><p>模型假设：冲击作用于2027和2028年，不代表真实事件预测。</p></div>
-    <label class="control-label" for="breakLink">试着断开一条假设联系</label><select id="breakLink" class="select"></select>
-    <div class="model-caution">所有增长率、传导系数、分位范围均是研究者设置的机制假设，不是历史估计或政策效果。</div>
+    <div class="stress-box"><div class="control-label"><span>2027—2028每年假设冲击（百分点）</span><b id="shockLabel">0</b></div><input id="shock" type="range" min="0" max="8" step=".5" value="0"><p>冲击以百分点直接扣减当年三个部门设定名义增速，完全不是实测冲击效应。</p></div>
+    <label class="control-label" for="breakLink">试着断开一条候选网络联系（不影响GDP）</label><select id="breakLink" class="select"></select>
+    <div class="model-caution">GDP部分只有用户直接设定的部门名义增速和明确随机扰动；网络节点传播独立于GDP计算。两者均无实证因果识别。</div>
     <div class="button-stack"><button id="saveExperiment" class="btn primary full" type="button">保存我的这次实验 ⤴</button><button id="shareExperiment" class="btn secondary full" type="button">复制当前条件链接</button></div>
    </aside>
   </div>
   <div class="under-lab">
    <div class="card sensitivity-card"><div class="section-head tight"><div><span class="eyebrow">SENSITIVITY</span><h3>当前情景里，哪个按钮最敏感？</h3></div><small>模型内局部变化，非现实因果排序</small></div><div id="sensitivityBars"></div></div>
-   <div class="card caveat-card"><div class="eyebrow">DON'T CONFUSE THE TWO</div><h3>数字动了，现实就会这样吗？</h3><p>不会。这是用真实2025基数与人为设定的名义增长机制做出的条件实验。你调节的是“如果”，不是实际政策效果。</p><button type="button" class="btn secondary" data-jump="blindspots">接着挑战这些假设 ↗</button></div>
+   <div class="card caveat-card"><div class="eyebrow">DON'T CONFUSE THE TWO</div><h3>数字动了，现实就会这样吗？</h3><p>不会。2025真实现价基数只提供同一出发点；增长率、结构机制和波动都未通过现实数据标定。我们同时保留不同模型之间的分歧，绝不把条件区间叫作真实发生概率。</p><button type="button" class="btn secondary" data-jump="blindspots">接着挑战这些假设 ↗</button></div>
   </div>
  </section>
 
  <section id="blindspots" class="scene" aria-labelledby="blindHeading">
   <div class="scene-top"><span class="kicker">04 / RED TEAM · WHAT DID WE MISS?</span><span class="minor">反证优先，而不是输出万能结论</span></div>
-  <div class="section-head large"><div><h1 id="blindHeading">增长也许是真的。<br><em>你对原因的解释呢？</em></h1><p>下面的四种怀疑，都可能推翻一个看似漂亮的结果。选择你最关心的风险。</p></div></div>
+  <div class="section-head large"><div><h1 id="blindHeading">增长也许是真的。<br><em>你对原因的解释呢？</em></h1><p>四种竞争解释不是定论。选择一条怀疑，用直接假设检验模型响应，再确认需要补充哪类真实证据。</p></div></div>
   <div class="challenge-grid" id="challengeGrid"></div>
   <div class="card blind-detail"><div><span class="eyebrow">NEXT EVIDENCE / 研究者下一步要核实</span><h2 id="blindTitle"></h2><p id="blindReason"></p><div class="evidence-recipe"><span>优先补充</span><strong id="blindEvidence"></strong></div></div><div class="blind-actions"><button class="btn primary" id="applyChallenge" type="button">按这条怀疑试一次</button><button class="btn secondary" type="button" data-jump="lab">返回风洞 ↗</button></div></div>
   <div class="truth-table">
@@ -123,10 +123,10 @@
 
  <section id="archive" class="scene" aria-labelledby="archiveHeading">
   <div class="scene-top"><span class="kicker">05 / YOUR RESEARCH TRACE</span><span class="minor">仅保存于当前浏览器，不同步到云端</span></div>
-  <div class="section-head large"><div><h1 id="archiveHeading">最有价值的战利品，<br><em>是一条值得再验证的问题。</em></h1><p>保存你的条件、模型版本、随机种子和结果。将来数据改变，旧实验仍能按当时的设置回看。</p></div></div>
+  <div class="section-head large"><div><h1 id="archiveHeading">最有价值的战利品，<br><em>是一条值得再验证的问题。</em></h1><p>保存你的输入条件、代码版本、随机种子和结果。旧数据版本若更新，不能仅凭同一参数宣称结果完全可复现，仍需保留原代码和数据快照。</p></div></div>
   <div class="archive-layout"><div class="card archive-current"><span class="eyebrow">CURRENT EXPERIMENT</span><h2 id="archiveSummary">当前世界</h2><div id="archiveStats"></div><button class="btn primary" type="button" id="saveArchive">保存这组条件</button><button class="btn subtle" type="button" id="exportArchive">导出研究摘要文本</button></div><div class="card archive-saved"><span class="eyebrow">SAVED WORLDS</span><h2>以前的你，做过什么选择？</h2><div id="savedList"></div></div></div>
  </section>
- <footer class="footer"><div><strong>海南岛产业决策风洞 · 独立实验版</strong><p>真实数据与假设模型分层显示。不做官方预测，不制造已验证的产业采购边，不替用户决策。</p></div><div class="footer-links"><a href="https://stats.hainan.gov.cn/tjj/tjgb/fzgb/2023_88252/202602/t20260226_4032927.html" target="_blank" rel="noopener noreferrer">2025统计公报 ↗</a><a href="https://stats.hainan.gov.cn/tjj/ywdt/xwfb/202607/t20260722_4115237.html" target="_blank" rel="noopener noreferrer">2026上半年 ↗</a><a href="../index.html">原海南×新加坡项目 ↗</a></div></footer>
+ <footer class="footer"><div><strong>海南岛产业决策风洞 · 独立实验版</strong><p>官方历史事实、直接条件实验、不可识别的网络与采购机制分层显示。不报现实成功概率，不冒充统计因果结论。</p></div><div class="footer-links"><a href="https://stats.hainan.gov.cn/tjj/tjgb/fzgb/2023_88252/202602/t20260226_4032927.html" target="_blank" rel="noopener noreferrer">2025统计公报 ↗</a><a href="https://stats.hainan.gov.cn/tjj/ywdt/xwfb/202609/t20260918_4149645.html" target="_blank" rel="noopener noreferrer">2026年1—8月 ↗</a><a href="../index.html">原海南×新加坡项目 ↗</a></div></footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
