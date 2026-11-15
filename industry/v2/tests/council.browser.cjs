@@ -22,6 +22,7 @@ try{
  await desk.locator("#hdcOpen").click();
  assert.equal(await desk.locator("#hdcDrawer").getAttribute("aria-hidden"),"false");
  assert.equal(await desk.locator("#hdcDrawer .hdc-message").count()>=4,true);
+ assert.equal(await desk.locator("#hdcDrawer .hdc-argument-role").count(),3,"visible three-way argument contest");
  assert.match(await desk.locator("#hdcDrawer").textContent(),/规则驱动/);
  const first=await desk.locator("#hdcDrawer .hdc-message").count();
  await desk.locator("#hdcDrawer [data-hdc=invent]").click();
@@ -52,6 +53,11 @@ try{
  await desk.locator("#hdcDrawer.is-open").waitFor();
  assert.match(await desk.locator("#hdcDrawer .hdc-question h3").first().textContent(),/贸易越来越活跃/);
  await desk.locator("#hdcDrawer [data-hdc=tab][data-tab=value]").click();
+ assert.equal(await desk.locator("#hdcDrawer .hdc-lens-buttons button").count(),4,"everyday user perspectives");
+ await desk.locator("#hdcDrawer [data-hdc=lens][data-lens=shop]").click();
+ assert.match(await desk.locator("#hdcDrawer .hdc-lens p").textContent(),/本地运输|真实订单/);
+ await desk.locator("#hdcDrawer [data-hdc=lens][data-lens=founder]").click();
+ assert.match(await desk.locator("#hdcDrawer .hdc-lens p").textContent(),/研发检测|服务/);
  for(const x of ["视野","思维工具","认知升级","灵感","下一个核验动作"])assert.match(await desk.locator("#hdcDrawer").textContent(),new RegExp(x));
  assert.ok(await desk.locator("#hdcDrawer .hdc-fact-row").count()>=1,"trace direct observed evidence");
  // Retired claims should remain after reload.
