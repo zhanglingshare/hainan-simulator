@@ -14,7 +14,11 @@ try{
   assert.ok((await page.locator("#page-content").innerText()).length>220,path+" needs substantive research content");
   assert.equal(await page.locator(".nav a").count(),10,"ten nav items on "+path);
  }
- await page.goto(base+"index.html");await page.locator("[data-act=guess][data-v='1']").click();
+ await page.goto(base+"index.html");await page.locator("#mapMenu").click();
+ assert.equal(await page.locator("#navMap").isVisible(),true,"research map opens on demand");
+ assert.equal(await page.locator("#navMap a").count(),10);
+ await page.keyboard.press("Escape");assert.equal(await page.locator("#navMap").isVisible(),false,"Escape dismisses map");
+ await page.locator("[data-act=guess][data-v='1']").click();
  assert.match(await page.locator("#page-content").innerText(),/判断正确/);
  await page.goto(base+"history.html");await page.locator("[data-act=year][data-v='2020']").click();
  assert.match(await page.locator("#page-content").innerText(),/2020/);
