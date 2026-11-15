@@ -35,7 +35,7 @@ const SIGNALS=Object.freeze([
  {id:"tradegoods",name:"货物进出口同比",value:-0.7,unit:"%",period:"2025全年",unitType:"trade_value_yoy",tier:"A",src:"y2025"},
  {id:"tradeservices",name:"服务进出口同比",value:22.1,unit:"%",period:"2025全年",unitType:"trade_value_yoy",tier:"A",src:"y2025"},
  {id:"tourism",name:"游客总花费同比",value:10.5,unit:"%",period:"2025全年",unitType:"tourism_spend_yoy",tier:"A",src:"y2025"},
- {id:"gdpQ3",name:"前三季度GDP实际同比",value:1.2,unit:"%",period:"2026年1—9月",unitType:"real_yoy",tier:"A",src:"y2026q3"},
+ {id:"gdpQ3",name:"前三季度GDP实际同比",value:1.2,unit:"%",period:"2026年1—9月",unitType:"real_yoy",tier:"B",src:"y2026q3"},
  {id:"industrial8",name:"规上工业增加值同比",value:-6.2,unit:"%",period:"2026年1—8月",unitType:"real_yoy",tier:"A",src:"y2026m8"},
  {id:"trade8",name:"货物进出口同比",value:55.2,unit:"%",period:"2026年1—8月",unitType:"trade_value_yoy",tier:"A",src:"y2026m8"},
  {id:"invest8",name:"固定资产投资同比",value:-10.3,unit:"%",period:"2026年1—8月",unitType:"nominal_indicator_yoy",tier:"A",src:"y2026m8"}
@@ -82,7 +82,7 @@ const VERSION="HIN-1.0.0";
 function clamp(v,a,b){v=Number(v);return Number.isFinite(v)?Math.max(a,Math.min(b,v)):a;}
 function sanitize(raw={}){
  const r=raw||{},src=Array.isArray(r.rates)?r.rates:BASE_RATES;
- const rates=RATE_META.map((spec,i)=>Math.round(clamp(src[i]??BASE_RATES[i],spec.min,spec.max)*10)/10);
+ const rates=RATE_META.map((spec,i)=>{const v=Number(src[i]);return Math.round(clamp(Number.isFinite(v)?v:BASE_RATES[i],spec.min,spec.max)*10)/10;});
  return {rates,shock:Math.round(clamp(r.shock??0,0,8)*10)/10,
   volatility:Math.round(clamp(r.volatility??1,0,2.5)*10)/10,
   model:MODELS[r.model]?r.model:"constant",
